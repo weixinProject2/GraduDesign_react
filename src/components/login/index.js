@@ -1,11 +1,12 @@
-import React, { Component } from 'react'
-
-export default class index extends Component {
-    render() {
-        return (
-            <div>
-                hello
-            </div>
-        )
-    }
-}
+import React, { useEffect } from 'react';
+import { LoginStore } from './stores/index';
+import LoginForm from './LoginForm'
+export default ((props) => {
+    return (
+        <div className="gradu-login-content">
+            <LoginStore>
+                <LoginForm />
+            </LoginStore>
+        </div>
+    );
+})

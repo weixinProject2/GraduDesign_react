@@ -1,16 +1,16 @@
-import React, { Component, Fragment } from 'react'
+import React, { useContext, Fragment, useEffect } from 'react'
 import { HashRouter as Router, Route } from 'react-router-dom';
-// import ProtectedRoute from '../components/ProtectedRoute'
+import SubRouter from './router'
 import Login from '../components/login/index';
-export default class index extends Component {
-    render() {
-        return (
-            <Fragment>
-                <Router>
-                    <Route path="/" exact component={Login}></Route>
-                    {/* <ProtectedRoute path="/user" component={SubRouter}></ProtectedRoute> */}
-                </Router>
-            </Fragment>
-        )
-    }
-}
+export default (() => {
+    return (
+        <Fragment>
+            <Router>
+                <Route exact path="/" component={SubRouter} />
+                <Route path="/login" component={Login}></Route>
+                {/* <ProtectedRoute path="/manageMent" Component={SubRouter}></ProtectedRoute> */}
+            </Router>
+        </Fragment>
+    )
+
+})

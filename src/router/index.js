@@ -9,7 +9,7 @@ export default (() => {
             <Router>
                 {/* <Route exact path="/" component={SubRouter} /> */}
                 <Route path="/login" component={Login}></Route>
-                <ProtectedRoute path="/" Component={SubRouter}></ProtectedRoute>
+                <ProtectedRoute exact path="/" Component={SubRouter}></ProtectedRoute>
             </Router>
         </Fragment>
     )

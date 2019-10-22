@@ -9,7 +9,6 @@ export const LoginStore = observer((props) => {
       
     }
   ));
-  console.log(props);
   return (
     <MyContext.Provider value={store}>
       {props.children}

@@ -1,12 +1,12 @@
 import React, { createContext } from 'react';
 import { useLocalStore, observer } from 'mobx-react-lite';
-import { withRouter } from 'react-router-dom'
+
 export const MyContext = createContext(null);
 
-export const LoginStore = observer((props) => {
+export const AvaterStore = observer((props) => {
   const store = useLocalStore(() => (
     {
-
+      
     }
   ));
   return (

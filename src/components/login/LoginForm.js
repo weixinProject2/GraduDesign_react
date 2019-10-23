@@ -4,16 +4,25 @@ import { Form, Input, Icon, Button } from 'antd'
 
 const FormItem = Form.Item;
 
-function Login({ form }) {
-    // const store = useContext(MyContext);
-
+function Login({ form, history}) {
     const { getFieldDecorator } = form;
+
     useEffect(() => {
 
     }, [])
+
     function handleSubmit(e) {
         e.preventDefault();
+        form.validateFields((err, values) => {
+            let subValue = values;
+            subValue.userName= '翁恺敏'
+            if (!err) {
+                localStorage.setItem('userInfo', JSON.stringify(subValue));
+                history.push('/')
+            }
+        })
     }
+
     return (
         <Fragment>
             <div className="gradu-login-content">
@@ -23,11 +32,11 @@ function Login({ form }) {
                 </div>
                 <Form className="gradu-login-form" onSubmit={handleSubmit}>
                     <FormItem>
-                        {getFieldDecorator('loginname', {
-                            rules: [{ required: true, message: '用户名不能为空!' }],
+                        {getFieldDecorator('code', {
+                            rules: [{ required: true, message: '工号不能为空!' }],
                             // initialValue: this.state.loginname,
                         })(
-                            <Input label='登录名' prefix={<Icon type="user" style={{ color: 'rgba(0,0,0,.25)' }} />} placeholder="登录名" />
+                            <Input label='工号' prefix={<Icon type="user" style={{ color: 'rgba(0,0,0,.25)' }} />} placeholder="工号" />
                         )}
                     </FormItem>
                     <FormItem>

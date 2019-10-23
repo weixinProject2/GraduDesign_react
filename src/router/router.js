@@ -4,7 +4,7 @@ import { BrowserRouter as Router, Route, NavLink } from 'react-router-dom';
 import { MyContext } from '../stores/index'
 import { observer, Observer } from 'mobx-react-lite';
 import { Button, Popover, Icon, Menu } from 'antd'
-
+import Avater from '../components/avater/index'
 const SubMenu = Menu.SubMenu;
 
 export default observer(() => {
@@ -27,11 +27,7 @@ export default observer(() => {
                     <Button shape="circle" icon="menu" type='primary' onClick={toggleMenu} />Gradu <Icon type='deployment-unit' />&nbsp;员工系统
                 </div>
                 <div className="gradu-header-right">
-                    {/* <Popover content={<UserOpts userinfo={userinfo && userinfo} avater={userinfo ? this.renderAvater(userinfo.username) : '无'} />} placement='bottomRight' trigger="click">
-                        <div className="pro-header-img">
-                            {userinfo ? this.renderAvater(userinfo.username) : '无'}
-                        </div>
-                    </Popover> */}
+                    <Avater />
                 </div>
             </header>
             <main>

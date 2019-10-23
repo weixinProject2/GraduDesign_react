@@ -5,6 +5,7 @@ function Protected(props) {
     // 判断是否登录
     return (
         <Route
+            {...props}
             render={(props) =>
                 localStorage.getItem('userInfo') ?
                     <Component /> : //如果能在localstorage里面取到登录状态是成功的，则渲染这个组件

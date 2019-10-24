@@ -4,7 +4,8 @@ import { BrowserRouter as Router, Route, NavLink } from 'react-router-dom';
 import { MyContext } from '../stores/index'
 import { observer, Observer } from 'mobx-react-lite';
 import { Button, Popover, Icon, Menu } from 'antd'
-import Avater from '../components/avater/index'
+import Avater from '../components/avater/index';
+
 const SubMenu = Menu.SubMenu;
 
 export default observer(() => {
@@ -13,7 +14,7 @@ export default observer(() => {
     let [collapse, setCollapse] = useState(false);
 
     useEffect(() => {
-        // console.log(count);
+
     }, [])
 
     function toggleMenu() {

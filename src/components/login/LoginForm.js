@@ -1,10 +1,11 @@
 import React, { Fragment, useContext, useEffect } from 'react';
-import { Form, Input, Icon, Button } from 'antd'
+import { Form, Input, Icon, Button, message } from 'antd'
 // import { MyContext } from '../../stores/index';
-
+import history from '../../utils/history';
+import { login } from '../../api/index';
 const FormItem = Form.Item;
 
-function Login({ form, history}) {
+function Login({ form }) {
     const { getFieldDecorator } = form;
 
     useEffect(() => {
@@ -14,11 +15,17 @@ function Login({ form, history}) {
     function handleSubmit(e) {
         e.preventDefault();
         form.validateFields((err, values) => {
-            let subValue = values;
-            subValue.userName= '翁恺敏'
             if (!err) {
-                localStorage.setItem('userInfo', JSON.stringify(subValue));
-                history.push('/')
+                login(values).then((data) => {
+                    if(data.token){
+                        localStorage.setItem('token',data.token);
+                        localStorage.setItem('userInfo',JSON.stringify(data.userInfo));
+                        message.success('登陆成功');
+                        history.push('/');
+                    }else{
+                        message.error(data.message);
+                    }
+                })
             }
         })
     }
@@ -31,14 +38,16 @@ function Login({ form, history}) {
                     <h2>登陆</h2>
                 </div>
                 <Form className="gradu-login-form" onSubmit={handleSubmit}>
+                    {/* 工号 */}
                     <FormItem>
-                        {getFieldDecorator('code', {
+                        {getFieldDecorator('workNumber', {
                             rules: [{ required: true, message: '工号不能为空!' }],
                             // initialValue: this.state.loginname,
                         })(
                             <Input label='工号' prefix={<Icon type="user" style={{ color: 'rgba(0,0,0,.25)' }} />} placeholder="工号" />
                         )}
                     </FormItem>
+                    {/* 密码 */}
                     <FormItem>
                         {getFieldDecorator('password', {
                             rules: [{ required: true, message: '请输入密码!' }],
@@ -47,6 +56,7 @@ function Login({ form, history}) {
                             <Input label='密码' prefix={<Icon type="lock" style={{ color: 'rgba(0,0,0,.25)' }} />} type="password" placeholder="密码" />
                         )}
                     </FormItem>
+                    {/* 登陆按钮 */}
                     <div className='gradu-login-opts'>
                         <Button type="primary" htmlType="submit" >
                             登陆

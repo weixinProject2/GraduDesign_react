@@ -8,6 +8,7 @@
     "babel-loader": "^8.0.6",
     "babel-plugin-import": "^1.12.2",
     "customize-cra": "^0.8.0",
+    "history": "^4.10.1",
     "less": "^3.10.3",
     "less-loader": "^5.0.0",
     "mobx": "^5.14.2",

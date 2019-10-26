@@ -1,0 +1,88 @@
+.gradu-userInfo{
+    height: 100%;
+    header{
+        padding: .07rem;
+        border-bottom: 1px solid #e6e6e6;
+        button{
+            border: none;
+            box-shadow: none;
+        }
+    }
+    &-content{
+        padding: .15rem 0;
+        h2{
+            margin-left: .2rem;
+        }
+    }
+    &-top{
+        padding: .1rem 0;
+        height: 1.4rem;
+        width: 100%;
+        background: rgba(0, 0, 0, 0.04);
+        display: flex;
+    }
+    &-avatar{
+        width: 3.2rem;
+        height: 100%;
+        display: inline-block;
+        padding-left: 1.8rem;
+        &-img{
+            width: 100%;
+            height: 100%;
+            background: #17b3a3;
+            border-radius: 50%;
+            font-size: 0.5rem;
+            color: #fff;
+        }
+        &-content{
+            width: 1.2rem;
+            padding: 0.1rem;
+            height: 1.2rem;
+            text-align: center;
+            vertical-align: center;
+            margin: 0 auto;
+            line-height: 1.9;
+            background: #fff;
+            border-radius: 50%;
+            box-shadow: 0 3px 1px -2px rgba(0, 0, 0, 0.2), 0 2px 2px 0 rgba(0, 0, 0, 0.14), 0 1px 5px 0 rgba(0, 0, 0, 0.12);
+        }
+    }
+    &-lists{
+        padding-left: 2.2rem;
+        margin-top: .3rem;
+        ul{
+            li{
+                margin: .15rem 0;
+                font-size: 0.15rem;
+                display: flex;
+                span{
+                    &:first-of-type{
+                        width: 1.6rem;
+                    }
+                    &:nth-of-type(2){
+                        color: black;
+                    }
+                }
+            }
+        }
+    }
+    &-basic{
+        display: inline-block;
+        height: 100%;
+        flex: 1;
+        padding-left: .43rem;
+        &-lists{
+            span{
+                display: block;
+                padding: .1rem;
+                &:first-of-type{
+                    font-size: .3rem;
+                }
+                &:nth-of-type(2){
+                    font-size: 0.17rem;
+                    font-weight: 500;
+                }
+            }
+        }
+    }
+}

@@ -1,5 +1,5 @@
 import React, { Fragment, useContext, useEffect } from 'react';
-import { Popover ,Avatar} from 'antd';
+import { Popover, Avatar } from 'antd';
 import UserOpts from './UserOpts'
 export default (({ userInfo }) => {
     /**
@@ -8,23 +8,23 @@ export default (({ userInfo }) => {
      */
     function renderAvater() {
         const { userName, imgUrl } = userInfo;
-        if(imgUrl){
+        if (imgUrl) {
             return <Avatar src={imgUrl} />
-        }else if(userName){
+        } else if (userName) {
             const nameArray = userName.split('');
             return nameArray[0].toString();
-        }else{
+        } else {
             return '无'
         }
     }
 
     return (
         <Popover
-            content={'hello'
-                // <UserOpts
-                //     userInfo={userInfo && userInfo}
-                //     avater={userInfo ? this.renderAvater(userInfo.username) : '无'}
-                // />
+            content={
+                <UserOpts
+                    userInfo={userInfo && userInfo}
+                    avater={renderAvater()}
+                />
             }
             placement='bottomRight'
             trigger="click"

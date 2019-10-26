@@ -14,7 +14,7 @@ instance.interceptors.request.use(config => {
     const TOKEN = localStorage.getItem('token');
     if (TOKEN) {
         config.headers['Content-Type'] = 'application/json';
-        config.headers['Authorization'] = TOKEN;
+        config.headers['Authorization'] = TOKEN; // token
     }
     return config;
 }, (error) => {
@@ -39,9 +39,16 @@ instance.interceptors.response.use((response) => {
                         oldHistory: history.location.pathname
                     }
                 })
+                message.error('token不存在')
                 break;
             case 403:
-
+                history.push({
+                    pathname: '/login',
+                    state: {
+                        oldHistory: history.location.pathname
+                    }
+                })
+                message.error('token过期，请重新登陆')
                 break;
             case 404:
 

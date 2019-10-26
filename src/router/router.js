@@ -4,7 +4,11 @@ import { BrowserRouter as Router, Route, NavLink } from 'react-router-dom';
 import { MyContext } from '../stores/index'
 import { observer, Observer } from 'mobx-react-lite';
 import { Button, Popover, Icon, Menu } from 'antd'
+
 import Avater from '../components/avater/index';
+
+import UserInfoContent from '../components/userInfo/index'
+
 
 const SubMenu = Menu.SubMenu;
 
@@ -61,8 +65,10 @@ export default observer(() => {
                         </SubMenu>
                     </Menu>
                 </div>
+
                 <div className="gradu-container">
-                    hello
+                    <Route path='/main/userInfo' component={UserInfoContent}/>
+                    {/* <Route path='/management' component={UserInfoContent}/> */}
                 </div>
             </main>
         </Fragment>

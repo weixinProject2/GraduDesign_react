@@ -21,7 +21,7 @@ function Login({ form }) {
                         localStorage.setItem('token',data.token);
                         localStorage.setItem('userInfo',JSON.stringify(data.userInfo));
                         message.success('登陆成功');
-                        history.push('/');
+                        history.push('/main');
                     }else{
                         message.error(data.message);
                     }

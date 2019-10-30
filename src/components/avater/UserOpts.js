@@ -1,14 +1,22 @@
-import React from 'react'
-import { Icon } from 'antd'
-import history from '../../utils/history'
-export default (({ userInfo, avater }) => {
+import React, { useContext } from 'react';
+import { Icon, message } from 'antd';
+import { observer } from 'mobx-react-lite';
+import history from '../../utils/history';
+import { MyContext } from '../../stores/index'
+export default observer(({ avater }) => {
+
+    const stores = useContext(MyContext);
+    const { getUserinfo: { userName, workNumber } } = stores;
 
     function linkToInfo() {
         history.push('/main/userInfo')
     }
 
     function loginOut() {
-
+        localStorage.removeItem('userInfo');
+        localStorage.removeItem('token');
+        history.push('/login');
+        message.success('退出登录成功');
     }
 
     return (
@@ -18,8 +26,8 @@ export default (({ userInfo, avater }) => {
                     {avater}
                 </div>
                 <div className="gradu-user-basicInfo">
-                    <span>姓名：{userInfo && userInfo.username}</span>
-                    <span>工号：{userInfo && userInfo.workNumber}</span>
+                    <span>姓名：{userName}</span>
+                    <span>工号：{workNumber}</span>
                 </div>
             </div>
             <ul>

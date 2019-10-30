@@ -1,11 +1,11 @@
 import React, { Fragment, useContext, useEffect } from 'react';
-import { Form, Input, Icon, Button, message } from 'antd'
+import { Form, Input, Icon, Button, message } from 'antd';
 // import { MyContext } from '../../stores/index';
 import history from '../../utils/history';
 import { login } from '../../api/index';
 const FormItem = Form.Item;
 
-function Login({ form }) {
+const Login = ({ form }) => {
     const { getFieldDecorator } = form;
 
     useEffect(() => {
@@ -17,12 +17,12 @@ function Login({ form }) {
         form.validateFields((err, values) => {
             if (!err) {
                 login(values).then((data) => {
-                    if(data.token){
-                        localStorage.setItem('token',data.token);
-                        localStorage.setItem('userInfo',JSON.stringify(data.userInfo));
+                    if (data.token) {
+                        localStorage.setItem('token', data.token);
+                        localStorage.setItem('userInfo', JSON.stringify(data.userInfo));
                         message.success('登陆成功');
                         history.push('/main');
-                    }else{
+                    } else {
                         message.error(data.message);
                     }
                 })

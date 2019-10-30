@@ -4,14 +4,15 @@ import Avater from './Avater'
 
 import './index.less'
 
-export default ((props) => {
-    const userInfo = localStorage.getItem('userInfo');
+export default (() => {
+
     useEffect(() => {
     }, []);
+
     return (
         <Fragment>
             <AvaterStore>
-                <Avater userInfo={JSON.parse(userInfo)} />
+                <Avater />
             </AvaterStore>
         </Fragment>
     );

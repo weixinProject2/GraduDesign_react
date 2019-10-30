@@ -1,13 +1,21 @@
 import React, { Fragment, useContext, useEffect } from 'react';
 import { Popover, Avatar } from 'antd';
+import { observer } from 'mobx-react-lite'
+
+import { MyContext } from '../../stores/index'
+
 import UserOpts from './UserOpts'
-export default (({ userInfo }) => {
+
+export default observer(() => {
+    const stores = useContext(MyContext);
+    const { getUserinfo: { userName, imgUrl } } = stores;
+
     /**
      *  有图片地址时候渲染图片，无图片时候渲染员工的姓，无用户信息的时候渲染‘无’
      * @param {用户信息} userInfo 
      */
+
     function renderAvater() {
-        const { userName, imgUrl } = userInfo;
         if (imgUrl) {
             return <Avatar src={imgUrl} />
         } else if (userName) {
@@ -22,7 +30,6 @@ export default (({ userInfo }) => {
         <Popover
             content={
                 <UserOpts
-                    userInfo={userInfo && userInfo}
                     avater={renderAvater()}
                 />
             }

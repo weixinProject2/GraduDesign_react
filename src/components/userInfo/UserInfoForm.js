@@ -6,6 +6,7 @@ import { MyContext } from '../../stores/index';
 import { MyInfoContext } from './store/index';
 
 import ModifyUserInfo from './ModifyUserInfo';
+import ModifyPassword from './ModifyPassword'
 
 const FormItem = Form.Item;
 
@@ -59,24 +60,6 @@ const UserInfoForm = observer(({ form }) => {
         setInfoVisible(false);
     }
 
-    // 提交密码数据
-    function handlePsSubmit(e) {
-        e.preventDefault();
-
-    }
-
-    function checkOldPassword() {
-
-    }
-    function compareToFirstPassword() {
-
-    }
-    function validateToNextPassword() {
-
-    }
-    function handleConfirmBlur() {
-
-    }
     return (
         <Spin size="large" spinning={false}>
             <div className="gradu-userInfo">
@@ -153,40 +136,7 @@ const UserInfoForm = observer(({ form }) => {
                     visible={getPsVisible}
                     destroyOnClose
                 >
-                    <Form onSubmit={handlePsSubmit}>
-                        <FormItem>
-                            {getFieldDecorator('oldPassword', {
-                                rules: [
-                                    { required: true, message: '旧密码不能为空!' }, { validator: checkOldPassword }
-                                ],
-                            })(
-                                <Input.Password prefix={<Icon type="lock" style={{ color: 'rgba(0,0,0,.25)' }} />} placeholder="请输入当前使用密码" />
-                            )}
-                        </FormItem>
-                        <FormItem>
-                            {getFieldDecorator('newPassword', {
-                                rules: [{ required: true, message: '新密码不能为空!' }, { validator: validateToNextPassword }]
-                            })(
-                                <Input.Password prefix={<Icon type="lock" style={{ color: 'rgba(0,0,0,.25)' }} />} placeholder="请输入新密码" maxLength={6} />
-                            )}
-                        </FormItem>
-                        <FormItem>
-                            {getFieldDecorator('confirmPassword', {
-                                rules: [{ required: true, message: '确认密码不能为空!' }, { validator: compareToFirstPassword }],
-                            })(
-                                <Input.Password
-                                    prefix={<Icon type="lock" style={{ color: 'rgba(0,0,0,.25)' }} />}
-                                    placeholder="请再次输入新密码"
-                                    maxLength={6}
-                                    onBlur={handleConfirmBlur}
-                                />
-                            )}
-                        </FormItem>
-
-                        <Button type="primary" htmlType="submit" className="login-form-button">
-                            确认修改
-                        </Button>
-                    </Form>
+                    <ModifyPassword />
                 </Drawer>
 
                 <Drawer

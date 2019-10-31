@@ -18,12 +18,17 @@ const formItemLayout = {
         sm: { span: 18 },
     },
 };
+// 配置form
+const formOpts = {
+    onValuesChange: ({ form }, changedValues, allValues) => {
+        console.log(changedValues, allValues)
+    }
+}
 
 const ModifyUserInfo = observer(({ form }) => {
     const { getFieldDecorator } = form;
 
     const [btnLoading, setBtnLoading] = useState(false)
-    const [btnAble, setBtnAble] = useState(false);
 
     const userInfoStores = useContext(MyInfoContext);
     const stores = useContext(MyContext);
@@ -64,6 +69,7 @@ const ModifyUserInfo = observer(({ form }) => {
             }
         })
     }
+
 
 
 
@@ -156,11 +162,11 @@ const ModifyUserInfo = observer(({ form }) => {
                     <Input disabled prefix={<Icon type="team" style={{ color: 'rgba(0,0,0,.25)' }} />} placeholder="部门" />
                 )}
             </FormItem>
-            <Button type="primary" htmlType="submit" loading={btnLoading}>
+            <Button type="primary" htmlType="submit" loading={btnLoading} disabled>
                 确认修改
             </Button>
         </Form>
     )
 })
-const WrappedNormalLoginForm = Form.create()(ModifyUserInfo);
-export default WrappedNormalLoginForm;
+const WrappedNormalUserInfoForm = Form.create(formOpts)(ModifyUserInfo);
+export default WrappedNormalUserInfoForm;

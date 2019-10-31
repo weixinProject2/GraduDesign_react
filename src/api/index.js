@@ -9,3 +9,5 @@ export const getMenu = () => http.get('/getMenu');
 export const getUserInfo = (workNumber) => http.get('/user/getUserInfo', workNumber)
 // 修改个人信息
 export const changeUserInfo = (object) => http.post('/user/changeUserInfo', object);
+// 修改密码
+export const changePassWord = (object) => http.post('/user/changePassword', object)

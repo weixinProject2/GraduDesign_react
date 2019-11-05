@@ -8,12 +8,11 @@ import { MyInfoContext } from './store/index';
 import ModifyUserInfo from './ModifyUserInfo';
 import ModifyPassword from './ModifyPassword'
 
-const FormItem = Form.Item;
 
-const UserInfoForm = observer(({ form }) => {
+
+const UserInfoForm = observer((props) => {
     const stores = useContext(MyContext);
     const myInfoStores = useContext(MyInfoContext);
-
     const { getUserinfo: {
         userName, imgUrl, address, departmentName, position, professional, sex, telNumber, email, workNumber
     } } = stores; //从全局层拿个人信息
@@ -22,8 +21,6 @@ const UserInfoForm = observer(({ form }) => {
         setPsVisible, getPsVisible, setInfoVisible, getInfoVisible
     } = myInfoStores
 
-
-    const { getFieldDecorator } = form;
 
     useEffect(() => {
 
@@ -63,8 +60,7 @@ const UserInfoForm = observer(({ form }) => {
     return (
         <Spin size="large" spinning={false}>
             <div className="gradu-userInfo">
-
-                <header>
+                <header className="gradu-content-header">
                     <Button type='primary' ghost icon='edit' onClick={openPsModal}>修改密码</Button>
                     <Button type='primary' ghost icon='unlock' onClick={openInfoModal}>修改个人信息</Button>
                 </header>

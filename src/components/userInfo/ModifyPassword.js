@@ -1,10 +1,12 @@
 import React, { useContext, useState } from 'react';
-import { Form, Button, Input, Icon } from 'antd';
+import { Form, Button, Input, Icon, message } from 'antd';
 import { observer } from 'mobx-react-lite';
 import { MyContext } from '../../stores/index';
 import { MyInfoContext } from './store/index';
 
 import { changePassWord } from '../../api'
+
+import history from '../../utils/history';
 
 const FormItem = Form.Item;
 
@@ -37,7 +39,16 @@ const ModifyPassword = observer(({ form }) => {
                     oldPassword, newPassword, workNumber
                 }
                 changePassWord(object).then((data) => {
-                    console.log(data);
+                    if (data.error === -1) {
+                        form.setFields({
+                            oldPassword: {
+                                errors: [new Error(data.message)],
+                            }
+                        })
+                    } else if (data.error === 0) {
+                        message.success(`${data.message}`);
+                        setPsVisible(false)
+                    }
                 })
             }
         })
@@ -45,7 +56,7 @@ const ModifyPassword = observer(({ form }) => {
 
     //校验旧密码是否正确 
     function checkOldPassword(rule, value, callback) {
-        
+
     }
 
     function validateToNextPassword(rule, value, callback) {

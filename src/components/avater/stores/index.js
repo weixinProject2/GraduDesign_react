@@ -1,17 +1,17 @@
 import React, { createContext } from 'react';
 import { useLocalStore, observer } from 'mobx-react-lite';
 
-export const MyContext = createContext(null);
+export const MyAvatarContext = createContext(null);
 
 export const AvaterStore = observer((props) => {
-  const store = useLocalStore(() => (
-    {
-      
+  const store = useLocalStore(() => {
+    return {
+      name:'weng'
     }
-  ));
+  })
   return (
-    <MyContext.Provider value={store}>
+    <MyAvatarContext.Provider value={store}>
       {props.children}
-    </MyContext.Provider>
+    </MyAvatarContext.Provider>
   );
 });

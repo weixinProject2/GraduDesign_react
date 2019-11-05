@@ -10,4 +10,9 @@ export const getUserInfo = (workNumber) => http.get('/user/getUserInfo', workNum
 // 修改个人信息
 export const changeUserInfo = (object) => http.post('/user/changeUserInfo', object);
 // 修改密码
-export const changePassWord = (object) => http.post('/user/changePassword', object)
+export const changePassWord = (object) => http.post('/user/changePassword', object);
+
+// 获取所有员工信息
+export const getAllStaffInfo = (params) => http.get('/admin/getAllStaffInfo', params);
+// 删除员工
+export const deleteStaffById = (params) => http.post('/admin/deleteStaffInfo', params);

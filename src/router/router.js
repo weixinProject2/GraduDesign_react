@@ -10,9 +10,10 @@ import { getMenu, getUserInfo } from '../api/index'
 
 import history from '../utils/history';
 import Avater from '../components/avater/index';
-import Bell from '../components/userMessage/Bell'
-import UserInfoContent from '../components/userInfo/index'
+import Bell from '../components/userMessage/Bell';
 
+import UserInfoContent from '../components/userInfo/index'
+import ManageStaffForm from '../components/manageStaff/index'
 
 const SubMenu = Menu.SubMenu;
 
@@ -71,11 +72,11 @@ export default observer(() => {
                         // onOpenChange={this.onOpenChange}
                         // selectedKeys={[this.state.curentKey]}
                         >
-                            <SubMenu key="sub1" title={<span><Icon type="user" /><span>用户管理</span></span>}>
-                                <Menu.Item key="searchUser"><NavLink to='/user/searchUser'><Icon type="database" />用户数据管理</NavLink></Menu.Item>
-                            </SubMenu>
-                            <SubMenu key="sub2" title={<span><Icon type="user" /><span>部门管理</span></span>}>
-                                <Menu.Item key="manageDep"><NavLink to='/user/manageDep'><Icon type='project_program' />部门数据管理</NavLink></Menu.Item>
+
+                            <Menu.Item key="manageStaffs"><NavLink to='/main/manageStaffs'><Icon type="team" /><span>公司员工管理</span></NavLink></Menu.Item>
+                            <SubMenu key="taskManage" title={<span><Icon type="project" /><span>迭代项目管理</span></span>}>
+                                <Menu.Item key="taskPanel"><NavLink to='/main/taskLists'><Icon type='ordered-list' />工作列表</NavLink></Menu.Item>
+                                <Menu.Item key="allTasks"><NavLink to='/main/allTasks'><Icon type='snippets' />迭代计划</NavLink></Menu.Item>
                             </SubMenu>
                             <SubMenu key="sub3" title={<span><Icon type="user" /><span>职位管理</span></span>}>
                                 <Menu.Item key="managePos"><NavLink to='/user/managePos'><Icon type='sync_records' />职位数据管理</NavLink></Menu.Item>
@@ -94,7 +95,7 @@ export default observer(() => {
 
                     <div className="gradu-container">
                         <Route path='/main/userInfo' component={UserInfoContent} />
-                        {/* <Route path='/management' component={UserInfoContent}/> */}
+                        <Route path='/main/manageStaffs' component={ManageStaffForm} />
                     </div>
                 </main>
             </Spin>

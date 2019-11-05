@@ -58,10 +58,20 @@ const ModifyUserInfo = observer(({ form }) => {
                 let object = values;
                 object.workNumber = workNumber;
                 changeUserInfo(object).then((data) => {
-                    setBtnLoading(false);
-                    setUserInfo(object);
-                    setInfoVisible(false);
-                    message.success("修改成功");
+                    if (data.code === 0) {
+                        setTimeout(() => {
+                            setBtnLoading(false);
+                            setUserInfo(object);
+                            setInfoVisible(false);
+                            message.success(data.message);
+                        }, (1000));
+                    } else {
+                        setTimeout(() => {
+                            setBtnLoading(false);
+                            message.error(data.message)
+                        }, 1000);
+                    }
+
                 }).catch((err) => {
                     message.info(err);
                     setBtnLoading(false);
@@ -162,7 +172,7 @@ const ModifyUserInfo = observer(({ form }) => {
                     <Input disabled prefix={<Icon type="team" style={{ color: 'rgba(0,0,0,.25)' }} />} placeholder="部门" />
                 )}
             </FormItem>
-            <Button type="primary" htmlType="submit" loading={btnLoading} disabled>
+            <Button type="primary" htmlType="submit" loading={btnLoading}>
                 确认修改
             </Button>
         </Form>

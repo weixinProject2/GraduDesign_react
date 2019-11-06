@@ -1,6 +1,6 @@
-import React, { useEffect, useState, useContext } from 'react';
+import React, { useEffect, useState, useContext, Fragment } from 'react';
 import { observer } from 'mobx-react-lite'
-import { Form, Table, Icon, Popover, Button, message, Tooltip, Modal, Tag } from 'antd'
+import { Form, Table, Icon, Popover, Button, message, Tooltip, Modal, Tag, Drawer } from 'antd'
 import { getAllStaffInfo, deleteStaffById } from '../../api';
 import { MyStaffContext } from './stores'
 
@@ -21,6 +21,7 @@ export default observer(() => {
             getCurrentPage, setPage, getTotalPages, setTotalPages,
             setBtnDisabled,
             setAddDisabled,
+            getQueryFields
         }
     } = useContext(MyStaffContext);
 
@@ -82,7 +83,6 @@ export default observer(() => {
             dataIndex: 'position',
             ellipsis: true,
             render: (text) => <Tag color='gold'>{text}</Tag>
-
         },
         {
             title: '职业',
@@ -105,7 +105,6 @@ export default observer(() => {
             title: '入职时间',
             dataIndex: 'entryTime',
             ellipsis: true,
-
         },
         {
             title: '操作',
@@ -127,6 +126,7 @@ export default observer(() => {
         setPage(page);
         const params = {
             page: page,
+            queryFiled: getQueryFields
         }
         loadStaffInfo(params);
     }
@@ -134,12 +134,12 @@ export default observer(() => {
     // 加载数据
     function loadStaffInfo(params, msgSuccess) {
         setLoading(true);
-        const { page, size, queryData } = params && params
+        const { page, size, queryFiled } = params && params
 
         const object = {
             page: page ? page : 1,
             size: size ? size : 10,
-            queryData: queryData ? queryData : null
+            queryFiled: queryFiled ? queryFiled : null
         }
 
         getAllStaffInfo(object).then((data) => {
@@ -199,6 +199,7 @@ export default observer(() => {
         const params = {
             page: getCurrentPage,
             size: 10,
+            queryFiled: getQueryFields
         }
         deleteStaffById(object).then((res) => {
             if (!res.error) {
@@ -229,16 +230,19 @@ export default observer(() => {
     }, [])
 
     return (
-        <Table
-            size='default'
-            tablelayout='inline'
-            columns={columns}
-            dataSource={getAllStaff}
-            rowKey='workNumber'
-            size='small'
-            rowSelection={selectionSet}
-            pagination={pageSet}
-            loading={getLoading}
-        />
+        <Fragment>
+            <Table
+                size='default'
+                tablelayout='inline'
+                columns={columns}
+                dataSource={getAllStaff}
+                rowKey='workNumber'
+                size='small'
+                rowSelection={selectionSet}
+                pagination={pageSet}
+                loading={getLoading}
+            />
+
+        </Fragment>
     )
 })

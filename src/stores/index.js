@@ -1,6 +1,7 @@
 import React, { createContext } from 'react'
 import { useLocalStore, observer } from 'mobx-react-lite'
 export const MyContext = createContext(null);
+
 export const AppStore = observer((props) => {
     const store = useLocalStore(() => {
         return {
@@ -22,6 +23,7 @@ export const AppStore = observer((props) => {
                 return this.contentLoading;
             }
 
+            // 
         }
     });
     return (

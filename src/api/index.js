@@ -16,3 +16,12 @@ export const changePassWord = (object) => http.post('/user/changePassword', obje
 export const getAllStaffInfo = (params) => http.get('/admin/getAllStaffInfo', params);
 // 删除员工
 export const deleteStaffById = (params) => http.post('/admin/deleteStaffInfo', params);
+// 创建新的员工
+export const createStaff = (params) => http.post('/admin/createEmployee', params);
+
+// 获取部门opts
+export const getDepartment = (params) => http.get('/getDepartment', params);
+// 获取职业opts
+export const getProfessional = (params) => http.get('/getProfessional', params);
+// 获取职位opts
+export const getPosition = (params) => http.get('/getPosition', params)

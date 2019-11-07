@@ -1,6 +1,6 @@
 import React, { useEffect, useState, useContext, Fragment } from 'react';
 import { observer } from 'mobx-react-lite'
-import { Form, Table, Icon, Popover, Button, message, Tooltip, Modal, Tag, Drawer } from 'antd'
+import { Form, Table, Icon, Popover, Button, message, Modal, Tag, Drawer } from 'antd'
 import { getAllStaffInfo, deleteStaffById } from '../../api';
 import { MyStaffContext } from './stores'
 
@@ -242,7 +242,7 @@ export default observer(() => {
                 pagination={pageSet}
                 loading={getLoading}
             />
-
+            <Drawer />
         </Fragment>
     )
 })

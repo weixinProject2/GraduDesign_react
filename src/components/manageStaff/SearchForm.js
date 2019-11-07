@@ -14,7 +14,7 @@ const SearchForm = observer(({ form }) => {
         TableAttrStore: {
             getAllDeptsOpts, getAllPf, getAllPos,
             setLoading, setAddDisabled, setStaffInfo, setTotalPages, getPage, getAddDisabled,
-            setQueryFields, getQueryFields, setDeptsOpts,setPage
+            setQueryFields, getQueryFields, setDeptsOpts, setPage
         }
     } = useContext(MyStaffContext);
 
@@ -81,6 +81,7 @@ const SearchForm = observer(({ form }) => {
     // 加载数据
     function loadStaffInfo(params, msgSuccess) {
         setLoading(true);
+        setAddDisabled(true);
         const { page, size, queryFiled } = params && params
 
         const object = {
@@ -90,7 +91,7 @@ const SearchForm = observer(({ form }) => {
         }
 
         getAllStaffInfo(object).then((data) => {
-            setAddDisabled(true);
+
             if (data.list) {
                 setTimeout(() => {
                     setLoading(false);

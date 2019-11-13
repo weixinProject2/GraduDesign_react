@@ -14,7 +14,7 @@ instance.interceptors.request.use(config => {
     const TOKEN = localStorage.getItem('token');
     if (TOKEN) {
         config.headers['Content-Type'] = 'application/json';
-        config.headers['Authorization'] = TOKEN;
+        config.headers['Authorization'] = `Bearer ${TOKEN}`; // token
     }
     return config;
 }, (error) => {
@@ -32,6 +32,8 @@ instance.interceptors.response.use((response) => {
 }, (error) => {
     if (error.response.status) {  // 判断状态码
         switch (error.response.status) {
+            case 400:
+                break;
             case 401:
                 history.push({
                     pathname: '/login',
@@ -39,12 +41,19 @@ instance.interceptors.response.use((response) => {
                         oldHistory: history.location.pathname
                     }
                 })
+                message.error('token不存在，请重新登陆');
                 break;
             case 403:
-
+                history.push({
+                    pathname: '/login',
+                    state: {
+                        oldHistory: history.location.pathname
+                    }
+                })
+                message.error('token过期，请重新登陆')
                 break;
             case 404:
-
+                message.error('404 not found')
                 break;
             default:
                 message.error('发生未知错误！')

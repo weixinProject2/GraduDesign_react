@@ -19,7 +19,6 @@ const SearchForm = observer(({ form }) => {
     } = useContext(MyStaffContext);
 
     useEffect(() => {
-        // console.log(getFieldsValue())
     }, [])
 
     // 提交

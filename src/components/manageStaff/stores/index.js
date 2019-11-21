@@ -94,7 +94,7 @@ export const StaffStore = observer((props) => {
       this.allProfession = data;
     },
 
-    allPostions: [],
+    allPostions: [], // 所有的职位选项
     get getAllPos() {
       return this.allPostions.slice();
     },
@@ -102,14 +102,29 @@ export const StaffStore = observer((props) => {
       this.allPostions = data;
     },
 
-    queryFields: {},
+    queryFields: {},  // 搜索框的query
     setQueryFields(data) {
       this.queryFields = data;
     },
     get getQueryFields() {
       return this.queryFields;
-    }
+    },
 
+    staffModifyVisible: false, // 修改员工信息模态框显隐
+    get getModifyVisible() {
+      return this.staffModifyVisible;
+    },
+    setModifyVisible(data) {
+      this.staffModifyVisible = data;
+    },
+
+    modifyRecord: [],
+    setModifyRecord(data) {
+      this.modifyRecord = data;
+    },
+    get getModifyRecord() {
+      return this.modifyRecord;
+    }
   }));
 
   const value = {

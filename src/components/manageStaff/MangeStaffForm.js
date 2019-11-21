@@ -3,6 +3,7 @@ import { observer } from 'mobx-react-lite'
 import { Form, Table, Icon, Popover, Button, message, Modal, Tag, Drawer } from 'antd'
 import { getAllStaffInfo, deleteStaffById } from '../../api';
 import { MyStaffContext } from './stores'
+import ModifyForm from './ModifyForm';
 
 const { confirm } = Modal
 
@@ -21,7 +22,9 @@ export default observer(() => {
             getCurrentPage, setPage, getTotalPages, setTotalPages,
             setBtnDisabled,
             setAddDisabled,
-            getQueryFields
+            getQueryFields,
+            setModifyVisible, getModifyVisible,
+            getModifyRecord, setModifyRecord
         }
     } = useContext(MyStaffContext);
 
@@ -44,7 +47,7 @@ export default observer(() => {
         const permissions = record.permissions;
         return (
             <ul className='gradu-form-opts'>
-                <li>修改信息</li>
+                <li onClick={openModifyDrawer.bind(this, record)}>修改信息</li>
                 {permissions === "1" ? null : <li onClick={showDeleteConfirm.bind(this, record)}>删除</li>}
             </ul>
         )
@@ -225,6 +228,15 @@ export default observer(() => {
         });
     }
 
+    function closeModifyForm() {
+        setModifyRecord([]);
+        setModifyVisible(false);
+    }
+    function openModifyDrawer(record) {
+        setModifyRecord(record);
+        setModifyVisible(true);
+    }
+
     useEffect(() => {
         loadStaffInfo(defaultParams);
     }, [])
@@ -242,7 +254,17 @@ export default observer(() => {
                 pagination={pageSet}
                 loading={getLoading}
             />
-            <Drawer />
+            <Drawer
+                title="员工信息修改"
+                placement="right"
+                width={450}
+                closable={true}
+                onClose={closeModifyForm}
+                visible={getModifyVisible}
+                destroyOnClose
+            >
+                <ModifyForm />
+            </Drawer>
         </Fragment>
     )
 })

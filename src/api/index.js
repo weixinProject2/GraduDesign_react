@@ -18,10 +18,12 @@ export const getAllStaffInfo = (params) => http.get('/admin/getAllStaffInfo', pa
 export const deleteStaffById = (params) => http.post('/admin/deleteStaffInfo', params);
 // 创建新的员工
 export const createStaff = (params) => http.post('/admin/createEmployee', params);
+// 修改员工信息
+export const modifyStaff = (params) => http.post('/admin/changeStuffInfo',params);
 
 // 获取部门opts
 export const getDepartment = (params) => http.get('/getDepartment', params);
 // 获取职业opts
 export const getProfessional = (params) => http.get('/getProfessional', params);
 // 获取职位opts
-export const getPosition = (params) => http.get('/getPosition', params)
+export const getPosition = (params) => http.get('/getPosition', params);

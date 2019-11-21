@@ -24,6 +24,7 @@ export default observer(() => {
             getAllPf, setPf,
             getAllPos, setPosition,
             getQueryFields,
+            getModifyVisible, setModifyVisible
         }
     } = useContext(MyStaffContext);
 
@@ -144,17 +145,7 @@ export default observer(() => {
             >
                 <AddStaffForm />
             </Drawer>
-            {/* <Drawer
-                title="员工信息修改"
-                placement="right"
-                width={450}
-                closable={true}
-                onClose={closeStaffDrawer}
-                visible={getStaffVisble}
-                destroyOnClose
-            >
-                
-            </Drawer> */}
+            
         </div>
     )
 })

@@ -19,7 +19,7 @@ export const deleteStaffById = (params) => http.post('/admin/deleteStaffInfo', p
 // 创建新的员工
 export const createStaff = (params) => http.post('/admin/createEmployee', params);
 // 修改员工信息
-export const modifyStaff = (params) => http.post('/admin/changeStuffInfo',params);
+export const modifyStaff = (params) => http.post('/admin/changeStuffInfo', params);
 
 // 获取部门opts
 export const getDepartment = (params) => http.get('/getDepartment', params);
@@ -27,3 +27,10 @@ export const getDepartment = (params) => http.get('/getDepartment', params);
 export const getProfessional = (params) => http.get('/getProfessional', params);
 // 获取职位opts
 export const getPosition = (params) => http.get('/getPosition', params);
+
+// 获取所有部门信息
+export const getAllDeptsInfo = (params) => http.get('/admin/getAllDepartmentInfo', params);
+// 增加部门
+export const addNewDept = (params) => http.post('/admin/addDepartment', params);
+// 删除部门
+export const deleteDepts = (params) => http.post('/admin/deleteDepartment', params)

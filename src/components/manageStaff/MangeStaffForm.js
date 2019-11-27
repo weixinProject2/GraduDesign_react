@@ -148,23 +148,19 @@ export default observer(() => {
         getAllStaffInfo(object).then((data) => {
             setAddDisabled(true);
             if (data.list) {
-                setTimeout(() => {
-                    setLoading(false);
-                    setStaffInfo(data.list);
-                    setTotalPages(data.total);
-                    setAddDisabled(false)
-                    if (msgSuccess) {
-                        message.success(msgSuccess);
-                    }
-                }, 500);
+                setLoading(false);
+                setStaffInfo(data.list);
+                setTotalPages(data.total);
+                setAddDisabled(false)
+                if (msgSuccess) {
+                    message.success(msgSuccess);
+                }
             } else {
-                setTimeout(() => {
-                    setLoading(false);
-                    setStaffInfo([]);
-                    setTotalPages(0);
-                    setAddDisabled(false)
-                    message.error("加载失败！");
-                }, 500);
+                setLoading(false);
+                setStaffInfo([]);
+                setTotalPages(0);
+                setAddDisabled(false)
+                message.error("加载失败！");
             }
         }).catch((err) => {
             console.log(err);

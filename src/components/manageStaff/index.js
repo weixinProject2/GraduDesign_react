@@ -5,10 +5,6 @@ import ManageStaff from './ManageStaff'
 import './index.less'
 
 export default ((props) => {
-
-    useEffect(() => {
-    }, []);
-
     return (
         <Fragment>
             <StaffStore {...props}>

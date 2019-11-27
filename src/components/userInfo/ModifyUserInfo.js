@@ -35,7 +35,7 @@ const ModifyUserInfo = observer(({ form }) => {
 
     const {
         getUserinfo: {
-            imgUrl, userName, address, departmentName, position, professional, sex, telNumber, email, workNumber
+            imgUrl, userName, permissions, address, departmentName, position, professional, sex, telNumber, email, workNumber
         },
         setUserInfo,
     } = stores;
@@ -67,17 +67,13 @@ const ModifyUserInfo = observer(({ form }) => {
                 object.workNumber = workNumber;
                 changeUserInfo(object).then((data) => {
                     if (data.code === 0) {
-                        setTimeout(() => {
-                            setBtnLoading(false);
-                            setUserInfo(object);
-                            setInfoVisible(false);
-                            message.success(data.message);
-                        }, (1000));
+                        setBtnLoading(false);
+                        setUserInfo(object);
+                        setInfoVisible(false);
+                        message.success(data.message);
                     } else {
-                        setTimeout(() => {
-                            setBtnLoading(false);
-                            message.error(data.message)
-                        }, 1000);
+                        setBtnLoading(false);
+                        message.error(data.message)
                     }
 
                 }).catch((err) => {

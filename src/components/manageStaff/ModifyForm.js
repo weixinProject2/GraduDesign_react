@@ -21,9 +21,9 @@ const ModifyForm = observer(({ form }) => {
     const { getFieldDecorator } = form;
     const {
         TableAttrStore: {
-            getAllDeptsOpts, getAllPf, getAllPos,setModifyVisible,
+            getAllDeptsOpts, getAllPf, getAllPos, setModifyVisible,
             setLoading, getCurrentPage, getQueryFields, setAddDisabled, setStaffInfo, setTotalPages,
-            getModifyRecord: { Id_Card, address, departmentId, positionId, email, professionalId, sex, telNumber, userName, workNumber }
+            getModifyRecord: { Id_Card, address, permissions, departmentId, positionId, email, professionalId, sex, telNumber, userName, workNumber }
         }
     } = useContext(MyStaffContext)
     const [btnLoading, changeBtnloading] = useState(false);
@@ -44,18 +44,17 @@ const ModifyForm = observer(({ form }) => {
                 object.workNumber = workNumber;
                 changeBtnloading(true);
                 modifyStaff(object).then((res) => {
-                    console.log(res);
                     if (!res.error) {
                         const params = {
                             page: getCurrentPage,
                             size: 10,
-                            queryFiled: getQueryFields
+                            queryFiled: getQueryFields,
                         }
                         changeBtnloading(false);
                         setModifyVisible(false);
                         message.success(res.message);
                         loadStaffInfo(params);
-                    }else{
+                    } else {
                         changeBtnloading(false);
                         message.error(res.message);
                     }
@@ -77,23 +76,19 @@ const ModifyForm = observer(({ form }) => {
 
         getAllStaffInfo(object).then((data) => {
             if (data.list) {
-                setTimeout(() => {
-                    setLoading(false);
-                    setStaffInfo(data.list);
-                    setTotalPages(data.total);
-                    setAddDisabled(false);
-                    if (msgSuccess) {
-                        message.success(msgSuccess);
-                    }
-                }, 500);
+                setLoading(false);
+                setStaffInfo(data.list);
+                setTotalPages(data.total);
+                setAddDisabled(false);
+                if (msgSuccess) {
+                    message.success(msgSuccess);
+                }
             } else {
-                setTimeout(() => {
-                    setLoading(false);
-                    setStaffInfo([]);
-                    setTotalPages(0);
-                    setAddDisabled(false);
-                    message.error("加载失败！");
-                }, 500);
+                setLoading(false);
+                setStaffInfo([]);
+                setTotalPages(0);
+                setAddDisabled(false);
+                message.error("加载失败！");
             }
         }).catch((err) => {
             console.log(err);
@@ -194,6 +189,7 @@ const ModifyForm = observer(({ form }) => {
                         <Select placeholder="请选择部门"
                             allowClear
                             showSearch
+                            disabled={permissions === "1"}
                             filterOption={(input, option) =>
                                 option.props.children.indexOf(input) >= 0
                             }

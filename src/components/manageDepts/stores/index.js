@@ -71,14 +71,29 @@ export const DeptsStore = observer((props) => {
     },
 
     // 新增部门弹框
-    deptAddModalVisble:false,
-    setDeptAddModalVisble(value){
+    deptAddModalVisble: false,
+    setDeptAddModalVisble(value) {
       this.deptAddModalVisble = value;
     },
-    get getDeptAddModalVisble(){
+    get getDeptAddModalVisble() {
       return this.deptAddModalVisble;
-    }
+    },
 
+    modifyFormVisible: false,
+    get getModifyVisible() {
+      return this.modifyFormVisible;
+    },
+    setModifyVisible(value) {
+      this.modifyFormVisible = value;
+    },
+
+    modifyRecord: [],
+    setModifyRecord(data) {
+      this.modifyRecord = data;
+    },
+    get getModifyRecord() {
+      return this.modifyRecord;
+    }
   }));
 
   const value = {

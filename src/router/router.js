@@ -15,6 +15,7 @@ import Bell from '../components/userMessage/Bell';
 import UserInfoContent from '../components/userInfo';
 import ManageStaffForm from '../components/manageStaff';
 import ManangeDeptsForm from '../components/manageDepts';
+import Scrumboard from '../components/scrumboard';
 
 const SubMenu = Menu.SubMenu;
 
@@ -78,7 +79,7 @@ export default observer(() => {
                             <Menu.Item key="manageDepts"><NavLink to='/main/manageDepts'><Icon type="team" /><span>部门管理</span></NavLink></Menu.Item>
                             <SubMenu key="taskManage" title={<span><Icon type="project" /><span>迭代项目管理</span></span>}>
                                 <Menu.Item key="taskPanel"><NavLink to='/main/taskLists'><Icon type='ordered-list' />工作列表</NavLink></Menu.Item>
-                                <Menu.Item key="allTasks"><NavLink to='/main/allTasks'><Icon type='snippets' />迭代计划</NavLink></Menu.Item>
+                                <Menu.Item key="scrumboard"><NavLink to='/main/scrumboard'><Icon type='snippets' />迭代计划</NavLink></Menu.Item>
                             </SubMenu>
                             <SubMenu key="sub3" title={<span><Icon type="user" /><span>职位管理</span></span>}>
                                 <Menu.Item key="managePos"><NavLink to='/user/managePos'><Icon type='sync_records' />职位数据管理</NavLink></Menu.Item>
@@ -99,6 +100,7 @@ export default observer(() => {
                         <Route path='/main/userInfo' component={UserInfoContent} />
                         <Route path='/main/manageStaffs' component={ManageStaffForm} />
                         <Route path='/main/manageDepts' component={ManangeDeptsForm} />
+                        <Route path='/main/scrumboard' component={Scrumboard} />
                     </div>
                 </main>
             </Spin>

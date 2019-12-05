@@ -30,17 +30,24 @@ const SearchForm = observer(({ form }) => {
         loadDeptsInfo();
     }
 
-    function loadDeptsInfo() {
-        let searchParams = getSearchParams;
+    function loadDeptsInfo(defaultParams) {
+        let searchParams = defaultParams ? defaultParams : getSearchParams;
         setTableLoading(true);
         setBtnDisabled(true);
         getAllDeptsInfo(searchParams).then((res) => {
             if (!res.error && res.data) {
                 setTotalPage(res.total);
+                setTableData(res.data);
                 setTableLoading(false);
                 setBtnDisabled(false);
-                setTableData(res.data);
+            } else {
+                message.error('加载失败');
+                setTableLoading(false);
+                setBtnDisabled(false);
+                setTableData([]);
             }
+        }).catch((err) => {
+            console.log(err);
         })
     }
 

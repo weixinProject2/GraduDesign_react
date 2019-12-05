@@ -1,7 +1,7 @@
 import React, { useEffect, useState, useContext, Fragment } from 'react';
 import { observer } from 'mobx-react-lite'
 import { Form, Spin, Table, Icon, Popover, Button, message, Modal, Tag, Drawer } from 'antd';
-
+import ModifyForm from './ModifyForm';
 import { getAllDeptsInfo, deleteDepts } from '../../api'
 
 import { MyDeptsContext } from './stores';
@@ -23,8 +23,8 @@ export default observer(() => {
     let deleteModal;
     const {
         TableAttrStore: {
-            getSearchParams, setSearchParams, getAllPage, setTotalPage, setCurrentPage, getTableLoading, setTableLoading,
-            getTableData, setTableData, setBtnDisabled,
+            getSearchParams, getAllPage, setTotalPage, setCurrentPage, getTableLoading, setTableLoading,
+            getTableData, setTableData, setBtnDisabled, getModifyVisible, setModifyVisible, setModifyRecord,
         }
 
     } = useContext(MyDeptsContext);
@@ -72,17 +72,25 @@ export default observer(() => {
     const Lists = ({ record }) => {
         return (
             <ul className='gradu-form-opts'>
-                <li>修改信息</li>
+                <li onClick={showModifyModal.bind(this, record)}>修改信息</li>
                 <li onClick={showDeleteConfirm.bind(this, record)}>删除</li>
             </ul>
         )
     }
 
+    // 打开修改弹出窗
+    function showModifyModal(record) {
+        setModifyRecord(record);
+        setModifyVisible(true);
+    }
+
+    //页面跳转
     function changePage(page) {
         setCurrentPage(page);
         loadDeptsInfo();
     }
 
+    // 打开珊删除弹框
     function showDeleteConfirm(record) {
         console.log(record);
         const { departmentId } = record;
@@ -94,10 +102,11 @@ export default observer(() => {
             okType: 'danger',
             cancelText: '取消',
             onOk: deleteDepartment.bind(this, departmentId),
-
+            footer: null,
         });
     }
 
+    // 删除部门
     function deleteDepartment(departmentId) {
         deleteModal.update({
             content: <Spin />,
@@ -110,14 +119,17 @@ export default observer(() => {
                         message.success(res.mess);
                         resolve();
                         loadDeptsInfo(defaultParams);
+                        setCurrentPage(1);
                     } else {
                         setTimeout(() => {
                             deleteModal.update({
                                 content: res.mess,
+                                okText: '确定',
+                                onOk: () => deleteModal.destroy(),
                             });
                             reject();
                         }, 500);
-                        
+
                     }
                 } else {
                     message.error('删除失败');
@@ -128,6 +140,7 @@ export default observer(() => {
         })
     }
 
+    // 加载部门信息
     function loadDeptsInfo(defaultParams) {
         let searchParams = defaultParams ? defaultParams : getSearchParams;
         setTableLoading(true);
@@ -135,9 +148,9 @@ export default observer(() => {
         getAllDeptsInfo(searchParams).then((res) => {
             if (!res.error && res.data) {
                 setTotalPage(res.total);
+                setTableData(res.data);
                 setTableLoading(false);
                 setBtnDisabled(false);
-                setTableData(res.data);
             } else {
                 message.error('加载失败');
                 setTableLoading(false);
@@ -149,18 +162,22 @@ export default observer(() => {
         })
     }
 
+    // 
     function renderOpts(text, record) {
         return (
             <Popover
                 content={<Lists record={record} />}
                 placement="bottom"
-                trigger='hover'
+                trigger='click'
             >
                 <Button type="dashed" shape="circle" icon='more' size='small' />
             </Popover>
         )
     }
 
+    function closeModifyForm() {
+        setModifyVisible(false);
+    }
     useEffect(() => {
         loadDeptsInfo();
     }, [])
@@ -177,6 +194,18 @@ export default observer(() => {
                 pagination={pageSet}
                 loading={getTableLoading}
             />
+
+            <Drawer
+                title="部门信息修改"
+                placement="right"
+                width={450}
+                closable={true}
+                onClose={closeModifyForm}
+                visible={getModifyVisible}
+                destroyOnClose
+            >
+                <ModifyForm />
+            </Drawer>
         </Fragment>
     )
 })

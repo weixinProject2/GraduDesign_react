@@ -33,4 +33,6 @@ export const getAllDeptsInfo = (params) => http.get('/admin/getAllDepartmentInfo
 // 增加部门
 export const addNewDept = (params) => http.post('/admin/addDepartment', params);
 // 删除部门
-export const deleteDepts = (params) => http.post('/admin/deleteDepartment', params)
+export const deleteDepts = (params) => http.post('/admin/deleteDepartment', params);
+// 修改部门信息
+export const modifyDepts = (params) => http.post('/admin/changeDepartmentinfo', params);

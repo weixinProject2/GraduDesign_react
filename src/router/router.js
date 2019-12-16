@@ -16,6 +16,7 @@ import UserInfoContent from '../components/userInfo';
 import ManageStaffForm from '../components/manageStaff';
 import ManangeDeptsForm from '../components/manageDepts';
 import Scrumboard from '../components/scrumboard';
+import MangeDeptsStaff from '../components/manageDeptsStaff';
 
 const SubMenu = Menu.SubMenu;
 
@@ -49,7 +50,6 @@ export default observer(() => {
         history.push('/main');
     }
     return (
-
         <Fragment>
             <Spin spinning={getContentLoading}>
                 <header className='gradu-header'>
@@ -76,11 +76,10 @@ export default observer(() => {
                         >
 
                             <Menu.Item key="manageStaffs"><NavLink to='/main/manageStaffs'><Icon type="team" /><span>公司员工管理</span></NavLink></Menu.Item>
-                            <Menu.Item key="manageDepts"><NavLink to='/main/manageDepts'><Icon type="team" /><span>部门管理</span></NavLink></Menu.Item>
-                            <SubMenu key="taskManage" title={<span><Icon type="project" /><span>迭代项目管理</span></span>}>
-                                <Menu.Item key="taskPanel"><NavLink to='/main/taskLists'><Icon type='ordered-list' />工作列表</NavLink></Menu.Item>
-                                <Menu.Item key="scrumboard"><NavLink to='/main/scrumboard'><Icon type='snippets' />迭代计划</NavLink></Menu.Item>
-                            </SubMenu>
+                            <Menu.Item key="manageDepts"><NavLink to='/main/manageDepts'><Icon type="team" /><span>所有部门管理</span></NavLink></Menu.Item>
+                            <Menu.Item key="deptsStaffManage"><NavLink to='/main/deptsStaffManage'><Icon type="team" /><span>部门员工管理</span></NavLink></Menu.Item>
+                            <Menu.Item key="taskPanel"><NavLink to='/main/taskLists'><Icon type='ordered-list' /><span>工作列表</span></NavLink></Menu.Item>
+                            <Menu.Item key="scrumboard"><NavLink to='/main/scrumboard'><Icon type='snippets' /><span>迭代计划</span></NavLink></Menu.Item>
                             <SubMenu key="sub3" title={<span><Icon type="user" /><span>职位管理</span></span>}>
                                 <Menu.Item key="managePos"><NavLink to='/user/managePos'><Icon type='sync_records' />职位数据管理</NavLink></Menu.Item>
                             </SubMenu>
@@ -101,6 +100,7 @@ export default observer(() => {
                         <Route path='/main/manageStaffs' component={ManageStaffForm} />
                         <Route path='/main/manageDepts' component={ManangeDeptsForm} />
                         <Route path='/main/scrumboard' component={Scrumboard} />
+                        <Route path='/main/deptsStaffManage' component={MangeDeptsStaff} />
                     </div>
                 </main>
             </Spin>

@@ -13,7 +13,7 @@ export const changeUserInfo = (object) => http.post('/user/changeUserInfo', obje
 export const changePassWord = (object) => http.post('/user/changePassword', object);
 
 // 获取所有员工信息
-export const getAllStaffInfo = (params) => http.get('/admin/getAllStaffInfo', params);
+export const getAllStaffInfo = (params) => http.get('/admin/getAllStuffInfo', params);
 // 删除员工
 export const deleteStaffById = (params) => http.post('/admin/deleteStaffInfo', params);
 // 创建新的员工
@@ -36,3 +36,9 @@ export const addNewDept = (params) => http.post('/admin/addDepartment', params);
 export const deleteDepts = (params) => http.post('/admin/deleteDepartment', params);
 // 修改部门信息
 export const modifyDepts = (params) => http.post('/admin/changeDepartmentinfo', params);
+
+
+// 获取当前部门管理员下的部门所有员工信息
+export const getYourDeptStaff = (params) => http.get('/department/getAllStuffInfo', params);
+// 删除部门下的员工
+export const deleteDeptStaff = (params) => http.post('/department/deleteStuff', params);

@@ -1,6 +1,6 @@
 import React, { useEffect, useState, useContext, Fragment } from 'react';
 import { observer } from 'mobx-react-lite'
-import { Form, Table, Icon, Popover, Button, message, Modal, Tag, Drawer } from 'antd'
+import { Form, Table, Icon, Popover, Button, message, Modal, Tag, Drawer, Badge, Tooltip } from 'antd'
 import { getAllStaffInfo, deleteStaffById } from '../../api';
 import { MyStaffContext } from './stores'
 import ModifyForm from './ModifyForm';
@@ -24,11 +24,12 @@ export default observer(() => {
             setAddDisabled,
             getQueryFields,
             setModifyVisible, getModifyVisible,
-            getModifyRecord, setModifyRecord
+            setModifyRecord, getRowSelection
         }
     } = useContext(MyStaffContext);
 
     const selectionSet = {
+        selectedRowKeys: getRowSelection,
         onChange: (selectedRowKeys, selectedRows) => {
             setRowSelection(selectedRowKeys);
             if (selectedRowKeys.length > 0) {
@@ -62,8 +63,8 @@ export default observer(() => {
         {
             title: '姓名',
             dataIndex: 'userName',
-            width: 80,
-            ellipsis: true,
+            render: renderName,
+            // width: ,
         },
         {
             title: '工号',
@@ -97,7 +98,7 @@ export default observer(() => {
             title: '所在部门',
             dataIndex: 'departmentName',
             ellipsis: true,
-            render: (text) => <Tag color='green'>{text}</Tag>
+            render: renderDept,
         },
         {
             title: '邮箱',
@@ -122,6 +123,17 @@ export default observer(() => {
         current: getCurrentPage,
         total: getTotalPages,
         onChange: changePage,
+    }
+
+
+    function renderDept(text) {
+        return (
+            <Fragment>
+                {
+                    text ? <Tag color='green'>{text}</Tag> : <span style={{ color: 'red' }}>暂未设置部门</span>
+                }
+            </Fragment>
+        )
     }
 
     // page触发分页
@@ -168,6 +180,18 @@ export default observer(() => {
 
     }
 
+    function renderName(value, record) {
+        const status = record.permissions === "1";
+        return (
+            <Tooltip
+                placement="top"
+                title={status ? `${record.departmentName}管理员${value}` : value}
+            >
+                {value}&nbsp;
+                {status && <Tag color='blue'>管</Tag>}
+            </Tooltip>
+        )
+    }
     // 渲染用户操作
     function renderOpts(text, record) {
         return (
@@ -240,7 +264,6 @@ export default observer(() => {
     return (
         <Fragment>
             <Table
-                size='default'
                 tablelayout='inline'
                 columns={columns}
                 dataSource={getAllStaff}

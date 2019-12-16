@@ -1,7 +1,7 @@
-import React, { useContext, useEffect, Fragment, useState } from 'react';
+import React, { useContext, useEffect, Fragment } from 'react';
 import { observer } from 'mobx-react-lite';
-import { Form, Button, Input, Icon, Select, message } from 'antd';
-import { getAllStaffInfo, getDepartment } from '../../api';
+import { Form, Button, Input, Select, message } from 'antd';
+import { getAllStaffInfo } from '../../api';
 import { MyStaffContext } from './stores';
 
 const FormItem = Form.Item;
@@ -13,8 +13,8 @@ const SearchForm = observer(({ form }) => {
     const {
         TableAttrStore: {
             getAllDeptsOpts, getAllPf, getAllPos,
-            setLoading, setAddDisabled, setStaffInfo, setTotalPages, getPage, getAddDisabled,
-            setQueryFields, getQueryFields, setDeptsOpts, setPage
+            setLoading, setAddDisabled, setStaffInfo, setTotalPages, getAddDisabled,
+            setQueryFields, setPage
         }
     } = useContext(MyStaffContext);
 

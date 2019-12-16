@@ -122,7 +122,7 @@ export default observer(() => {
         <div className="gradu-staff-manage">
             <header className="gradu-content-header">
                 <Button icon="user-add" ghost type='primary' disabled={getAddDisabled} onClick={openStaffDrawer}>增加员工</Button>
-                <Button icon="usergroup-delete" ghost type='primary' onClick={deleteMore} disabled={getBtnDisabled}>批量删除员工</Button>
+                <Button icon="usergroup-delete" ghost type='danger' onClick={deleteMore} disabled={getBtnDisabled}>批量删除员工</Button>
                 <Button icon="reload" ghost type='primary' onClick={refresh} disabled={getAddDisabled}>刷新</Button>
             </header>
             <div className="gradu-form-content">

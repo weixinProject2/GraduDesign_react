@@ -5,6 +5,7 @@ import TaskCol from './TaskCol';
 import TaskItem from './TaskItem';
 import { Button } from 'antd';
 
+import AddressPicker from '../../tool-components/AddressPick'
 export default observer(() => {
     const {
         tasks, STATUS_CODE,
@@ -35,6 +36,7 @@ export default observer(() => {
             <header className="gradu-content-header">
                 <Button icon="clock-circle" ghost type='primary'>完成本次迭代</Button>
             </header>
+            <AddressPicker />
             <div className="gradu-form-content">
                 <div className="task-wrapper">
                     {

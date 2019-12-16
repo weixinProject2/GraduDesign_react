@@ -3,6 +3,7 @@ import { Form, Input, Button, Icon, Select, message, InputNumber } from 'antd';
 import { observer } from 'mobx-react-lite';
 import { getDepartment, getProfessional, getPosition, createStaff, getAllStaffInfo } from '../../api';
 import { MyStaffContext } from './stores';
+import AddressPick from '../../tool-components/AddressPick';
 
 const FormItem = Form.Item;
 
@@ -56,6 +57,7 @@ const AddStaffForm = observer(({ form }) => {
         form.validateFields((err, value) => {
             if (!err) {
                 setAddBtnLoading(true);
+                value.address = value.address.join('');
                 createStaff(value).then((res) => {
                     if (!res.error) {
                         setAddBtnLoading(false);
@@ -185,9 +187,12 @@ const AddStaffForm = observer(({ form }) => {
 
                 <FormItem label="联系地址" hasFeedback>
                     {getFieldDecorator('address', {
-                        rules: [{ required: true, message: '地址不能为空!' }, { pattern: /^[^ ]+$/, message: '不允许空格字符' }],
+                        // initialValue: ['北京市', '北京城区', '怀柔区'],
+                        rules: [
+                            { type: 'array', required: true, message: '地址不能为空!' },
+                        ],
                     })(
-                        <Input prefix={<Icon type="home" style={{ color: 'rgba(0,0,0,.25)' }} />} placeholder="请输入联系地址" />
+                        <AddressPick />
                     )}
                 </FormItem>
 

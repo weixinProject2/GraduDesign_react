@@ -56,7 +56,7 @@ instance.interceptors.response.use((response) => {
                 message.error('404 not found')
                 break;
             default:
-                message.error('发生未知错误！')
+                message.error('服务器出错！');
         }
         return Promise.reject(error.response);
     }

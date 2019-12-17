@@ -189,11 +189,11 @@ const SearchForm = observer(({ form }) => {
                     )}
                 </FormItem>
                 <FormItem>
-                    <Button type="primary" icon='search' htmlType="submit" ghost >
+                    <Button type="primary" icon='search' htmlType="submit" ghost  disabled={!hasData(getFieldsValue())}>
                         搜索
                     </Button>
-                    <Button onClick={resetFields} type="danger" ghost style={{ marginLeft: '.1rem' }} disabled={!hasData(getFieldsValue())}>
-                        清空
+                    <Button onClick={resetFields} type="danger" ghost style={{ marginLeft: '.1rem' }}>
+                        重置
                     </Button>
                 </FormItem>
             </Form>

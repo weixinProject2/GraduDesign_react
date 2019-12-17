@@ -1,6 +1,6 @@
-import React, { useContext, useEffect, Fragment, useState } from 'react';
+import React, { useContext, Fragment } from 'react';
 import { observer } from 'mobx-react-lite';
-import { Form, Button, Input, Icon, message, InputNumber } from 'antd';
+import { Form, Button, Input, message, InputNumber } from 'antd';
 import { MyDeptsContext } from './stores';
 import { getAllDeptsInfo } from '../../api';
 
@@ -94,11 +94,11 @@ const SearchForm = observer(({ form }) => {
                 </FormItem>
 
                 <FormItem>
-                    <Button type="primary" icon='search' htmlType="submit" ghost >
+                    <Button type="primary" icon='search' htmlType="submit" ghost disabled={!hasData(getFieldsValue())}>
                         搜索
                     </Button>
-                    <Button onClick={resetFields} type="danger" ghost style={{ marginLeft: '.1rem' }} disabled={!hasData(getFieldsValue())}>
-                        清空
+                    <Button onClick={resetFields} type="danger" ghost style={{ marginLeft: '.1rem' }}>
+                        重置
                     </Button>
                 </FormItem>
             </Form>

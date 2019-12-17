@@ -100,7 +100,7 @@ const SearchForm = observer(({ form, searchStore, mainStore }) => {
                     )}
                 </FormItem>
                 <FormItem>
-                    <Button type="primary" icon='search' htmlType="submit" ghost >
+                    <Button type="primary" icon='search' htmlType="submit" ghost disabled={!hasData(getFieldsValue())} >
                         搜索
                     </Button>
                     <Button onClick={resetFields} type="danger" ghost style={{ marginLeft: '.1rem' }} >

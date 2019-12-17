@@ -5,6 +5,7 @@ import { observer } from 'mobx-react-lite';
 import { MyDeptsContext } from './stores';
 
 import { addNewDept, getAllDeptsInfo } from '../../api';
+import AddressPick from '../../tool-components/AddressPick';
 
 const FormItem = Form.Item;
 const formItemLayout = {
@@ -46,6 +47,7 @@ const AddDept = observer(({ form }) => {
         form.validateFields((err, values) => {
             if (!err) {
                 setBtnLoading(true);
+                values.departmentAddress = values.departmentAddress.join('');
                 addNewDept(values).then(async (res) => {
                     if (!res.error) {
                         setDeptAddModalVisble(false);
@@ -92,7 +94,7 @@ const AddDept = observer(({ form }) => {
             console.log(err);
         })
     }
-    
+
     return (
         <Fragment>
             <Form {...formItemLayout} onSubmit={handleAddDept}>
@@ -116,7 +118,7 @@ const AddDept = observer(({ form }) => {
                     {getFieldDecorator('departmentAddress', {
                         rules: [{ required: true, message: '部门地址不能为空!' }],
                     })(
-                        <Input maxLength={20} prefix={<Icon type="user" style={{ color: 'rgba(0,0,0,.25)' }} />} placeholder="请输入部门地址" />
+                        <AddressPick placeholder="请选择部门地址" />
                     )}
                 </FormItem>
 

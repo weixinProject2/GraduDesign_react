@@ -61,7 +61,6 @@ class AddressPick extends Component {
     render() {
         return (
             <Cascader
-                placeholder="请选择地址"
                 options={this.state.dataSource}
                 loadData={this.loadData}
                 changeOnSelect

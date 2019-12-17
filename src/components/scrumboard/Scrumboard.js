@@ -36,7 +36,6 @@ export default observer(() => {
             <header className="gradu-content-header">
                 <Button icon="clock-circle" ghost type='primary'>完成本次迭代</Button>
             </header>
-            <AddressPicker />
             <div className="gradu-form-content">
                 <div className="task-wrapper">
                     {

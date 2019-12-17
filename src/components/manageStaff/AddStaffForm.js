@@ -57,6 +57,7 @@ const AddStaffForm = observer(({ form }) => {
         form.validateFields((err, value) => {
             if (!err) {
                 setAddBtnLoading(true);
+                console.log(value.address);
                 value.address = value.address.join('');
                 createStaff(value).then((res) => {
                     if (!res.error) {
@@ -187,12 +188,11 @@ const AddStaffForm = observer(({ form }) => {
 
                 <FormItem label="联系地址" hasFeedback>
                     {getFieldDecorator('address', {
-                        // initialValue: ['北京市', '北京城区', '怀柔区'],
                         rules: [
                             { type: 'array', required: true, message: '地址不能为空!' },
                         ],
                     })(
-                        <AddressPick />
+                        <AddressPick placeholder='请选择联系地址' />
                     )}
                 </FormItem>
 

@@ -64,7 +64,8 @@ export default observer(() => {
             title: '姓名',
             dataIndex: 'userName',
             render: renderName,
-            // width: ,
+            width: 100,
+            ellipsis: true,
         },
         {
             title: '工号',

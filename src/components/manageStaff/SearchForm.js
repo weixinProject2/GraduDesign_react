@@ -1,25 +1,41 @@
 import React, { useContext, useEffect, Fragment } from 'react';
 import { observer } from 'mobx-react-lite';
 import { Form, Button, Input, Select, message } from 'antd';
-import { getAllStaffInfo } from '../../api';
+import { getAllStaffInfo, getProfessional, getDepartment } from '../../api';
 import { MyStaffContext } from './stores';
+import PostionSelect from '../../tool-components/AllPostionSelect'
 
 const FormItem = Form.Item;
 const { Option } = Select
 
 const SearchForm = observer(({ form }) => {
     const { getFieldDecorator, getFieldsValue } = form;
-
     const {
         TableAttrStore: {
-            getAllDeptsOpts, getAllPf, getAllPos,
+            getAllDeptsOpts, getAllPf,
             setLoading, setAddDisabled, setStaffInfo, setTotalPages, getAddDisabled,
-            setQueryFields, setPage
+            setQueryFields, setPage, setPf, setDeptsOpts
         }
     } = useContext(MyStaffContext);
 
     useEffect(() => {
+        loadAllOpts();
     }, [])
+
+
+    function loadAllOpts() {
+        Promise.all([getProfessional(), getDepartment()]).then((res) => {
+            if (res.length > 0) {
+                setPf(res[0].data);
+                console.log(res);
+                setDeptsOpts(res[1].data);
+            } else {
+                message.error('拉取数据失败！')
+            }
+        }).catch((err) => {
+            console.log(err);
+        })
+    }
 
     // 提交
     function handleSearchSubmit(e) {
@@ -54,12 +70,6 @@ const SearchForm = observer(({ form }) => {
         })
     }
 
-    // 渲染所有职位
-    function renderAllPos() {
-        return getAllPos.map((value, key) => {
-            return <Option value={value.positionId} key={key}>{value.positionName}</Option>
-        })
-    }
 
     // 清空搜索
     function resetFields() {
@@ -90,7 +100,6 @@ const SearchForm = observer(({ form }) => {
         }
 
         getAllStaffInfo(object).then((data) => {
-
             if (data.list) {
                 setLoading(false);
                 setStaffInfo(data.list);
@@ -142,7 +151,6 @@ const SearchForm = observer(({ form }) => {
                             allowClear
                             showSearch
                             filterOption={(input, option) =>
-                                // console.log(input, option)
                                 option.props.children.indexOf(input) >= 0
                             }
                         >
@@ -174,22 +182,11 @@ const SearchForm = observer(({ form }) => {
                     {getFieldDecorator('positionId', {
                         rules: [{ required: false }],
                     })(
-                        <Select
-                            placeholder="职位"
-                            style={{ width: 180 }}
-                            disabled={getAddDisabled}
-                            showSearch
-                            allowClear
-                            filterOption={(input, option) =>
-                                option.props.children.indexOf(input) >= 0
-                            }
-                        >
-                            {renderAllPos()}
-                        </Select>
+                        <PostionSelect disabled={getAddDisabled} />
                     )}
                 </FormItem>
                 <FormItem>
-                    <Button type="primary" icon='search' htmlType="submit" ghost  disabled={!hasData(getFieldsValue())}>
+                    <Button type="primary" icon='search' htmlType="submit" ghost disabled={!hasData(getFieldsValue())}>
                         搜索
                     </Button>
                     <Button onClick={resetFields} type="danger" ghost style={{ marginLeft: '.1rem' }}>

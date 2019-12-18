@@ -3,6 +3,7 @@ import { observer } from 'mobx-react-lite'
 import { Form, Button, Input, Icon, Select, message } from 'antd';
 import { MyStaffContext } from './stores'
 import { modifyStaff, getAllStaffInfo } from '../../api';
+import AllPostionSelect from '../../tool-components/AllPostionSelect';
 
 const formItemLayout = {
     labelCol: {
@@ -21,7 +22,7 @@ const ModifyForm = observer(({ form }) => {
     const { getFieldDecorator } = form;
     const {
         TableAttrStore: {
-            getAllDeptsOpts, getAllPf, getAllPos, setModifyVisible,
+            getAllDeptsOpts, getAllPf, setModifyVisible,
             setLoading, getCurrentPage, getQueryFields, setAddDisabled, setStaffInfo, setTotalPages,
             getModifyRecord: { Id_Card, address, permissions, departmentId, positionId, email, professionalId, sex, telNumber, userName, workNumber }
         }
@@ -30,10 +31,6 @@ const ModifyForm = observer(({ form }) => {
 
 
     useEffect(() => {
-        console.log();
-        return () => {
-
-        };
     }, [])
 
     function handleModifySubmit(e) {
@@ -110,13 +107,6 @@ const ModifyForm = observer(({ form }) => {
         })
     }
 
-    // 渲染所有职位
-    function renderAllPos() {
-        return getAllPos.map((value, key) => {
-            return <Option value={value.positionId} key={key}>{value.positionName}</Option>
-        })
-    }
-
     return (
         <Fragment>
             <Form onSubmit={handleModifySubmit} {...formItemLayout}>
@@ -181,7 +171,7 @@ const ModifyForm = observer(({ form }) => {
                     )}
                 </FormItem>
 
-                <FormItem label="部门：" hasFeedback>
+                <FormItem label="部门：" >
                     {getFieldDecorator('departmentId', {
                         initialValue: departmentId,
                         rules: [{ required: true, message: '部门不能为空!' }, { pattern: /^[^ ]+$/, message: '不允许空格字符' }],
@@ -199,7 +189,7 @@ const ModifyForm = observer(({ form }) => {
                     )}
                 </FormItem>
 
-                <FormItem label="职业：" hasFeedback>
+                <FormItem label="职业：" >
                     {getFieldDecorator('professionalId', {
                         initialValue: professionalId,
                         rules: [{ required: true, message: '职业不能为空!' }, { pattern: /^[^ ]+$/, message: '不允许空格字符' }],
@@ -218,22 +208,12 @@ const ModifyForm = observer(({ form }) => {
                     )}
                 </FormItem>
 
-                <FormItem label="职位：" hasFeedback>
+                <FormItem label="职位：" >
                     {getFieldDecorator('positionId', {
                         initialValue: positionId,
                         rules: [{ required: true, message: '职位不能为空!' }, { pattern: /^[^ ]+$/, message: '不允许空格字符' }],
                     })(
-                        <Select
-                            placeholder="请选择职位"
-                            allowClear
-                            showSearch
-                            filterOption={(input, option) =>
-                                // console.log(input, option)
-                                option.props.children.indexOf(input) >= 0
-                            }
-                        >
-                            {renderAllPos()}
-                        </Select>
+                        <AllPostionSelect />
                     )}
                 </FormItem>
 

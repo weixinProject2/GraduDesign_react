@@ -94,14 +94,6 @@ export const StaffStore = observer((props) => {
       this.allProfession = data;
     },
 
-    allPostions: [], // 所有的职位选项
-    get getAllPos() {
-      return this.allPostions.slice();
-    },
-    setPosition(data) {
-      this.allPostions = data;
-    },
-
     queryFields: {},  // 搜索框的query
     setQueryFields(data) {
       this.queryFields = data;

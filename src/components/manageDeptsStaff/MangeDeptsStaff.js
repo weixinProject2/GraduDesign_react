@@ -27,8 +27,6 @@ export default observer(() => {
             } else {
                 message.error('拉取数据失败！')
             }
-        }).catch((err) => {
-            console.log(err);
         })
     }
     // 移除部门员工

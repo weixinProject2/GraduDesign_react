@@ -5,7 +5,7 @@ import { MyContext } from '../../stores/index';
 import { MyInfoContext } from './store/index'
 import { observer } from 'mobx-react-lite'
 import { changeUserInfo } from '../../api/index'
-
+import AddressPick from '../../tool-components/AddressPick'
 const FormItem = Form.Item;
 
 const formItemLayout = {
@@ -21,7 +21,7 @@ const formItemLayout = {
 // 配置form
 const formOpts = {
     onValuesChange: ({ form }, changedValues, allValues) => {
-        console.log(changedValues, allValues)
+        // console.log(changedValues, allValues)
     }
 }
 
@@ -45,8 +45,6 @@ const ModifyUserInfo = observer(({ form }) => {
     const {
         setInfoVisible,
     } = userInfoStores;
-
-
 
     useEffect(() => {
 
@@ -131,10 +129,7 @@ const ModifyUserInfo = observer(({ form }) => {
                         rules: [{ required: true, message: '联系地址不能为空' }],
                         initialValue: address,
                     })(
-                        <Input
-                            prefix={<Icon type="home" style={{ color: 'rgba(0,0,0,.25)' }} />}
-                            placeholder="请输入地址"
-                        />
+                        <AddressPick placeholder="请输入地址" />
                     )}
                 </FormItem>
                 <FormItem label="电话：">

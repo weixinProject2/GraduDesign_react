@@ -26,7 +26,7 @@ export const getDepartment = (params) => http.get('/getDepartment', params);
 // 获取职业opts
 export const getProfessional = (params) => http.get('/getProfessional', params);
 // 获取职位opts
-export const getPosition = (params) => http.get('/getPosition', params);
+export const getPosition = (params) => http.get('/admin/getAllPosition', params);
 
 // 获取所有部门信息
 export const getAllDeptsInfo = (params) => http.get('/admin/getAllDepartmentInfo', params);

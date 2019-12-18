@@ -1,9 +1,10 @@
 import React, { Fragment, useEffect, useContext, useState } from 'react';
 import { Form, Input, Button, Icon, Select, message, InputNumber } from 'antd';
 import { observer } from 'mobx-react-lite';
-import { getDepartment, getProfessional, getPosition, createStaff, getAllStaffInfo } from '../../api';
+import { createStaff, getAllStaffInfo } from '../../api';
 import { MyStaffContext } from './stores';
 import AddressPick from '../../tool-components/AddressPick';
+import AllPostionSelect from '../../tool-components/AllPostionSelect';
 
 const FormItem = Form.Item;
 
@@ -42,7 +43,7 @@ const AddStaffForm = observer(({ form }) => {
             setStaffVisible,
             setLoading,
             setAddDisabled, setStaffInfo, setTotalPages, setPage,
-            getAllDeptsOpts, getAllPf, getAllPos
+            getAllDeptsOpts, getAllPf,
         }
     } = useContext(MyStaffContext)
 
@@ -96,14 +97,6 @@ const AddStaffForm = observer(({ form }) => {
             return <Option value={value.professionalId} key={key}>{value.professionalName}</Option>
         })
     }
-
-    // 渲染所有职位
-    function renderAllPos() {
-        return getAllPos.map((value, key) => {
-            return <Option value={value.positionId} key={key}>{value.positionName}</Option>
-        })
-    }
-
 
     // 加载数据
     function loadStaffInfo(params, msgSuccess) {
@@ -245,17 +238,7 @@ const AddStaffForm = observer(({ form }) => {
                     {getFieldDecorator('positionId', {
                         rules: [{ required: true, message: '职位不能为空!' }, { pattern: /^[^ ]+$/, message: '不允许空格字符' }],
                     })(
-                        <Select
-                            placeholder="请选择职位"
-                            allowClear
-                            showSearch
-                            filterOption={(input, option) =>
-                                // console.log(input, option)
-                                option.props.children.indexOf(input) >= 0
-                            }
-                        >
-                            {renderAllPos()}
-                        </Select>
+                        <AllPostionSelect />
                     )}
                 </FormItem>
 

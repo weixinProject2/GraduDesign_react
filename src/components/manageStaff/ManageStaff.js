@@ -2,7 +2,7 @@ import React, { Fragment, useContext, useEffect } from 'react';
 import { observer } from 'mobx-react-lite'
 import { MyStaffContext } from './stores'
 import { Button, message, Drawer } from 'antd'
-import { getAllStaffInfo, deleteStaffById, getProfessional, getDepartment, getPosition } from '../../api'
+import { getAllStaffInfo, deleteStaffById } from '../../api'
 import StaffForm from './MangeStaffForm';
 import AddStaffForm from './AddStaffForm'
 import SearchForm from './SearchForm';
@@ -13,38 +13,20 @@ export default observer(() => {
             setStaffInfo,
             setLoading,
             getRowSelection,
-            getCurrentPage, setTotalPages, setPage, getTotalPages,
+            getCurrentPage, setTotalPages,
             getBtnDisabled,
             setBtnDisabled,
             getAddDisabled,
             setAddDisabled,
             setStaffVisible,
             getStaffVisble,
-            setDeptsOpts, getAllDeptsOpts,
-            getAllPf, setPf,
-            getAllPos, setPosition,
-            getQueryFields,
-            getModifyVisible, setModifyVisible
+            getQueryFields
         }
     } = useContext(MyStaffContext);
 
     useEffect(() => {
-        loadAllOpts();
     }, []);
 
-    function loadAllOpts() {
-        Promise.all([getProfessional(), getDepartment(), getPosition()]).then((res) => {
-            if (res.length > 0) {
-                setPf(res[0].data);
-                setDeptsOpts(res[1].data);
-                setPosition(res[2].data);
-            } else {
-                message.error('拉取数据失败！')
-            }
-        }).catch((err) => {
-            console.log(err);
-        })
-    }
 
     function refresh() {
         const params = {

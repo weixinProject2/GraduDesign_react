@@ -1,8 +1,9 @@
 import React, { useEffect, useState, useContext, Fragment } from 'react';
 import { observer } from 'mobx-react-lite'
-import { Form, Table, Icon, Popover, Button, message, Tooltip, Modal, Tag, Drawer } from 'antd'
+import { Form, Table, Icon, Popover, Button, message, Modal, Tag, Drawer, Badge, Tooltip } from 'antd'
 import { getAllStaffInfo, deleteStaffById } from '../../api';
 import { MyStaffContext } from './stores'
+import ModifyForm from './ModifyForm';
 
 const { confirm } = Modal
 
@@ -21,11 +22,14 @@ export default observer(() => {
             getCurrentPage, setPage, getTotalPages, setTotalPages,
             setBtnDisabled,
             setAddDisabled,
-            getQueryFields
+            getQueryFields,
+            setModifyVisible, getModifyVisible,
+            setModifyRecord, getRowSelection
         }
     } = useContext(MyStaffContext);
 
     const selectionSet = {
+        selectedRowKeys: getRowSelection,
         onChange: (selectedRowKeys, selectedRows) => {
             setRowSelection(selectedRowKeys);
             if (selectedRowKeys.length > 0) {
@@ -44,7 +48,7 @@ export default observer(() => {
         const permissions = record.permissions;
         return (
             <ul className='gradu-form-opts'>
-                <li>修改信息</li>
+                <li onClick={openModifyDrawer.bind(this, record)}>修改信息</li>
                 {permissions === "1" ? null : <li onClick={showDeleteConfirm.bind(this, record)}>删除</li>}
             </ul>
         )
@@ -59,7 +63,8 @@ export default observer(() => {
         {
             title: '姓名',
             dataIndex: 'userName',
-            width: 80,
+            render: renderName,
+            width: 100,
             ellipsis: true,
         },
         {
@@ -94,7 +99,7 @@ export default observer(() => {
             title: '所在部门',
             dataIndex: 'departmentName',
             ellipsis: true,
-            render: (text) => <Tag color='green'>{text}</Tag>
+            render: renderDept,
         },
         {
             title: '邮箱',
@@ -121,6 +126,17 @@ export default observer(() => {
         onChange: changePage,
     }
 
+
+    function renderDept(text) {
+        return (
+            <Fragment>
+                {
+                    text ? <Tag color='green'>{text}</Tag> : <span style={{ color: 'red' }}>暂未设置部门</span>
+                }
+            </Fragment>
+        )
+    }
+
     // page触发分页
     function changePage(page) {
         setPage(page);
@@ -145,23 +161,19 @@ export default observer(() => {
         getAllStaffInfo(object).then((data) => {
             setAddDisabled(true);
             if (data.list) {
-                setTimeout(() => {
-                    setLoading(false);
-                    setStaffInfo(data.list);
-                    setTotalPages(data.total);
-                    setAddDisabled(false)
-                    if (msgSuccess) {
-                        message.success(msgSuccess);
-                    }
-                }, 500);
+                setLoading(false);
+                setStaffInfo(data.list);
+                setTotalPages(data.total);
+                setAddDisabled(false)
+                if (msgSuccess) {
+                    message.success(msgSuccess);
+                }
             } else {
-                setTimeout(() => {
-                    setLoading(false);
-                    setStaffInfo([]);
-                    setTotalPages(0);
-                    setAddDisabled(false)
-                    message.error("加载失败！");
-                }, 500);
+                setLoading(false);
+                setStaffInfo([]);
+                setTotalPages(0);
+                setAddDisabled(false)
+                message.error("加载失败！");
             }
         }).catch((err) => {
             console.log(err);
@@ -169,6 +181,18 @@ export default observer(() => {
 
     }
 
+    function renderName(value, record) {
+        const status = record.permissions === "1";
+        return (
+            <Tooltip
+                placement="top"
+                title={status ? `${record.departmentName}管理员${value}` : value}
+            >
+                {value}&nbsp;
+                {status && <Tag color='blue'>管</Tag>}
+            </Tooltip>
+        )
+    }
     // 渲染用户操作
     function renderOpts(text, record) {
         return (
@@ -225,6 +249,15 @@ export default observer(() => {
         });
     }
 
+    function closeModifyForm() {
+        setModifyRecord([]);
+        setModifyVisible(false);
+    }
+    function openModifyDrawer(record) {
+        setModifyRecord(record);
+        setModifyVisible(true);
+    }
+
     useEffect(() => {
         loadStaffInfo(defaultParams);
     }, [])
@@ -232,7 +265,6 @@ export default observer(() => {
     return (
         <Fragment>
             <Table
-                size='default'
                 tablelayout='inline'
                 columns={columns}
                 dataSource={getAllStaff}
@@ -242,7 +274,17 @@ export default observer(() => {
                 pagination={pageSet}
                 loading={getLoading}
             />
-
+            <Drawer
+                title="员工信息修改"
+                placement="right"
+                width={450}
+                closable={true}
+                onClose={closeModifyForm}
+                visible={getModifyVisible}
+                destroyOnClose
+            >
+                <ModifyForm />
+            </Drawer>
         </Fragment>
     )
 })

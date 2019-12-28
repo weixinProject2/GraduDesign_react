@@ -5,8 +5,8 @@ import { message } from 'antd'
 import history from '../utils/history'
 
 let instance = axios.create({
-    baseURL: 'http://122.51.41.28:3000',  // 基础domain
-    timeout: 5000,   // 超时5秒
+    baseURL: 'http://106.54.206.102:3000',  // 基础domain
+    timeout: 10000,   // 超时5秒
 });
 
 
@@ -18,7 +18,7 @@ instance.interceptors.request.use(config => {
     }
     return config;
 }, (error) => {
-    message.error('请求错误啦~');
+    message.error('请求错误!');
     return Promise.reject(error);
 })
 
@@ -30,6 +30,8 @@ instance.interceptors.response.use((response) => {
         return Promise.reject(response)
     }
 }, (error) => {
+    const mess = error.response && error.response.data.mess;
+    const errorCode = error.response && error.response.data.error;
     if (error.response.status) {  // 判断状态码
         switch (error.response.status) {
             case 400:
@@ -44,19 +46,21 @@ instance.interceptors.response.use((response) => {
                 message.error('token不存在，请重新登陆');
                 break;
             case 403:
-                history.push({
-                    pathname: '/login',
-                    state: {
-                        oldHistory: history.location.pathname
-                    }
-                })
-                message.error('token过期，请重新登陆')
+                if (errorCode !== -4) {
+                    history.push({
+                        pathname: '/login',
+                        state: {
+                            oldHistory: history.location.pathname
+                        }
+                    })
+                }
+                message.error(mess)
                 break;
             case 404:
                 message.error('404 not found')
                 break;
             default:
-                message.error('发生未知错误！')
+                message.error('服务器出错！');
         }
         return Promise.reject(error.response);
     }

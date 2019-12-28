@@ -5,7 +5,6 @@ export const MyContext = createContext(null);
 export const AppStore = observer((props) => {
     const store = useLocalStore(() => {
         return {
-            
             userInfo: {},
             setUserInfo(userInfo) {
                 this.userInfo = userInfo;
@@ -22,8 +21,6 @@ export const AppStore = observer((props) => {
             get getContentLoading() {
                 return this.contentLoading;
             }
-
-            // 
         }
     });
     return (

@@ -54,11 +54,6 @@ const ModifyPassword = observer(({ form }) => {
         })
     }
 
-    //校验旧密码是否正确 
-    function checkOldPassword(rule, value, callback) {
-
-    }
-
     function validateToNextPassword(rule, value, callback) {
         if (value && confirmDirty) {
             form.validateFields(['confirmPassword'], { force: true });

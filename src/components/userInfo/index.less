@@ -86,3 +86,50 @@
         }
     }
 }
+.gradu-upload-img{
+    text-align: center;
+    margin-bottom: .1rem;
+    .gradu-upload-content{
+        position: relative;
+        margin: 0 auto;
+        width: .9rem;
+        height: .9rem;
+        border-radius: 50%;
+        overflow: hidden;
+        .gradu-upload-noAvatar{
+            background: #17b3a3;
+            width: inherit;
+            height: inherit;
+            color: white;
+            line-height: .9rem;
+            font-size: 0.5rem;
+        }
+        img{
+            width: inherit;
+            height: inherit;
+            border-radius: 50%;
+        }
+        .gradu-upload-shadow{
+            cursor: pointer;
+            background: rgba(0, 0, 0, 0.35);
+            position: absolute;
+            width: 100%;
+            height: 100%;
+            top: 0;
+            opacity: 0;
+            transition: .3s;
+            &:hover{
+                opacity: 1;
+            }
+            >span{
+                position: absolute;
+                top: 33%;
+                left: 38.8%;
+                span{
+                    font-size: 0.2rem;
+                    color: #fff;
+                }
+            }
+        }
+    }
+}

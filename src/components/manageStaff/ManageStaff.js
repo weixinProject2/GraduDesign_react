@@ -2,7 +2,7 @@ import React, { Fragment, useContext, useEffect } from 'react';
 import { observer } from 'mobx-react-lite'
 import { MyStaffContext } from './stores'
 import { Button, message, Drawer } from 'antd'
-import { getAllStaffInfo, deleteStaffById, getProfessional, getDepartment, getPosition } from '../../api'
+import { getAllStaffInfo, deleteStaffById } from '../../api'
 import StaffForm from './MangeStaffForm';
 import AddStaffForm from './AddStaffForm'
 import SearchForm from './SearchForm';
@@ -13,37 +13,20 @@ export default observer(() => {
             setStaffInfo,
             setLoading,
             getRowSelection,
-            getCurrentPage, setTotalPages, setPage, getTotalPages,
+            getCurrentPage, setTotalPages,
             getBtnDisabled,
             setBtnDisabled,
             getAddDisabled,
             setAddDisabled,
             setStaffVisible,
             getStaffVisble,
-            setDeptsOpts, getAllDeptsOpts,
-            getAllPf, setPf,
-            getAllPos, setPosition,
-            getQueryFields,
+            getQueryFields
         }
     } = useContext(MyStaffContext);
 
     useEffect(() => {
-        loadAllOpts();
     }, []);
 
-    function loadAllOpts() {
-        Promise.all([getProfessional(), getDepartment(), getPosition()]).then((res) => {
-            if (res.length > 0) {
-                setPf(res[0].data);
-                setDeptsOpts(res[1].data);
-                setPosition(res[2].data);
-            } else {
-                message.error('拉取数据失败！')
-            }
-        }).catch((err) => {
-            console.log(err);
-        })
-    }
 
     function refresh() {
         const params = {
@@ -68,23 +51,19 @@ export default observer(() => {
 
         getAllStaffInfo(object).then((data) => {
             if (data.list) {
-                setTimeout(() => {
-                    setLoading(false);
-                    setStaffInfo(data.list);
-                    setTotalPages(data.total);
-                    setAddDisabled(false);
-                    if (msgSuccess) {
-                        message.success(msgSuccess);
-                    }
-                }, 500);
+                setLoading(false);
+                setStaffInfo(data.list);
+                setTotalPages(data.total);
+                setAddDisabled(false);
+                if (msgSuccess) {
+                    message.success(msgSuccess);
+                }
             } else {
-                setTimeout(() => {
-                    setLoading(false);
-                    setStaffInfo([]);
-                    setTotalPages(0);
-                    setAddDisabled(false);
-                    message.error("加载失败！");
-                }, 500);
+                setLoading(false);
+                setStaffInfo([]);
+                setTotalPages(0);
+                setAddDisabled(false);
+                message.error("加载失败！");
             }
         }).catch((err) => {
             console.log(err);
@@ -125,7 +104,7 @@ export default observer(() => {
         <div className="gradu-staff-manage">
             <header className="gradu-content-header">
                 <Button icon="user-add" ghost type='primary' disabled={getAddDisabled} onClick={openStaffDrawer}>增加员工</Button>
-                <Button icon="usergroup-delete" ghost type='primary' onClick={deleteMore} disabled={getBtnDisabled}>批量删除员工</Button>
+                <Button icon="usergroup-delete" ghost type='danger' onClick={deleteMore} disabled={getBtnDisabled}>批量删除员工</Button>
                 <Button icon="reload" ghost type='primary' onClick={refresh} disabled={getAddDisabled}>刷新</Button>
             </header>
             <div className="gradu-form-content">
@@ -144,6 +123,7 @@ export default observer(() => {
             >
                 <AddStaffForm />
             </Drawer>
+
         </div>
     )
 })

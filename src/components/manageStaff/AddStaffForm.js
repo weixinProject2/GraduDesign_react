@@ -1,8 +1,10 @@
 import React, { Fragment, useEffect, useContext, useState } from 'react';
 import { Form, Input, Button, Icon, Select, message, InputNumber } from 'antd';
 import { observer } from 'mobx-react-lite';
-import { getDepartment, getProfessional, getPosition, createStaff, getAllStaffInfo } from '../../api';
+import { createStaff, getAllStaffInfo } from '../../api';
 import { MyStaffContext } from './stores';
+import AddressPick from '../../tool-components/AddressPick';
+import AllPostionSelect from '../../tool-components/AllPostionSelect';
 
 const FormItem = Form.Item;
 
@@ -41,7 +43,7 @@ const AddStaffForm = observer(({ form }) => {
             setStaffVisible,
             setLoading,
             setAddDisabled, setStaffInfo, setTotalPages, setPage,
-            getAllDeptsOpts, getAllPf, getAllPos
+            getAllDeptsOpts, getAllPf,
         }
     } = useContext(MyStaffContext)
 
@@ -56,6 +58,8 @@ const AddStaffForm = observer(({ form }) => {
         form.validateFields((err, value) => {
             if (!err) {
                 setAddBtnLoading(true);
+                console.log(value.address);
+                value.address = value.address.join('');
                 createStaff(value).then((res) => {
                     if (!res.error) {
                         setAddBtnLoading(false);
@@ -94,14 +98,6 @@ const AddStaffForm = observer(({ form }) => {
         })
     }
 
-    // 渲染所有职位
-    function renderAllPos() {
-        return getAllPos.map((value, key) => {
-            return <Option value={value.positionId} key={key}>{value.positionName}</Option>
-        })
-    }
-
-
     // 加载数据
     function loadStaffInfo(params, msgSuccess) {
         setLoading(true);
@@ -116,23 +112,19 @@ const AddStaffForm = observer(({ form }) => {
         getAllStaffInfo(object).then((data) => {
             setAddDisabled(true);
             if (data.list) {
-                setTimeout(() => {
-                    setLoading(false);
-                    setStaffInfo(data.list);
-                    setTotalPages(data.total);
-                    setAddDisabled(false)
-                    if (msgSuccess) {
-                        message.success(msgSuccess);
-                    }
-                }, 500);
+                setLoading(false);
+                setStaffInfo(data.list);
+                setTotalPages(data.total);
+                setAddDisabled(false)
+                if (msgSuccess) {
+                    message.success(msgSuccess);
+                }
             } else {
-                setTimeout(() => {
-                    setLoading(false);
-                    setStaffInfo([]);
-                    setTotalPages(0);
-                    setAddDisabled(false)
-                    message.error("加载失败！");
-                }, 500);
+                setLoading(false);
+                setStaffInfo([]);
+                setTotalPages(0);
+                setAddDisabled(false)
+                message.error("加载失败！");
             }
         }).catch((err) => {
             console.log(err);
@@ -189,9 +181,11 @@ const AddStaffForm = observer(({ form }) => {
 
                 <FormItem label="联系地址" hasFeedback>
                     {getFieldDecorator('address', {
-                        rules: [{ required: true, message: '地址不能为空!' }, { pattern: /^[^ ]+$/, message: '不允许空格字符' }],
+                        rules: [
+                            { type: 'array', required: true, message: '地址不能为空!' },
+                        ],
                     })(
-                        <Input prefix={<Icon type="home" style={{ color: 'rgba(0,0,0,.25)' }} />} placeholder="请输入联系地址" />
+                        <AddressPick placeholder='请选择联系地址' />
                     )}
                 </FormItem>
 
@@ -244,17 +238,7 @@ const AddStaffForm = observer(({ form }) => {
                     {getFieldDecorator('positionId', {
                         rules: [{ required: true, message: '职位不能为空!' }, { pattern: /^[^ ]+$/, message: '不允许空格字符' }],
                     })(
-                        <Select
-                            placeholder="请选择职位"
-                            allowClear
-                            showSearch
-                            filterOption={(input, option) =>
-                                // console.log(input, option)
-                                option.props.children.indexOf(input) >= 0
-                            }
-                        >
-                            {renderAllPos()}
-                        </Select>
+                        <AllPostionSelect />
                     )}
                 </FormItem>
 

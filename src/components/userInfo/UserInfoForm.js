@@ -1,4 +1,4 @@
-import React, { useState, useEffect, useContext } from 'react';
+import React, { useState, useEffect, useContext, Suspense } from 'react';
 import { Button, Avatar, Drawer, Form, Input, Spin, Icon } from 'antd'
 import { observer } from 'mobx-react-lite';
 
@@ -14,7 +14,7 @@ const UserInfoForm = observer((props) => {
     const stores = useContext(MyContext);
     const myInfoStores = useContext(MyInfoContext);
     const { getUserinfo: {
-        userName, imgUrl, address, departmentName, position, professional, sex, telNumber, email, workNumber
+        userName, Id_Card, imgUrl, address, departmentName, position, professional, sex, telNumber, email, workNumber
     } } = stores; //从全局层拿个人信息
 
     const {
@@ -58,7 +58,7 @@ const UserInfoForm = observer((props) => {
     }
 
     return (
-        <Spin size="large" spinning={false}>
+        <Suspense fallback={<Spin size='large' />}>
             <div className="gradu-userInfo">
                 <header className="gradu-content-header">
                     <Button type='primary' ghost icon='edit' onClick={openPsModal}>修改密码</Button>
@@ -96,6 +96,10 @@ const UserInfoForm = observer((props) => {
                                 <li>
                                     <span>电话：</span>
                                     <span>{telNumber}</span>
+                                </li>
+                                <li>
+                                    <span>身份证号码：</span>
+                                    <span>{Id_Card}</span>
                                 </li>
                                 <li>
                                     <span>地址：</span>
@@ -147,7 +151,7 @@ const UserInfoForm = observer((props) => {
                     <ModifyUserInfo />
                 </Drawer>
             </div>
-        </Spin >
+        </Suspense>
     )
 })
 const WrappedNormalLoginForm = Form.create()(UserInfoForm);

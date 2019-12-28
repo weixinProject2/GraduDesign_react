@@ -94,28 +94,34 @@ export const StaffStore = observer((props) => {
       this.allProfession = data;
     },
 
-    allPostions: [],
-    get getAllPos() {
-      return this.allPostions.slice();
-    },
-    setPosition(data) {
-      this.allPostions = data;
-    },
-
-    queryFields: {},
+    queryFields: {},  // 搜索框的query
     setQueryFields(data) {
       this.queryFields = data;
     },
     get getQueryFields() {
       return this.queryFields;
-    }
+    },
 
+    staffModifyVisible: false, // 修改员工信息模态框显隐
+    get getModifyVisible() {
+      return this.staffModifyVisible;
+    },
+    setModifyVisible(data) {
+      this.staffModifyVisible = data;
+    },
+
+    modifyRecord: [],
+    setModifyRecord(data) {
+      this.modifyRecord = data;
+    },
+    get getModifyRecord() {
+      return this.modifyRecord;
+    }
   }));
 
   const value = {
     ...props,
     TableAttrStore,
-    // SearchFormStore,
   }
   return (
     <MyStaffContext.Provider value={value}>

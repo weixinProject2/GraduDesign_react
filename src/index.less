@@ -31,6 +31,9 @@ ul,li{
     width: 100%;
     height: 100%;
 }  
+.ant-drawer-open{
+    z-index: 1030;
+}
 .anticon-woman{
     color: #ff0000bd;
 }
@@ -47,6 +50,8 @@ ul,li{
 }
 .gradu-form-content{
     padding: .15rem .2rem;
+    height: calc(100% - 0.47rem);
+    overflow: scroll;
 }
 .gradu-form-opts{
     padding: .01rem 0;
@@ -90,7 +95,7 @@ ul,li{
     }
 }
 
-main{
+#mainContainer{
     width: 100%;
     height: calc(100% - .48rem);
     display: flex;
@@ -110,6 +115,14 @@ main{
     }
     .gradu-container{
         flex: 1;
+        height: 100%;
         background: #fff;
     }
+}
+
+
+::-webkit-scrollbar{
+    width:10px;
+    height:10px;
+    background-color:#fff;
 }

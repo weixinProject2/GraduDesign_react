@@ -15,6 +15,13 @@ const formItemLayout = {
         sm: { span: 18 },
     },
 };
+
+const defaultParams = {
+    size: 10,
+    page: 1,
+    queryFiled: []
+}
+
 const FormItem = Form.Item;
 const { Option } = Select;
 
@@ -22,8 +29,8 @@ const ModifyForm = observer(({ form }) => {
     const { getFieldDecorator } = form;
     const {
         TableAttrStore: {
-            getAllDeptsOpts, getAllPf, setModifyVisible,
-            setLoading, getCurrentPage, getQueryFields, setAddDisabled, setStaffInfo, setTotalPages,
+            getAllDeptsOpts, getAllPf, setModifyVisible, setPage, setQueryFields,
+            setLoading, setStaffInfo, setTotalPages,
             getModifyRecord: { Id_Card, address, permissions, departmentId, positionId, email, professionalId, sex, telNumber, userName, workNumber }
         }
     } = useContext(MyStaffContext)
@@ -42,15 +49,12 @@ const ModifyForm = observer(({ form }) => {
                 changeBtnloading(true);
                 modifyStaff(object).then((res) => {
                     if (!res.error) {
-                        const params = {
-                            page: getCurrentPage,
-                            size: 10,
-                            queryFiled: getQueryFields,
-                        }
                         changeBtnloading(false);
                         setModifyVisible(false);
                         message.success(res.message);
-                        loadStaffInfo(params);
+                        loadStaffInfo(defaultParams);
+                        setQueryFields([]);
+                        setPage(1);
                     } else {
                         changeBtnloading(false);
                         message.error(res.message);
@@ -62,7 +66,6 @@ const ModifyForm = observer(({ form }) => {
     // 加载数据
     function loadStaffInfo(params, msgSuccess) {
         setLoading(true);
-        setAddDisabled(true);
         const { page, size, queryFiled } = params && params
 
         const object = {
@@ -76,7 +79,6 @@ const ModifyForm = observer(({ form }) => {
                 setLoading(false);
                 setStaffInfo(data.list);
                 setTotalPages(data.total);
-                setAddDisabled(false);
                 if (msgSuccess) {
                     message.success(msgSuccess);
                 }
@@ -84,7 +86,6 @@ const ModifyForm = observer(({ form }) => {
                 setLoading(false);
                 setStaffInfo([]);
                 setTotalPages(0);
-                setAddDisabled(false);
                 message.error("加载失败！");
             }
         }).catch((err) => {

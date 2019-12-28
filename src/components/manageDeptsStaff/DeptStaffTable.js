@@ -1,6 +1,6 @@
 import React, { Fragment, useEffect } from 'react';
 import { observer } from 'mobx-react-lite';
-import { Table, Tag, Icon, Button } from 'antd';
+import { Table, Tag, Icon } from 'antd';
 import { useDeptsStaffStore } from './stores';
 
 export default observer(() => {

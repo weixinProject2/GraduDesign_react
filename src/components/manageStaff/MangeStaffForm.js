@@ -10,6 +10,7 @@ const { confirm } = Modal
 const defaultParams = {
     size: 10,
     page: 1,
+    queryFiled: []
 }
 
 
@@ -175,10 +176,7 @@ export default observer(() => {
                 setAddDisabled(false)
                 message.error("加载失败！");
             }
-        }).catch((err) => {
-            console.log(err);
         })
-
     }
 
     function renderName(value, record) {

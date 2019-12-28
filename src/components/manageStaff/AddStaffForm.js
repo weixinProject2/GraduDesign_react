@@ -33,6 +33,7 @@ const sexType = [
 const defaultParams = {
     size: 10,
     page: 1,
+    queryFiled: [],
 }
 
 const AddStaffForm = observer(({ form }) => {
@@ -57,18 +58,13 @@ const AddStaffForm = observer(({ form }) => {
         e.preventDefault();
         form.validateFields((err, value) => {
             if (!err) {
-                setAddBtnLoading(true);
-                console.log(value.address);
-                value.address = value.address.join('');
                 createStaff(value).then((res) => {
                     if (!res.error) {
-                        setAddBtnLoading(false);
                         setStaffVisible(false);
                         message.success(res.message);
                         loadStaffInfo(defaultParams);
                         setPage(1);
                     } else {
-                        setAddBtnLoading(false);
                         message.error(res.message)
                     }
                 })
@@ -242,7 +238,7 @@ const AddStaffForm = observer(({ form }) => {
                     )}
                 </FormItem>
 
-                <Button type="primary" htmlType="submit" loading={getAddBtnLoading}>
+                <Button type="primary" htmlType="submit">
                     确认入录
                 </Button>
             </Form>

@@ -1,8 +1,8 @@
 import React, { Fragment, useContext, useEffect, useState } from 'react'
 import { BrowserRouter as Router, Route, NavLink } from 'react-router-dom';
 // import ProtectedRoute from '../components/ProtectedRoute'
-import { observer, Observer } from 'mobx-react-lite';
-import { Button, Popover, Icon, Menu, Spin } from 'antd'
+import { observer } from 'mobx-react-lite';
+import { Button, Icon, Menu, Spin } from 'antd'
 
 import { MyContext } from '../stores/index'
 
@@ -17,12 +17,13 @@ import ManageStaffForm from '../components/manageStaff';
 import ManangeDeptsForm from '../components/manageDepts';
 import Scrumboard from '../components/scrumboard';
 import MangeDeptsStaff from '../components/manageDeptsStaff';
+import ManagePosition from '../components/managePosition';
 
 const SubMenu = Menu.SubMenu;
 
 export default observer(() => {
     const stores = useContext(MyContext);
-    const { getContentLoading, setContentLoading, getUserinfo, setUserInfo } = stores;
+    const { getContentLoading, setContentLoading, setUserInfo } = stores;
     const { workNumber } = JSON.parse(localStorage.getItem('userInfo'));
 
     useEffect(() => {
@@ -51,7 +52,7 @@ export default observer(() => {
     }
     return (
         <Fragment>
-            <Spin spinning={getContentLoading}>
+            <Spin spinning={getContentLoading} >
                 <header className='gradu-header'>
                     <div className="gradu-header-left">
                         <Button shape="circle" icon="menu" type='primary' onClick={toggleMenu} />Gradu <Icon type='deployment-unit' />&nbsp;员工系统
@@ -80,9 +81,9 @@ export default observer(() => {
                             <Menu.Item key="deptsStaffManage"><NavLink to='/main/deptsStaffManage'><Icon type="team" /><span>部门员工管理</span></NavLink></Menu.Item>
                             <Menu.Item key="taskPanel"><NavLink to='/main/taskLists'><Icon type='ordered-list' /><span>工作列表</span></NavLink></Menu.Item>
                             <Menu.Item key="scrumboard"><NavLink to='/main/scrumboard'><Icon type='snippets' /><span>迭代计划</span></NavLink></Menu.Item>
-                            <SubMenu key="sub3" title={<span><Icon type="user" /><span>职位管理</span></span>}>
-                                <Menu.Item key="managePos"><NavLink to='/user/managePos'><Icon type='sync_records' />职位数据管理</NavLink></Menu.Item>
-                            </SubMenu>
+
+                            <Menu.Item key="managePos"><NavLink to='/main/managePos'><Icon type='solution' />职位管理</NavLink></Menu.Item>
+
                             <SubMenu key="sub4" title={<span><Icon type="user" /><span>员工管理</span></span>}>
                                 <Menu.Item key="manageStaff"><NavLink to='/user/manageStaff'><Icon type="contacts" />员工数据管理</NavLink></Menu.Item>
                             </SubMenu>
@@ -101,6 +102,7 @@ export default observer(() => {
                         <Route path='/main/manageDepts' component={ManangeDeptsForm} />
                         <Route path='/main/scrumboard' component={Scrumboard} />
                         <Route path='/main/deptsStaffManage' component={MangeDeptsStaff} />
+                        <Route path='/main/managePos' component={ManagePosition} />
                     </div>
                 </main>
             </Spin>

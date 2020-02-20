@@ -46,7 +46,7 @@ instance.interceptors.response.use((response) => {
                 message.error('token不存在，请重新登陆');
                 break;
             case 403:
-                if (errorCode !== -1) {
+                if (errorCode === -1) {
                     history.push({
                         pathname: '/login',
                         state: {

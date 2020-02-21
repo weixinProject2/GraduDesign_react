@@ -5,6 +5,7 @@ var handler = createHandler({
   path: '/frontEnd',
   secret: 'woaini'
 })
+// as
 http.createServer(function (req, res) {
   handler(req, res, function (err) {
     res.statusCode = 404;

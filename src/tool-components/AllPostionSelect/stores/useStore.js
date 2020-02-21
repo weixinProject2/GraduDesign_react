@@ -27,6 +27,6 @@ export default function useStore() {
         },
         setLoading(value) {
             this.loading = value;
-        }
+        },
     }))
 }

@@ -50,12 +50,6 @@ export default observer(() => {
         <Fragment>
             <header className="gradu-content-header">
                 <Button
-                    type="primary"
-                    ghost
-                    icon="user-add"
-                    disabled={getBtnDisabled}
-                >添加员工到此部门</Button>
-                <Button
                     icon="usergroup-delete"
                     ghost type='danger'
                     disabled={!getSelectRows.length > 0}

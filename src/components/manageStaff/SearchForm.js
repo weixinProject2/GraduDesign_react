@@ -27,7 +27,6 @@ const SearchForm = observer(({ form }) => {
         Promise.all([getProfessional(), getDepartment()]).then((res) => {
             if (res.length > 0) {
                 setPf(res[0].data);
-                console.log(res);
                 setDeptsOpts(res[1].data);
             } else {
                 message.error('拉取数据失败！')

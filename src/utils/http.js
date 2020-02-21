@@ -30,7 +30,7 @@ instance.interceptors.response.use((response) => {
         return Promise.reject(response)
     }
 }, (error) => {
-    const mess = error.response && error.response.data.mess;
+    const mess = error.response && error.response.data.message;
     const errorCode = error.response && error.response.data.error;
     if (error.response.status) {  // 判断状态码
         switch (error.response.status) {
@@ -46,15 +46,19 @@ instance.interceptors.response.use((response) => {
                 message.error('token不存在，请重新登陆');
                 break;
             case 403:
-                if (errorCode !== -4) {
+                if (errorCode === -1) {
                     history.push({
                         pathname: '/login',
                         state: {
                             oldHistory: history.location.pathname
                         }
                     })
+                    if (localStorage.getItem('token') && localStorage.getItem('userInfo')) {
+                        localStorage.removeItem('token');
+                        localStorage.removeItem('userInfo');
+                    }
                 }
-                message.error(mess)
+                message.error(mess);
                 break;
             case 404:
                 message.error('404 not found')

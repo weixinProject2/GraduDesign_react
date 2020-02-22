@@ -10,7 +10,7 @@ const projectHandler = (event, action) => {
   const project = event.payload.repository.name // 提交的仓库名字
   const branch = event.payload.ref
   console.log(new Date(), `Received a ${action} event for ${project} to ${branch}`)
-  shell.exec(`sh ./projects/${project}.sh`, (code, stdout, stderr) => {
+  shell.exec(`sh ./deployed.sh`, (code, stdout, stderr) => {
     console.log(new Date(), 'Exit code:', code)
     // console.log(new Date(), 'Program output:', stdout)
     console.log(new Date(), '执行完毕！错误信息：？', stderr)

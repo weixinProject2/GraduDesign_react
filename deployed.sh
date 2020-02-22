@@ -1,8 +1,8 @@
-echo "开始拉取代码"
+echo "Start pull"
 git pull
-echo "开始安装依赖"
+echo "Start instll development"
 npm i
-echo "开始打包项目"
+echo "Start build file"
 npm run build
-echo "开始复制文件"
 cp ./build/* ../../www/
+echo "End"

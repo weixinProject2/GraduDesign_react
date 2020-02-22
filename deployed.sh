@@ -6,7 +6,7 @@ echo "开始安装依赖"
 npm i
 console.log('开始打包项目')
 echo "开始打包项目"
-npm run build-prod
+npm run build
 console.log('开始复制文件')
 echo "开始复制文件"
 cp ./build/* ../../www/

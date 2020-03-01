@@ -81,6 +81,9 @@ class http {
         return await instance.post(url, rawData)
     }
 
+    static async delete(url, params) { // 封装post方法
+        return await instance.delete(url, { params });
+    }
     // ....其他方法
     // ..............
 }

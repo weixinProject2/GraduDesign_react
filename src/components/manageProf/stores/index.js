@@ -1,10 +1,10 @@
 import React, { createContext, useContext } from 'react';
 import { observer } from 'mobx-react-lite';
-import useMainStore from "./usePositionStore";
+import useStore from './useProfStore';
 
 const Store = createContext(null);
 
-export function usePositionsStore() {
+export function useProfStore() {
     return useContext(Store);
 }
 
@@ -13,7 +13,7 @@ export const StoreProvider = observer((props) => {
         children,
     } = props;
 
-    const mainStore = useMainStore();
+    const mainStore = useStore();
 
     const value = {
         ...props,
@@ -25,3 +25,7 @@ export const StoreProvider = observer((props) => {
         </Store.Provider>
     );
 })
+
+
+
+

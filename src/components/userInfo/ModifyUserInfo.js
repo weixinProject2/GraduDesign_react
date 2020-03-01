@@ -1,11 +1,12 @@
 import React, { useContext, useEffect, useState } from 'react'
 
-import { Form, Icon, Input, Button, message, Upload, Avatar } from 'antd';
+import { Form, Icon, Input, Button, message, Upload, Avatar, Spin } from 'antd';
 import { MyContext } from '../../stores/index';
 import { MyInfoContext } from './store/index'
 import { observer } from 'mobx-react-lite'
 import { changeUserInfo } from '../../api/index'
 import AddressPick from '../../tool-components/AddressPick'
+
 const FormItem = Form.Item;
 
 const formItemLayout = {
@@ -35,12 +36,24 @@ const ModifyUserInfo = observer(({ form }) => {
 
     const {
         getUserinfo: {
-            imgUrl, userName, permissions, address, departmentName, position, professional, sex, telNumber, email, workNumber
+            userName,
+            permissions,
+            address,
+            departmentName,
+            position,
+            professional,
+            sex,
+            telNumber,
+            email,
+            workNumber,
+            headerImg,
         },
         setUserInfo,
+        loadUserInfo,
     } = stores;
 
-    const [img_url, setUrl] = useState(imgUrl);
+    const [img_url, setUrl] = useState(headerImg);
+    const [uploadLoading, setUploadLoading] = useState(false);
 
     const {
         setInfoVisible,
@@ -49,6 +62,38 @@ const ModifyUserInfo = observer(({ form }) => {
     useEffect(() => {
 
     }, [])
+
+    function getBase64(img, callback) {
+        const reader = new FileReader();
+        reader.addEventListener('load', () => callback(reader.result));
+        reader.readAsDataURL(img);
+    }
+
+    function beforeUpload(file, fileList) {
+        // 限制图片格式
+        const isJpgOrPng = file.type === 'image/jpeg' || file.type === 'image/png';
+        if (!isJpgOrPng) {
+            message.error('你只能上传图片格式的文件!');
+        }
+        const isLt2M = file.size / 1024 / 1024 < 2;
+        if (!isLt2M) {
+            message.error('图片大小必须小于2MB!');
+        }
+        return isJpgOrPng && isLt2M;
+    }
+
+    function handleChange(info) {
+        if (info.file.status === 'uploading') {
+            setUploadLoading(true);
+            return;
+        }
+        if (info.file.status === 'done') {
+            getBase64(info.file.originFileObj, imageUrl => {
+                setUploadLoading(false);
+                setUrl(imageUrl);
+            });
+        }
+    }
 
     // 渲染头像
     function renderAvater() {
@@ -69,6 +114,7 @@ const ModifyUserInfo = observer(({ form }) => {
                         setUserInfo(object);
                         setInfoVisible(false);
                         message.success(data.message);
+                        loadUserInfo();
                     } else {
                         setBtnLoading(false);
                         message.error(data.message)
@@ -88,17 +134,30 @@ const ModifyUserInfo = observer(({ form }) => {
                 <div className="gradu-upload-content">
                     {
                         img_url ?
-                            <img src={img_url} /> :
+                            <img src={img_url} alt='' /> :
                             <div className="gradu-upload-noAvatar">
                                 {renderAvater()}
                             </div>
                     }
+                    {/* loading 蒙层 */}
+                    {
+                        uploadLoading ? <div className="gradu-upload-imgSpin">
+                            <Spin />
+                        </div> : null
+                    }
+
                     <div className="gradu-upload-shadow">
                         <Upload
-                            name="avatar"
+                            name="file"
                             listType="picture"
                             showUploadList={false}
-                            action="https://www.mocky.io/v2/5cc8019d300000980a055e76"
+                            beforeUpload={beforeUpload}
+                            onChange={handleChange}
+                            headers={{
+                                Authorization: `Bearer ${localStorage.getItem('token')}`
+                            }
+                            }
+                            action="http://106.54.206.102:3000/user/postHeaderImg"
                         >
                             <Icon type="camera" />
                         </Upload>

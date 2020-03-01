@@ -13,8 +13,19 @@ import ModifyPassword from './ModifyPassword'
 const UserInfoForm = observer((props) => {
     const stores = useContext(MyContext);
     const myInfoStores = useContext(MyInfoContext);
+
     const { getUserinfo: {
-        userName, Id_Card, imgUrl, address, departmentName, position, professional, sex, telNumber, email, workNumber
+        userName, 
+        Id_Card, 
+        headerImg, 
+        address, 
+        departmentName, 
+        position, 
+        professional, 
+        sex, 
+        telNumber, 
+        email, 
+        workNumber,
     } } = stores; //从全局层拿个人信息
 
     const {
@@ -28,8 +39,8 @@ const UserInfoForm = observer((props) => {
 
     // 渲染头像
     function renderAvater() {
-        if (imgUrl) {
-            return <Avatar src={imgUrl} />
+        if (headerImg) {
+            return <Avatar size={100} src={headerImg} />
         } else if (userName) {
             const nameArray = userName.split('');
             return nameArray[0].toString();

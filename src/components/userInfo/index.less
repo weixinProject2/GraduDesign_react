@@ -1,133 +1,173 @@
-.gradu-userInfo{
+.gradu-userInfo {
     height: 100%;
-    header{
-        padding: .07rem;
+
+    header {
+        padding      : .07rem;
         border-bottom: 1px solid #e6e6e6;
-        button{
-            border: none;
+
+        button {
+            border    : none;
             box-shadow: none;
         }
     }
-    &-content{
+
+    &-content {
         padding: .15rem 0;
-        h2{
+
+        h2 {
             margin-left: .2rem;
         }
     }
-    &-top{
-        padding: .1rem 0;
-        height: 1.4rem;
-        width: 100%;
+
+    &-top {
+        padding   : .1rem 0;
+        height    : 1.4rem;
+        width     : 100%;
         background: rgba(0, 0, 0, 0.04);
-        display: flex;
+        display   : flex;
     }
-    &-avatar{
-        width: 3.2rem;
-        height: 100%;
-        display: inline-block;
+
+    &-avatar {
+        width       : 3.2rem;
+        height      : 100%;
+        display     : inline-block;
         padding-left: 1.8rem;
-        &-img{
-            width: 100%;
-            height: 100%;
-            background: #17b3a3;
+
+        &-img {
+            width        : 100%;
+            height       : 100%;
+            background   : #17b3a3;
             border-radius: 50%;
-            font-size: 0.5rem;
-            color: #fff;
+            font-size    : 0.5rem;
+            color        : #fff;
+
+            .ant-avatar {
+                display: block;
+            }
         }
-        &-content{
-            width: 1.2rem;
-            padding: 0.1rem;
-            height: 1.2rem;
-            text-align: center;
+
+        &-content {
+            width         : 1.2rem;
+            padding       : 0.1rem;
+            height        : 1.2rem;
+            text-align    : center;
             vertical-align: center;
-            margin: 0 auto;
-            line-height: 1.9;
-            background: #fff;
-            border-radius: 50%;
-            box-shadow: 0 3px 1px -2px rgba(0, 0, 0, 0.2), 0 2px 2px 0 rgba(0, 0, 0, 0.14), 0 1px 5px 0 rgba(0, 0, 0, 0.12);
+            margin        : 0 auto;
+            line-height   : 1.9;
+            background    : #fff;
+            border-radius : 50%;
+            box-shadow    : 0 3px 1px -2px rgba(0, 0, 0, 0.2), 0 2px 2px 0 rgba(0, 0, 0, 0.14), 0 1px 5px 0 rgba(0, 0, 0, 0.12);
         }
     }
-    &-lists{
+
+    &-lists {
         padding-left: 2.2rem;
-        margin-top: .3rem;
-        ul{
-            li{
-                margin: .15rem 0;
+        margin-top  : .3rem;
+
+        ul {
+            li {
+                margin   : .15rem 0;
                 font-size: 0.15rem;
-                display: flex;
-                span{
-                    &:first-of-type{
+                display  : flex;
+
+                span {
+                    &:first-of-type {
                         width: 1.6rem;
                     }
-                    &:nth-of-type(2){
+
+                    &:nth-of-type(2) {
                         color: black;
                     }
                 }
             }
         }
     }
-    &-basic{
-        display: inline-block;
-        height: 100%;
-        flex: 1;
+
+    &-basic {
+        display     : inline-block;
+        height      : 100%;
+        flex        : 1;
         padding-left: .43rem;
-        &-lists{
-            span{
+
+        &-lists {
+            span {
                 display: block;
                 padding: .1rem;
-                &:first-of-type{
+
+                &:first-of-type {
                     font-size: .3rem;
                 }
-                &:nth-of-type(2){
-                    font-size: 0.17rem;
+
+                &:nth-of-type(2) {
+                    font-size  : 0.17rem;
                     font-weight: 500;
                 }
             }
         }
     }
 }
-.gradu-upload-img{
-    text-align: center;
+
+.gradu-upload-img {
+    text-align   : center;
     margin-bottom: .1rem;
-    .gradu-upload-content{
-        position: relative;
-        margin: 0 auto;
-        width: .9rem;
-        height: .9rem;
+
+    .gradu-upload-content {
+        position     : relative;
+        margin       : 0 auto;
+        width        : .9rem;
+        height       : .9rem;
         border-radius: 50%;
-        overflow: hidden;
-        .gradu-upload-noAvatar{
-            background: #17b3a3;
-            width: inherit;
-            height: inherit;
-            color: white;
+        overflow     : hidden;
+
+        .gradu-upload-noAvatar {
+            background : #17b3a3;
+            width      : inherit;
+            height     : inherit;
+            color      : white;
             line-height: .9rem;
-            font-size: 0.5rem;
+            font-size  : 0.5rem;
         }
-        img{
-            width: inherit;
-            height: inherit;
+
+        img {
+            width        : inherit;
+            height       : inherit;
             border-radius: 50%;
         }
-        .gradu-upload-shadow{
-            cursor: pointer;
+
+        .gradu-upload-imgSpin {
+            position   : absolute;
+            left       : 0;
+            top        : 0;
+            width      : 100%;
+            height     : 100%;
+            line-height: 90px;
+            background : rgba(0, 0, 0, .4);
+            right      : 0;
+            z-index    : 999;
+        }
+
+        .gradu-upload-shadow {
+            cursor    : pointer;
             background: rgba(0, 0, 0, 0.35);
-            position: absolute;
-            width: 100%;
-            height: 100%;
-            top: 0;
-            opacity: 0;
+            position  : absolute;
+            width     : 100%;
+            height    : 100%;
+            top       : 0;
+            opacity   : 0;
             transition: .3s;
-            &:hover{
+
+            &:hover {
                 opacity: 1;
             }
-            >span{
+
+            >span {
                 position: absolute;
-                top: 33%;
-                left: 38.8%;
-                span{
+                top     : 33%;
+                left    : 38.8%;
+
+                span {
                     font-size: 0.2rem;
-                    color: #fff;
+                    color    : #fff;
                 }
             }
         }

@@ -134,8 +134,6 @@ export default observer(() => {
                 } else {
                     message.error('删除失败');
                 }
-            }).catch((err) => {
-                console.log(err);
             })
         })
     }

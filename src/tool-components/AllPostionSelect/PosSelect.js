@@ -9,7 +9,6 @@ export default observer(() => {
     const {
         mainStore: {
             getAllPos,
-            getParams,
             setPosition,
             getLoading,
             setLoading
@@ -26,7 +25,7 @@ export default observer(() => {
 
     function loadPostion() {
         setLoading(true);
-        getPosition(getParams).then(async (res) => {
+        getPosition().then(async (res) => {
             if (!res.error) {
                 setLoading(false);
                 setPosition(res.data);

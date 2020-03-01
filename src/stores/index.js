@@ -1,8 +1,11 @@
 import React, { createContext } from 'react'
 import { useLocalStore, observer } from 'mobx-react-lite'
+import { getUserInfoDetail } from '../api';
 export const MyContext = createContext(null);
 
 export const AppStore = observer((props) => {
+    const { workNumber } = JSON.parse(localStorage.getItem('userInfo'));
+    
     const store = useLocalStore(() => {
         return {
             userInfo: {},
@@ -13,6 +16,7 @@ export const AppStore = observer((props) => {
                 return this.userInfo;
             },
 
+
             // 全局loaing
             contentLoading: true,
             setContentLoading(value) {
@@ -20,7 +24,19 @@ export const AppStore = observer((props) => {
             },
             get getContentLoading() {
                 return this.contentLoading;
-            }
+            },
+        
+            loadUserInfo() {
+                // 获取个人信息
+                getUserInfoDetail({ workNumber }).then((data) => {
+                    const userInfo = data.data[0];
+                    if (userInfo) {
+                        this.setContentLoading(false);
+                        this.setUserInfo(userInfo);
+                    }
+                })
+            },
+
         }
     });
     return (

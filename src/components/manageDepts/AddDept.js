@@ -33,7 +33,7 @@ const defaultParams = {
 
 
 const AddDept = observer(({ form }) => {
-    const { getFieldDecorator, validateFields } = form;
+    const { getFieldDecorator } = form;
     const [addBtnLoading, setBtnLoading] = useState(false);
 
     const {

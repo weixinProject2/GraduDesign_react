@@ -60,6 +60,13 @@ export default function useStore() {
         },
         get getBtnDisabled() {
             return this.btnDisabled;
+        },
+        addModalVisble: false,
+        get getProfAddModalVisble() {
+            return this.addModalVisble;
+        },
+        setProfAddModalVisble(value) {
+            this.addModalVisble = value;
         }
     }));
 }

@@ -55,3 +55,5 @@ export const deletePosition = (params) => http.delete('/admin/deletePosition', p
 export const getAllProfDeatil = (params) => http.get('/getAllProfessionalInfo', params);
 // 添加新职业
 export const addNewProf = (params) => http.post('/admin/addProfessional', params);
+// 删除职业
+export const deleteProfessional = (params) =>http.delete('/admin/deleteProfessional',params);

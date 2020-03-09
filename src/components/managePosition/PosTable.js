@@ -75,7 +75,6 @@ export default observer(() => {
 
     // 打开珊删除弹框
     function showDeleteConfirm(record) {
-        console.log(record);
         const { positionId } = record;
         deleteModal = confirm({
             autoFocusButton: 'cancel',

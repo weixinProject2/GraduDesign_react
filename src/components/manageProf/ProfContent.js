@@ -4,21 +4,34 @@ import { Button, message, Drawer, Modal } from 'antd';
 
 import { useProfStore } from './stores'
 import ProfTable from './ProfTable';
-// import PosTable from './PosTable';
+import AddForm from './AddForm';
 
 export default observer(() => {
     const {
-        mainStore: { loadInfo, getBtnDisabled },
+        mainStore: {
+            loadInfo,
+            getBtnDisabled,
+            getProfAddModalVisble,
+            setProfAddModalVisble,
+        },
     } = useProfStore();
 
     function refresh() {
         loadInfo();
     }
 
+    function closeProfDrawer() {
+        setProfAddModalVisble(false);
+    }
+
+    function openDrawer() {
+        setProfAddModalVisble(true);
+    }
+
     return (
         <Fragment>
             <header className="gradu-content-header">
-                <Button icon="user-add" ghost type='primary' disabled={getBtnDisabled} >添加新职业</Button>
+                <Button icon="user-add" ghost type='primary' disabled={getBtnDisabled} onClick={openDrawer}>添加新职业</Button>
                 <Button
                     icon="reload" ghost
                     type='primary'
@@ -30,6 +43,17 @@ export default observer(() => {
                 <h2>职业信息列表</h2>
                 <ProfTable />
             </div>
+            <Drawer
+                title="新增职业"
+                placement="right"
+                width={450}
+                closable={true}
+                onClose={closeProfDrawer}
+                visible={getProfAddModalVisble}
+                destroyOnClose
+            >
+                <AddForm />
+            </Drawer>
         </Fragment>
     )
 })

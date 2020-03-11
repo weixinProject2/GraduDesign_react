@@ -1,0 +1,93 @@
+.project-selector {
+    width       : 2.06rem;
+    height      : 0.48rem;
+    border-left : 1px solid #ccc;
+    border-right: 1px solid #ccc;
+    cursor      : pointer;
+    transition  : 0.6s;
+    position    : relative;
+
+    &:hover {
+        background-color: #16a597;
+    }
+
+    &-text {
+        padding: 0 .1rem;
+        display: flex;
+        outline: none;
+
+        &-detail {
+            flex          : 1;
+            display       : flex;
+            flex-direction: column;
+
+            span {
+                line-height: normal;
+                flex       : 1;
+
+                &:first-of-type {
+                    font-size  : 12px;
+                    line-height: .25rem;
+                    color      : #e2e2e2;
+                }
+
+                &:nth-of-type(2) {
+                    font-size    : 15px;
+                    overflow     : hidden;
+                    white-space  : nowrap;
+                    max-width    : 170px;
+                    text-overflow: ellipsis;
+                }
+            }
+        }
+
+        i.anticon {
+            line-height   : .48rem;
+            display       : inline-block;
+            vertical-align: inherit;
+            font-weight   : 500;
+        }
+    }
+
+    ul {
+        position   : absolute;
+        top        : 93%;
+        max-height : 0px;
+        overflow   : hidden;
+        z-index    : 999;
+        right      : -6%;
+        width      : 110%;
+        background : #fff;
+        box-shadow : rgba(0, 0, 0, 0.12) 0px 0.02rem 0.08rem;
+        transition : 0.3s;
+        color      : #000000a8;
+        text-align : left;
+        font-weight: 500;
+
+        li {
+            line-height  : 0.39rem;
+            padding-left : 16px;
+            overflow     : hidden;
+            white-space  : nowrap;
+            max-width    : 100%;
+            text-overflow: ellipsis;
+            a {
+                text-decoration: none;
+                color: inherit;
+                outline: none;
+                width: 100%;
+                height: 100%;
+                display: inline-block;
+            }
+            &.active {
+                background: #1ac7b624;
+                color     : #17b3a3cc;
+            }
+
+            &:hover {
+                background: rgb(228, 228, 228);
+                color     : #000000a8;
+            }
+        }
+    }
+}

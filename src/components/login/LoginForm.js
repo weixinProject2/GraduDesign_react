@@ -1,6 +1,5 @@
 import React, { Fragment, useContext, useEffect } from 'react';
 import { Form, Input, Icon, Button, message } from 'antd';
-// import { MyContext } from '../../stores/index';
 import history from '../../utils/history';
 import { login } from '../../api/index';
 const FormItem = Form.Item;

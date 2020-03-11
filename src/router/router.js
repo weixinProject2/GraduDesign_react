@@ -19,15 +19,18 @@ import Scrumboard from '../components/scrumboard';
 import MangeDeptsStaff from '../components/manageDeptsStaff';
 import ManagePosition from '../components/managePosition';
 import ManageProf from '../components/manageProf';
+import ProjectSelector from '../components/projectSelector';
+import ManageProject from '../components/manageProject/ManageProject';
 
 const SubMenu = Menu.SubMenu;
 
 export default observer(() => {
     const stores = useContext(MyContext);
-    const { getContentLoading, loadUserInfo } = stores;
+    const { getContentLoading, loadUserInfo, getProjectId, setProjectId } = stores;
 
     useEffect(() => {
         loadUserInfo();
+        setProjectId(dataSource[0].id);
     }, [])
 
     let [collapse, setCollapse] = useState(false);
@@ -40,19 +43,42 @@ export default observer(() => {
     function linkToHome() {
         history.push('/main');
     }
+
+    const dataSource = [
+        {
+            id: 1,
+            name: "project A"
+        },
+        {
+            id: 2,
+            name: "我擦，我是你爹测试项目hhh哈哈哈"
+        },
+        {
+            id: 3,
+            name: "我是你爸爸测试项目"
+        },
+        {
+            id: 4,
+            name: "花里胡骚测试项目"
+        },
+    ]
+
     return (
         <Fragment>
             <Spin spinning={getContentLoading} >
                 <header className='gradu-header'>
                     <div className="gradu-header-left">
                         <Button shape="circle" icon="menu" type='primary' onClick={toggleMenu} />Gradu <Icon type='deployment-unit' />&nbsp;员工系统
-                </div>
+                    </div>
                     <div className="gradu-header-middle">
                         <Button shape='circle' icon="home" type="primary" onClick={linkToHome} />
                     </div>
                     <div className="gradu-header-right">
                         <Bell />
                         <Avater />
+                    </div>
+                    <div className="gradu-header-project">
+                        <ProjectSelector dataSource={dataSource} loading={false} />
                     </div>
                 </header>
                 <main id='mainContainer'>
@@ -70,6 +96,7 @@ export default observer(() => {
                             <Menu.Item key="manageDepts"><NavLink to='/main/manageDepts'><Icon type="team" /><span>所有部门管理</span></NavLink></Menu.Item>
                             <Menu.Item key="managePos"><NavLink to='/main/managePos'><Icon type='solution' /><span>职位管理</span></NavLink></Menu.Item>
                             <Menu.Item key="manageProf"><NavLink to='/main/manageProf'><Icon type='solution' /><span>职业管理</span></NavLink></Menu.Item>
+                            <Menu.Item key="manageProject"><NavLink to={`/main/manageProject?projectId=${getProjectId}`}><Icon type='solution' /><span>项目管理</span></NavLink></Menu.Item>
                             <Menu.Item key="deptsStaffManage"><NavLink to='/main/deptsStaffManage'><Icon type="team" /><span>部门员工管理</span></NavLink></Menu.Item>
                             <Menu.Item key="taskPanel"><NavLink to='/main/taskLists'><Icon type='ordered-list' /><span>工作列表</span></NavLink></Menu.Item>
                             <Menu.Item key="scrumboard"><NavLink to='/main/scrumboard'><Icon type='snippets' /><span>迭代计划</span></NavLink></Menu.Item>
@@ -96,9 +123,10 @@ export default observer(() => {
                         <Route path='/main/deptsStaffManage' component={MangeDeptsStaff} />
                         <Route path='/main/managePos' component={ManagePosition} />
                         <Route path='/main/manageProf' component={ManageProf} />
+                        <Route path='/main/manageProject' component={ManageProject} />
                     </div>
                 </main>
             </Spin>
-        </Fragment>
+        </Fragment >
     )
 })

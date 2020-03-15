@@ -56,4 +56,8 @@ export const getAllProfDeatil = (params) => http.get('/getAllProfessionalInfo', 
 // 添加新职业
 export const addNewProf = (params) => http.post('/admin/addProfessional', params);
 // 删除职业
-export const deleteProfessional = (params) =>http.delete('/admin/deleteProfessional',params);
+export const deleteProfessional = (params) => http.delete('/admin/deleteProfessional', params);
+
+
+// 获取所有的项目
+export const getAllProjects = (params) => http.get('/admin/queryAllProject', params);

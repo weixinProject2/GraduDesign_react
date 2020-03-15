@@ -20,7 +20,7 @@ import MangeDeptsStaff from '../components/manageDeptsStaff';
 import ManagePosition from '../components/managePosition';
 import ManageProf from '../components/manageProf';
 import ProjectSelector from '../components/projectSelector';
-import ManageProject from '../components/manageProject/ManageProject';
+import ManageProject from '../components/manageProject';
 
 const SubMenu = Menu.SubMenu;
 

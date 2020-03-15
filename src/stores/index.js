@@ -44,6 +44,13 @@ export const AppStore = observer((props) => {
             },
             setProjectId(value) {
                 this.projectId = value;
+            },
+            projectName: '',
+            get getProjectName() {
+                return this.projectName;
+            },
+            setProjectName(name) {
+                this.projectName = name;
             }
         }
     });

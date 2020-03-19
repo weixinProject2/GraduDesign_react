@@ -1,14 +1,14 @@
 import React, { createContext } from 'react'
 import { useLocalStore, observer } from 'mobx-react-lite'
 import { getUserInfoDetail } from '../api';
+import history from '../utils/history';
 
 export const MyContext = createContext(null);
 
 export const AppStore = observer((props) => {
-    const { workNumber } = JSON.parse(localStorage.getItem('userInfo'));
-
     const store = useLocalStore(() => {
         return {
+            // 个人信息
             userInfo: {},
             setUserInfo(userInfo) {
                 this.userInfo = userInfo;
@@ -17,7 +17,14 @@ export const AppStore = observer((props) => {
                 return this.userInfo;
             },
 
-
+            // 路由
+            path: history.location.pathname,
+            setPath(value) {
+                this.path = value;
+            },
+            get getPath() {
+                return this.path;
+            },
             // 全局loaing
             contentLoading: true,
             setContentLoading(value) {
@@ -27,18 +34,29 @@ export const AppStore = observer((props) => {
                 return this.contentLoading;
             },
 
+            // 项目选择框loading
+            selectorLoading: true,
+            setSelectorLoading(value) {
+                this.selectorLoading = value
+            },
+            get getSelectorLoading() {
+                return this.selectorLoading;
+            },
+
             loadUserInfo() {
+                this.setSelectorLoading(true);
                 // 获取个人信息
-                getUserInfoDetail({ workNumber }).then((data) => {
+                getUserInfoDetail().then((data) => {
                     const userInfo = data.data[0];
                     if (userInfo) {
+                        this.setSelectorLoading(false);
                         this.setContentLoading(false);
                         this.setUserInfo(userInfo);
                     }
                 })
             },
 
-            projectId: null,
+            projectId: '',
             get getProjectId() {
                 return this.projectId;
             },
@@ -51,7 +69,8 @@ export const AppStore = observer((props) => {
             },
             setProjectName(name) {
                 this.projectName = name;
-            }
+            },
+
         }
     });
     return (

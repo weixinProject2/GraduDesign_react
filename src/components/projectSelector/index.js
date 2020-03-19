@@ -4,6 +4,8 @@ import { Icon } from 'antd';
 import './index.less';
 import { withRouter, NavLink } from 'react-router-dom';
 import { MyContext } from '../../stores';
+import history from '../../utils/history';
+
 /**
  * dataSource: 项目数组
  * loading：是否在加载阶段
@@ -12,11 +14,16 @@ export default observer(withRouter((props) => {
     const {
         dataSource,
         loading,
-        location,
     } = props;
+    const { location } = history;
+
     const [expand, setExpand] = useState(false);
+    const [hasProjects, setHasPorjects] = useState(false);
     const [selectProject, setSelectProject] = useState("");
-    const { setProjectId } = useContext(MyContext);
+
+    const { setProjectId, getPath } = useContext(MyContext);
+
+    
 
     useEffect(() => {
         document.getElementById('ProjectSelectorText').onblur = function () {
@@ -25,7 +32,18 @@ export default observer(withRouter((props) => {
             ulDom.style.top = "93%"
             setExpand(false);
         }
-        setSelectProject(dataSource[0].name);
+        if (dataSource.length > 0) {
+            setHasPorjects(true);
+            setSelectProject(dataSource[0].projectName);
+            setProjectId(dataSource[0].projectId);
+            // history.push(`${getPath}?projectId=${dataSource[0].projectId}`);
+        } else {
+            setSelectProject("暂无任何项目");
+            setProjectId(null);
+            setHasPorjects(false);
+            // history.push(`${getPath}?projectId=null`);
+        }
+
     }, [])
 
     function changeProject(item, e) {
@@ -38,8 +56,9 @@ export default observer(withRouter((props) => {
             }
         })
         dom.setAttribute("class", "active");
-        setProjectId(item.id);
-        setSelectProject(item.name);
+        setProjectId(item.projectId);
+        setSelectProject(item.projectName);
+        history.push(`${getPath}?projectId=${dataSource[0].projectId}`);
     }
 
     const renderLists = () => {
@@ -47,10 +66,10 @@ export default observer(withRouter((props) => {
             <ul id="ProjectLists">
                 {dataSource.map((item, index) => (
                     <li
-                        key={item.id}
+                        key={item.projectId}
                         onClick={changeProject.bind(this, item)}
                         className={index === 0 ? "active" : null}>
-                        <NavLink to={`${location.pathname}?projectId=${item.id}`}>{item.name}</NavLink>
+                        {item.projectName}
                     </li>
                 ))}
             </ul>
@@ -70,6 +89,16 @@ export default observer(withRouter((props) => {
         }
     }
 
+    function renderIcon() {
+        if (!loading) {
+            if (hasProjects) {
+                return <Icon type="down" />
+            }
+        } else {
+            return <Icon type="loading" />
+        }
+    }
+
     return (
         <div
             className="project-selector"
@@ -86,9 +115,7 @@ export default observer(withRouter((props) => {
                     <span>项目</span>
                     <span>{selectProject}</span>
                 </div>
-                {
-                    !loading ? <Icon type="down" /> : <Icon type="loading" />
-                }
+                {renderIcon()}
             </div>
             {renderLists()}
         </div>

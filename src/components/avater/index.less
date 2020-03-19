@@ -26,6 +26,7 @@
 
 
 .gradu-user-options {
+    min-width: 2.28rem;
     .gradu-user-info {
         display: flex;
         padding: 0.11rem .15rem;
@@ -49,6 +50,10 @@
 
             span {
                 display: block;
+                overflow: hidden;
+                white-space: nowrap;
+                text-overflow: ellipsis;
+                max-width: 150px;
 
                 &:nth-of-type(2) {
                     color: #6a6a6a9c;
@@ -58,7 +63,6 @@
     }
 
     ul {
-        width     : 2.3rem;
         border-top: 1px solid #ccc;
 
         li {

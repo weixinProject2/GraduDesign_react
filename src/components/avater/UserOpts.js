@@ -6,7 +6,7 @@ import { MyContext } from '../../stores/index'
 export default observer(({ avater }) => {
 
     const stores = useContext(MyContext);
-    const { getUserinfo: { userName, workNumber } } = stores;
+    const { getUserinfo: { userName, workNumber }, setProjectId, setProjectName, setUserInfo, setPath } = stores;
 
     function linkToInfo() {
         history.push('/main/userInfo')
@@ -15,6 +15,10 @@ export default observer(({ avater }) => {
     function loginOut() {
         localStorage.removeItem('userInfo');
         localStorage.removeItem('token');
+        setProjectId('');
+        setProjectName('');
+        setUserInfo({});
+        setPath('');
         history.push('/login');
         message.success('退出登录成功');
     }

@@ -4,10 +4,10 @@ import { useLocalStore } from 'mobx-react-lite';
 import { getYourDeptStaff, deleteDeptStaff } from '../../../api';
 
 export default function useStore() {
-    const { workNumber } = localStorage.getItem('userInfo') && JSON.parse(localStorage.getItem('userInfo'));
+    // const { workNumber } = localStorage.getItem('userInfo') && JSON.parse(localStorage.getItem('userInfo'));
     return useLocalStore(() => ({
         params: {
-            workNumber: workNumber,// 从localstorage里面拿的
+            workNumber: localStorage.getItem('userInfo') && JSON.parse(localStorage.getItem('userInfo')), // 从localstorage里面拿的
             page: 1,
             size: 10,
             queryFiled: {
@@ -61,7 +61,7 @@ export default function useStore() {
         setTableData(value) {
             this.tableData = value;
         },
-        
+
         // 所有数据量
         totalPage: 0,
         get getTotalPage() {

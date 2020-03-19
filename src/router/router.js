@@ -26,11 +26,19 @@ const SubMenu = Menu.SubMenu;
 
 export default observer(() => {
     const stores = useContext(MyContext);
-    const { getContentLoading, loadUserInfo, getProjectId, setProjectId } = stores;
+    const {
+        getContentLoading,
+        loadUserInfo,
+        getProjectId,
+        getUserinfo: { projectList },
+        getSelectorLoading,
+        getPath,
+        setPath,
+    } = stores;
 
     useEffect(() => {
         loadUserInfo();
-        setProjectId(dataSource[0].id);
+        console.log(getPath);
     }, [])
 
     let [collapse, setCollapse] = useState(false);
@@ -41,27 +49,10 @@ export default observer(() => {
     }
 
     function linkToHome() {
-        history.push('/main');
+        history.push(`/main?projectId=${getProjectId}`);
+        setPath('/main')
     }
 
-    const dataSource = [
-        {
-            id: 1,
-            name: "project A"
-        },
-        {
-            id: 2,
-            name: "我擦，我是你爹测试项目hhh哈哈哈"
-        },
-        {
-            id: 3,
-            name: "我是你爸爸测试项目"
-        },
-        {
-            id: 4,
-            name: "花里胡骚测试项目"
-        },
-    ]
 
     return (
         <Fragment>
@@ -78,7 +69,9 @@ export default observer(() => {
                         <Avater />
                     </div>
                     <div className="gradu-header-project">
-                        <ProjectSelector dataSource={dataSource} loading={false} />
+                        {
+                            projectList && <ProjectSelector dataSource={projectList.slice()} loading={getSelectorLoading} />
+                        }
                     </div>
                 </header>
                 <main id='mainContainer'>
@@ -92,16 +85,14 @@ export default observer(() => {
                         // selectedKeys={[this.state.curentKey]}
                         >
 
-                            <Menu.Item key="manageStaffs"><NavLink to='/main/manageStaffs'><Icon type="team" /><span>公司员工管理</span></NavLink></Menu.Item>
+                            <Menu.Item key="manageStaffs"><NavLink to='/main/manageStaffs' onClick={() => setPath('/main/manageStaffs')}><Icon type="team" /><span>公司员工管理</span></NavLink></Menu.Item>
                             <Menu.Item key="manageDepts"><NavLink to='/main/manageDepts'><Icon type="team" /><span>所有部门管理</span></NavLink></Menu.Item>
                             <Menu.Item key="managePos"><NavLink to='/main/managePos'><Icon type='solution' /><span>职位管理</span></NavLink></Menu.Item>
                             <Menu.Item key="manageProf"><NavLink to='/main/manageProf'><Icon type='solution' /><span>职业管理</span></NavLink></Menu.Item>
                             <Menu.Item key="manageProject"><NavLink to={`/main/manageProject?projectId=${getProjectId}`}><Icon type='solution' /><span>项目管理</span></NavLink></Menu.Item>
-                            <Menu.Item key="deptsStaffManage"><NavLink to='/main/deptsStaffManage'><Icon type="team" /><span>部门员工管理</span></NavLink></Menu.Item>
+                            <Menu.Item key="deptsStaffManage"><NavLink to={`/main/deptsStaffManage?projectId=${getProjectId}`} onClick={() => setPath('/main/deptsStaffManage')}><Icon type="team" /><span>部门员工管理</span></NavLink></Menu.Item>
                             <Menu.Item key="taskPanel"><NavLink to='/main/taskLists'><Icon type='ordered-list' /><span>工作列表</span></NavLink></Menu.Item>
                             <Menu.Item key="scrumboard"><NavLink to='/main/scrumboard'><Icon type='snippets' /><span>迭代计划</span></NavLink></Menu.Item>
-
-
 
                             <SubMenu key="sub4" title={<span><Icon type="user" /><span>员工管理</span></span>}>
                                 <Menu.Item key="manageStaff"><NavLink to='/user/manageStaff'><Icon type="contacts" />员工数据管理</NavLink></Menu.Item>

@@ -50,6 +50,9 @@ export default function useStore() {
                     this.setBtnDisabled(false)
                 } else {
                     message.error(res.mess);
+                    this.setTableLoading(false);
+                    this.setTableData(null);
+                    this.setTotalPage(0);
                 }
             });
         },

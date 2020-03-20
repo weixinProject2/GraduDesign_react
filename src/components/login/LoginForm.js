@@ -20,6 +20,11 @@ const Login = ({ form }) => {
                         localStorage.setItem('token', data.token);
                         localStorage.setItem('userInfo', JSON.stringify(data.userInfo));
                         message.success('登陆成功');
+                        // if (data.userInfo.projectLists.length > 0) {
+                        //     history.push(`/main?projectId=${data.userInfo.projectLists[0].projectId}`);
+                        // } else {
+                        //     history.push('/main?projectId=null');
+                        // }
                         history.push('/main');
                     } else {
                         message.error(data.message);

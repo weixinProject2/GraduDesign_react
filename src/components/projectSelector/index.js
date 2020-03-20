@@ -58,7 +58,7 @@ export default observer(withRouter((props) => {
         dom.setAttribute("class", "active");
         setProjectId(item.projectId);
         setSelectProject(item.projectName);
-        history.push(`${getPath}?projectId=${dataSource[0].projectId}`);
+        history.push(`${getPath}?projectId=${item.projectId}`);
     }
 
     const renderLists = () => {

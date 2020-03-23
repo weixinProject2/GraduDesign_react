@@ -6,8 +6,6 @@ import './index.less'
 
 export default ((props) => {
     const userInfo = localStorage.getItem('userInfo');
-    useEffect(() => {
-    }, []);
     return (
         <Fragment>
             <MessageStore>

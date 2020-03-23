@@ -43,7 +43,7 @@ export default observer(() => {
             title: '部门管理员',
             dataIndex: 'departmentMangerName',
             lipsis: true,
-            render: (text) => text ? text : <span style={{ color: '#ff0000b0' }}>暂未设置管理员</span>
+            render: (text) => text ? text : <span style={{ color: '#acacac' }}>暂未设置管理员</span>
         },
         {
             title: '部门简介',

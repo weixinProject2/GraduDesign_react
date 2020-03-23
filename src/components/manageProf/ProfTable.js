@@ -1,5 +1,5 @@
-import React, { useEffect } from 'react';
-import { Table, Popover, Button, Modal, Spin, message } from 'antd';
+import React, { useEffect, Fragment } from 'react';
+import { Table, Popover, Button, Modal, Spin, message, Tag } from 'antd';
 import { useProfStore } from './stores';
 import { observer } from 'mobx-react-lite';
 import { deleteProfessional } from '../../api';
@@ -19,20 +19,30 @@ export default observer(() => {
         }
     } = useProfStore();
 
+    const renderDescription = (text, record) => (
+        <Fragment>
+            <span style={{ color: !text && '#acacac' }}>{text || '暂无相关描述'}</span>
+        </Fragment>
+    );
+
+    const renderNumber = (text, record) => (
+        <span style={{ fontWeight: "bold" }}>{text}</span>
+    )
+
     const columns = [
         {
             title: '职业',
             dataIndex: 'professionalName',
         },
         {
-            title: '职位描述',
+            title: '职业描述',
             dataIndex: 'description',
-            ellipsis: true,
-            width: 100,
+            render: renderDescription,
         },
         {
             title: '在职人数',
             dataIndex: 'num',
+            render: renderNumber,
         },
         {
             title: '操作',

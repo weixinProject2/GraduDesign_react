@@ -1,7 +1,7 @@
-import React, { useEffect } from 'react';
+import React, { useEffect, Fragment } from 'react';
 import { observer } from 'mobx-react-lite';
 
-import { Table } from 'antd';
+import { Table, Tag } from 'antd';
 import { useProjectStore } from './stores';
 
 export default observer(() => {
@@ -23,6 +23,22 @@ export default observer(() => {
         onChange: changePage,
     }
 
+    const renderDepts = (text, record) => (
+        <Fragment>
+            {
+                text ? <Tag color='green'>{text}</Tag> : <span style={{ color: '#acacac' }}>暂未分配到指定部门</span>
+            }
+        </Fragment>
+    )
+
+    const renderDeptsAdmin = (text, record) => (
+        <Fragment>
+            {
+                text ? <Tag color='blue'>{text}</Tag> : <span style={{ color: '#acacac' }}>暂未设置部门管理员</span>
+            }
+        </Fragment>
+    )
+
     const columns = [
         {
             title: '项目总称',
@@ -35,28 +51,22 @@ export default observer(() => {
             width: 100,
         },
         {
-            title: '在职人数',
-            dataIndex: 'num',
-        },
-        {
             title: '项目分配部门',
-            dataIndex:'bToDepartment',
+            dataIndex: 'bToDepartment',
+            render: renderDepts,
         },
         {
             title: '项目部门管理员',
-            dataIndex:'bToDepartmentAdmin',
+            dataIndex: 'bToDepartmentAdmin',
+            render: renderDeptsAdmin,
         },
         {
             title: '创建日期',
-            dataIndex:'createTime',
+            dataIndex: 'createTime',
         },
         {
             title: '项目进度',
-            dataIndex:'schedultion',
-        },
-        {
-            title: '项目附件',
-            dataIndex:'file',
+            dataIndex: 'schedultion',
         },
     ]
 
@@ -64,10 +74,11 @@ export default observer(() => {
         loadInfo();
     }, []);
 
-    function changePage(page){
+    function changePage(page) {
         setCurrentPage(page);
         loadInfo();
     }
+
 
     return (
         <Table

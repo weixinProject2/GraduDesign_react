@@ -26,6 +26,12 @@ export default observer(() => {
         onChange: changePage,
     }
 
+    const renderDescription = (text, record) => (
+        <Fragment>
+            <span style={{ color: !text && '#acacac' }}>{text || '暂无相关描述'}</span>
+        </Fragment>
+    );
+
     const columns = [
         {
             title: '职位',
@@ -34,8 +40,7 @@ export default observer(() => {
         {
             title: '职位描述',
             dataIndex: 'description',
-            ellipsis: true,
-            width: 100,
+            render: renderDescription,
         },
         {
             title: '在职人数',

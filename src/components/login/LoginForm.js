@@ -2,11 +2,12 @@ import React, { Fragment, useContext, useEffect } from 'react';
 import { Form, Input, Icon, Button, message } from 'antd';
 import history from '../../utils/history';
 import { login } from '../../api/index';
+import { MyContext } from '../../stores'
 const FormItem = Form.Item;
 
 const Login = ({ form }) => {
     const { getFieldDecorator } = form;
-
+    const { setProjectId, setProjectName, setPath } = useContext(MyContext);
     useEffect(() => {
 
     }, [])
@@ -20,12 +21,13 @@ const Login = ({ form }) => {
                         localStorage.setItem('token', data.token);
                         localStorage.setItem('userInfo', JSON.stringify(data.userInfo));
                         message.success('登陆成功');
-                        // if (data.userInfo.projectLists.length > 0) {
-                        //     history.push(`/main?projectId=${data.userInfo.projectLists[0].projectId}`);
-                        // } else {
-                        //     history.push('/main?projectId=null');
-                        // }
-                        history.push('/main');
+                        if (data.userInfo.projectList.length > 0) {
+                            history.push(`/main?projectId=${data.userInfo.projectList[0].projectId}`);
+
+                        } else {
+                            history.push('/main?projectId=null');
+                        }
+                        setPath('/main');
                     } else {
                         message.error(data.message);
                     }

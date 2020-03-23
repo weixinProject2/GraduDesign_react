@@ -132,7 +132,7 @@ export default observer(() => {
         return (
             <Fragment>
                 {
-                    text ? <Tag color='green'>{text}</Tag> : <span style={{ color: 'red' }}>暂未设置部门</span>
+                    text ? <Tag color='green'>{text}</Tag> : <span style={{ color: '#acacac' }}>暂未设置部门</span>
                 }
             </Fragment>
         )

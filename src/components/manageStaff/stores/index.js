@@ -78,14 +78,6 @@ export const StaffStore = observer((props) => {
       return this.addBtnLoading;
     },
 
-    allDeptsOpts: [],  // 获取所有部门选项的
-    setDeptsOpts(data) {
-      this.allDeptsOpts = data;
-    },
-    get getAllDeptsOpts() {
-      return this.allDeptsOpts.slice();
-    },
-
     allProfession: [], //所有的职业选项
     get getAllPf() {
       return this.allProfession.slice();

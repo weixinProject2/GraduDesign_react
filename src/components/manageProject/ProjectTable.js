@@ -1,7 +1,7 @@
 import React, { useEffect, Fragment } from 'react';
 import { observer } from 'mobx-react-lite';
 
-import { Table, Tag } from 'antd';
+import { Table, Tag, Progress } from 'antd';
 import { useProjectStore } from './stores';
 
 export default observer(() => {
@@ -39,6 +39,17 @@ export default observer(() => {
         </Fragment>
     )
 
+    const renderSchedultion = (text, record) => (
+        <Progress
+            strokeColor={{
+                from: 'rgb(52, 217, 255)',
+                to: '#17b3a3',
+            }}
+            percent={text}
+            status="active"
+        />
+    )
+
     const columns = [
         {
             title: '项目总称',
@@ -67,6 +78,7 @@ export default observer(() => {
         {
             title: '项目进度',
             dataIndex: 'schedultion',
+            render: renderSchedultion,
         },
     ]
 

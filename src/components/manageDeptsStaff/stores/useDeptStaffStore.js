@@ -7,7 +7,7 @@ export default function useStore() {
     // const { workNumber } = localStorage.getItem('userInfo') && JSON.parse(localStorage.getItem('userInfo'));
     return useLocalStore(() => ({
         params: {
-            workNumber: localStorage.getItem('userInfo') && JSON.parse(localStorage.getItem('userInfo')), // 从localstorage里面拿的
+            workNumber: localStorage.getItem('userInfo') && JSON.parse(localStorage.getItem('userInfo')).workNumber, // 从localstorage里面拿的
             page: 1,
             size: 10,
             queryFiled: {

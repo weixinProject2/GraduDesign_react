@@ -5,6 +5,8 @@ import { createStaff, getAllStaffInfo } from '../../api';
 import { MyStaffContext } from './stores';
 import AddressPick from '../../tool-components/AddressPick';
 import AllPostionSelect from '../../tool-components/AllPostionSelect';
+import DeptsSelect from '../../tool-components/AllDeptSelect';
+import ProfSelect from '../../tool-components/AllProfSelect';
 
 const FormItem = Form.Item;
 
@@ -40,19 +42,11 @@ const AddStaffForm = observer(({ form }) => {
     const { getFieldDecorator } = form;
     const {
         TableAttrStore: {
-            getAddBtnLoading, setAddBtnLoading,
             setStaffVisible,
             setLoading,
             setAddDisabled, setStaffInfo, setTotalPages, setPage,
-            getAllDeptsOpts, getAllPf,
         }
     } = useContext(MyStaffContext)
-
-    useEffect(() => {
-
-    }, [])
-
-
 
     function handleCreateSubmit(e) {
         e.preventDefault();
@@ -78,20 +72,6 @@ const AddStaffForm = observer(({ form }) => {
                 return <Option value={value.id} key={key}>{value.type}</Option>
             })
         }
-    }
-
-    // 获取所有部门放到select框中
-    function renderAllDeps() {
-        return getAllDeptsOpts.map((value, key) => {
-            return <Option value={value.departmentId} key={key}>{value.departmentName}</Option>
-        })
-    }
-
-    // 渲染所有职业
-    function renderAllProf() {
-        return getAllPf.map((value, key) => {
-            return <Option value={value.professionalId} key={key}>{value.professionalName}</Option>
-        })
     }
 
     // 加载数据
@@ -200,15 +180,7 @@ const AddStaffForm = observer(({ form }) => {
                     {getFieldDecorator('departmentId', {
                         rules: [{ required: true, message: '部门不能为空!' }, { pattern: /^[^ ]+$/, message: '不允许空格字符' }],
                     })(
-                        <Select placeholder="请选择部门"
-                            allowClear
-                            showSearch
-                            filterOption={(input, option) =>
-                                option.props.children.indexOf(input) >= 0
-                            }
-                        >
-                            {renderAllDeps()}
-                        </Select>
+                        <DeptsSelect />
                     )}
                 </FormItem>
 
@@ -216,17 +188,7 @@ const AddStaffForm = observer(({ form }) => {
                     {getFieldDecorator('professionalId', {
                         rules: [{ required: true, message: '职业不能为空!' }, { pattern: /^[^ ]+$/, message: '不允许空格字符' }],
                     })(
-                        <Select
-                            placeholder="请选择职业"
-                            allowClear
-                            showSearch
-                            filterOption={(input, option) =>
-                                // console.log(input, option)
-                                option.props.children.indexOf(input) >= 0
-                            }
-                        >
-                            {renderAllProf()}
-                        </Select>
+                        <ProfSelect />
                     )}
                 </FormItem>
 

@@ -15,15 +15,13 @@ export default observer(withRouter((props) => {
         dataSource,
         loading,
     } = props;
-    const { location } = history;
+    // const { location } = history;
 
     const [expand, setExpand] = useState(false);
     const [hasProjects, setHasPorjects] = useState(false);
     const [selectProject, setSelectProject] = useState("");
 
     const { setProjectId, getPath } = useContext(MyContext);
-
-    
 
     useEffect(() => {
         document.getElementById('ProjectSelectorText').onblur = function () {
@@ -33,18 +31,49 @@ export default observer(withRouter((props) => {
             setExpand(false);
         }
         if (dataSource.length > 0) {
+            const search = history.location.search;
+            if (search) {
+                const checkSearch = dataSource.some((item) => item.projectId === search.split('=')[1]);
+                const checkSearchItem = dataSource.filter((item) => item.projectId === search.split('=')[1]);
+                if (checkSearch) {
+                    setSelectProject(checkSearchItem[0].projectName);
+                    setProjectId(search.split('=')[1]);
+                    setProject(checkSearchItem[0].projectName);
+                    history.push(`${getPath}?projectId=${search.split('=')[1]}`);
+                } else {
+                    setSelectProject(dataSource[0].projectName);
+                    setProjectId(dataSource[0].projectId);
+                    history.push(`${getPath}?projectId=${dataSource[0].projectId}`);
+                }
+            } else {
+                history.push(`${getPath}?projectId=${dataSource[0].projectId}`);
+                setSelectProject(dataSource[0].projectName);
+                setProjectId(dataSource[0].projectId);
+            }
             setHasPorjects(true);
-            setSelectProject(dataSource[0].projectName);
-            setProjectId(dataSource[0].projectId);
-            // history.push(`${getPath}?projectId=${dataSource[0].projectId}`);
         } else {
             setSelectProject("暂无任何项目");
             setProjectId(null);
             setHasPorjects(false);
-            // history.push(`${getPath}?projectId=null`);
+            history.push(`${getPath}?projectId=null`);
         }
 
-    }, [])
+    }, []);
+
+    function setProject(name) {
+        const allLi = document.getElementById("ProjectLists") && document.getElementById("ProjectLists").childNodes;
+        if (allLi) {
+            allLi.forEach((liItem) => {
+                const classVal = liItem.getAttribute("class");
+                if (classVal === "active") {
+                    liItem.setAttribute('class', '');
+                }
+                if (liItem.innerHTML === name) {
+                    liItem.setAttribute('class', 'active');
+                }
+            })
+        }
+    }
 
     function changeProject(item, e) {
         const dom = e.currentTarget;

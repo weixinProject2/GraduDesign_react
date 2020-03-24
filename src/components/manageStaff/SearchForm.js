@@ -4,6 +4,9 @@ import { Form, Button, Input, Select, message } from 'antd';
 import { getAllStaffInfo, getProfessional, getDepartment } from '../../api';
 import { MyStaffContext } from './stores';
 import PostionSelect from '../../tool-components/AllPostionSelect'
+import DeptsSelect from '../../tool-components/AllDeptSelect';
+import ProfSelect from '../../tool-components/AllProfSelect'
+
 
 const FormItem = Form.Item;
 const { Option } = Select
@@ -12,29 +15,11 @@ const SearchForm = observer(({ form }) => {
     const { getFieldDecorator, getFieldsValue } = form;
     const {
         TableAttrStore: {
-            getAllDeptsOpts, getAllPf,
             setLoading, setAddDisabled, setStaffInfo, setTotalPages, getAddDisabled,
-            setQueryFields, setPage, setPf, setDeptsOpts
+            setQueryFields, setPage
         }
     } = useContext(MyStaffContext);
 
-    useEffect(() => {
-        loadAllOpts();
-    }, [])
-
-
-    function loadAllOpts() {
-        Promise.all([getProfessional(), getDepartment()]).then((res) => {
-            if (res.length > 0) {
-                setPf(res[0].data);
-                setDeptsOpts(res[1].data);
-            } else {
-                message.error('拉取数据失败！')
-            }
-        }).catch((err) => {
-            console.log(err);
-        })
-    }
 
     // 提交
     function handleSearchSubmit(e) {
@@ -52,20 +37,6 @@ const SearchForm = observer(({ form }) => {
                 };
                 loadStaffInfo(params)
             }
-        })
-    }
-
-    // 获取所有部门放到select框中
-    function renderAllDeps() {
-        return getAllDeptsOpts.map((value, key) => {
-            return <Option value={value.departmentId} key={key}>{value.departmentName}</Option>
-        })
-    }
-
-    // 渲染所有职业
-    function renderAllProf() {
-        return getAllPf.map((value, key) => {
-            return <Option value={value.professionalId} key={key}>{value.professionalName}</Option>
         })
     }
 
@@ -114,10 +85,7 @@ const SearchForm = observer(({ form }) => {
                 setAddDisabled(false)
                 message.error("加载失败！");
             }
-        }).catch((err) => {
-            console.log(err);
         })
-
     }
 
     return (
@@ -143,18 +111,7 @@ const SearchForm = observer(({ form }) => {
                     {getFieldDecorator('departmentId', {
                         rules: [{ required: false }],
                     })(
-                        <Select
-                            placeholder="部门"
-                            style={{ width: 180 }}
-                            disabled={getAddDisabled}
-                            allowClear
-                            showSearch
-                            filterOption={(input, option) =>
-                                option.props.children.indexOf(input) >= 0
-                            }
-                        >
-                            {renderAllDeps()}
-                        </Select>
+                        <DeptsSelect disabled={getAddDisabled} />
                     )}
                 </FormItem>
 
@@ -162,18 +119,7 @@ const SearchForm = observer(({ form }) => {
                     {getFieldDecorator('professionalId', {
                         rules: [{ required: false }],
                     })(
-                        <Select
-                            placeholder="职业"
-                            style={{ width: 180 }}
-                            disabled={getAddDisabled}
-                            showSearch
-                            allowClear
-                            filterOption={(input, option) =>
-                                option.props.children.indexOf(input) >= 0
-                            }
-                        >
-                            {renderAllProf()}
-                        </Select>
+                        <ProfSelect disabled={getAddDisabled} />
                     )}
                 </FormItem>
 

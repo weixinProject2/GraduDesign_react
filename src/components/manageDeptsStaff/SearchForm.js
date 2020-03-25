@@ -6,10 +6,11 @@ import { Form, Select, Button, Input } from 'antd';
 
 const FormItem = Form.Item;
 const Option = Select.Option;
+
 const SearchForm = observer(({ form, searchStore, mainStore }) => {
     const { getFieldDecorator, getFieldsValue } = form;
-    const { getAllPos, getAllPf, } = searchStore;
-    const { setQueryFiled, loadInfo, setCurrentPage, getBtnDisabled, setBtnDisabled } = mainStore;
+    const { getAllPos, getAllPf } = searchStore;
+    const { setQueryFiled, loadInfo, setCurrentPage, getBtnDisabled } = mainStore;
     // 渲染所有职位
     function renderAllPos() {
         return getAllPos.map((value, key) => {

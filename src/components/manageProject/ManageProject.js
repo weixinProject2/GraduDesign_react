@@ -4,6 +4,8 @@ import { useProjectStore } from './stores';
 import { withRouter } from 'react-router-dom';
 import { Button } from 'antd';
 import ProjectTable from './ProjectTable';
+import SearchForm from './ProjectSearchForm';
+
 
 export default withRouter(observer((props) => {
     const { location } = props;
@@ -46,6 +48,7 @@ export default withRouter(observer((props) => {
             </header>
             <div className="gradu-form-content">
                 <h2>项目信息列表</h2>
+                <SearchForm />
                 <ProjectTable />
             </div>
         </Fragment>

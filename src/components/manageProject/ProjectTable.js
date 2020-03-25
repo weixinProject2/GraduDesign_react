@@ -1,7 +1,7 @@
 import React, { useEffect, Fragment } from 'react';
 import { observer } from 'mobx-react-lite';
 
-import { Table, Tag, Progress } from 'antd';
+import { Table, Tag, Progress, Popover, Button } from 'antd';
 import { useProjectStore } from './stores';
 
 export default observer(() => {
@@ -26,7 +26,7 @@ export default observer(() => {
     const renderDepts = (text, record) => (
         <Fragment>
             {
-                text ? <Tag color='green'>{text}</Tag> : <span style={{ color: '#acacac' }}>暂未分配到指定部门</span>
+                text ? <Tag color='blue'>{text}</Tag> : <span style={{ color: '#acacac' }}>暂未分配到指定部门</span>
             }
         </Fragment>
     )
@@ -34,7 +34,7 @@ export default observer(() => {
     const renderDeptsAdmin = (text, record) => (
         <Fragment>
             {
-                text ? <Tag color='blue'>{text}</Tag> : <span style={{ color: '#acacac' }}>暂未设置部门管理员</span>
+                text ? <Tag color='green'>{text}</Tag> : <span style={{ color: '#acacac' }}>暂未设置部门管理员</span>
             }
         </Fragment>
     )
@@ -49,6 +49,28 @@ export default observer(() => {
             status="active"
         />
     )
+
+    const Lists = ({ record }) => {
+        const permissions = record.permissions;
+        return (
+            <ul className='gradu-form-opts'>
+                {/* <li onClick={openModifyDrawer.bind(this, record)}>修改信息</li>
+                {permissions === "1" ? null : <li onClick={showDeleteConfirm.bind(this, record)}>删除</li>} */}
+            </ul>
+        )
+    }
+
+    const renderOpts = (text, record) => {
+        return (
+            <Popover
+                content={<Lists record={record} />}
+                placement="bottom"
+                trigger='click'
+            >
+                <Button type="dashed" shape="circle" icon='more' size='small' />
+            </Popover>
+        )
+    }
 
     const columns = [
         {
@@ -79,6 +101,11 @@ export default observer(() => {
             title: '项目进度',
             dataIndex: 'schedultion',
             render: renderSchedultion,
+        },
+        {
+            title: '操作',
+            width: 50,
+            render: renderOpts
         },
     ]
 

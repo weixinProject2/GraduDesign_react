@@ -4,7 +4,6 @@ import { useLocalStore } from 'mobx-react-lite';
 import { getYourDeptStaff, deleteDeptStaff } from '../../../api';
 
 export default function useStore() {
-    // const { workNumber } = localStorage.getItem('userInfo') && JSON.parse(localStorage.getItem('userInfo'));
     return useLocalStore(() => ({
         params: {
             workNumber: localStorage.getItem('userInfo') && JSON.parse(localStorage.getItem('userInfo')).workNumber, // 从localstorage里面拿的

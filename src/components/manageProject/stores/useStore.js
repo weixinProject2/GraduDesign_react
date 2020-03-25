@@ -8,6 +8,13 @@ export default function useStore() {
         params: {
             page: 1,
             size: 10,
+            bToDepartmentID: '',
+            projectName: '',
+
+        },
+        setQueryFileds(value) {
+            this.params.bToDepartmentID = value && value.bToDepartmentID ? value.bToDepartmentID : '';
+            this.params.projectName = value && value.projectName ? value.projectName : '';
         },
         get getCurrentPage() {
             return this.params.page;

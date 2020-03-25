@@ -69,10 +69,10 @@ export default function useStore() {
             return this.btnDisabled;
         },
         addModalVisble: false,
-        get getProfAddModalVisble() {
+        get getAddModalVisble() {
             return this.addModalVisble;
         },
-        setProfAddModalVisble(value) {
+        setAddModalVisble(value) {
             this.addModalVisble = value;
         }
     }));

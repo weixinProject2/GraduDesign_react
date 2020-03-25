@@ -50,12 +50,21 @@ export default observer(() => {
         />
     )
 
+    function openModifyDrawer() {
+
+    }
+
+    function showDeleteConfirm() {
+
+    }
+
     const Lists = ({ record }) => {
-        const permissions = record.permissions;
+        const hasDept = record.bToDepartment;
         return (
             <ul className='gradu-form-opts'>
-                {/* <li onClick={openModifyDrawer.bind(this, record)}>修改信息</li>
-                {permissions === "1" ? null : <li onClick={showDeleteConfirm.bind(this, record)}>删除</li>} */}
+                <li onClick={openModifyDrawer.bind(this, record)}>修改信息</li>
+                {!hasDept && <li onClick={showDeleteConfirm.bind(this, record)}>删除</li>}
+                {!hasDept && <li >分配</li>}
             </ul>
         )
     }

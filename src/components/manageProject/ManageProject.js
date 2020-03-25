@@ -2,22 +2,27 @@ import React, { useEffect, Fragment } from 'react';
 import { observer } from 'mobx-react-lite';
 import { useProjectStore } from './stores';
 import { withRouter } from 'react-router-dom';
-import { Button } from 'antd';
+import { Button, Drawer } from 'antd';
 import ProjectTable from './ProjectTable';
 import SearchForm from './ProjectSearchForm';
+import AddForm from './AddForm';
 
-
-export default withRouter(observer((props) => {
-    const { location } = props;
+export default withRouter(observer(() => {
     const {
         mainStore: {
             getBtnDisabled,
             loadInfo,
+            getAddModalVisble,
+            setAddModalVisble,
         }
     } = useProjectStore();
 
     function openDrawer() {
+        setAddModalVisble(true);
+    }
 
+    function closeAddDrawer(){
+        setAddModalVisble(false);
     }
 
     function refresh() {
@@ -44,13 +49,23 @@ export default withRouter(observer((props) => {
                 >
                     刷新
                 </Button>
-                {/* {location.search} */}
             </header>
             <div className="gradu-form-content">
                 <h2>项目信息列表</h2>
                 <SearchForm />
                 <ProjectTable />
             </div>
+            <Drawer
+                title="新增项目"
+                placement="right"
+                width={450}
+                closable={true}
+                onClose={closeAddDrawer}
+                visible={getAddModalVisble}
+                destroyOnClose
+            >
+                <AddForm />
+            </Drawer>
         </Fragment>
     )
 }))

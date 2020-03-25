@@ -61,3 +61,5 @@ export const deleteProfessional = (params) => http.delete('/admin/deleteProfessi
 
 // 获取所有的项目
 export const getAllProjects = (params) => http.get('/admin/queryAllProject', params);
+// 增加项目
+export const addNewProject = (params) => http.post('/admin/addProject', params);

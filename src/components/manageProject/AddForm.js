@@ -3,7 +3,7 @@ import { Form, Input, Icon, Button, message, InputNumber } from 'antd';
 import { useProjectStore } from "./stores";
 import { observer } from 'mobx-react-lite';
 import { addNewProject } from '../../api';
-
+import DeptSelect from '../../tool-components/AllDeptSelect';
 
 const FormItem = Form.Item;
 const formItemLayout = {
@@ -75,11 +75,11 @@ const AddForm = observer(({ form }) => {
                 )}
             </FormItem>
 
-            <FormItem label="部门管理员ID：" >
-                {getFieldDecorator('bToDepartmentAdminID', {
+            <FormItem label="分配部门：" >
+                {getFieldDecorator('bToDepartmentID', {
                     rules: [{ required: false }],
                 })(
-                    <InputNumber maxLength={20} prefix={<Icon type="user" style={{ color: 'rgba(0,0,0,.25)' }} />} placeholder="请输入部门管理员ID" />
+                    <DeptSelect />
                 )}
             </FormItem>
 

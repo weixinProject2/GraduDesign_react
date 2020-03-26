@@ -60,26 +60,27 @@ export default observer(() => {
 
     const Lists = ({ record }) => {
         const hasDept = record.bToDepartment;
+        const schedultion = record.schedultion;
         return (
             <ul className='gradu-form-opts'>
                 <li onClick={openModifyDrawer.bind(this, record)}>修改信息</li>
-                {!hasDept && <li onClick={showDeleteConfirm.bind(this, record)}>删除</li>}
-                {!hasDept && <li >分配</li>}
+                {!hasDept && <li >分配项目</li>}
+                {(!hasDept || schedultion === 100) && <li onClick={showDeleteConfirm.bind(this, record)}>删除</li>}
+
             </ul>
         )
     }
 
-    const renderOpts = (text, record) => {
-        return (
-            <Popover
-                content={<Lists record={record} />}
-                placement="bottom"
-                trigger='click'
-            >
-                <Button type="dashed" shape="circle" icon='more' size='small' />
-            </Popover>
-        )
-    }
+    const renderOpts = (text, record) => (
+        <Popover
+            content={<Lists record={record} />}
+            placement="bottom"
+            trigger='click'
+        >
+            <Button type="dashed" shape="circle" icon='more' size='small' />
+        </Popover>
+    )
+
 
     const columns = [
         {

@@ -74,6 +74,21 @@ export default function useStore() {
         },
         setAddModalVisble(value) {
             this.addModalVisble = value;
+        },
+        // 分配项目的框
+        distributeVisible: false,
+        setDistributeVisible(value) {
+            this.distributeVisible = value;
+        },
+        get getDistributeModalVisible() {
+            return this.distributeVisible;
+        },
+        projectId: '',
+        setProjectId(value) {
+            this.projectId = value;
+        },
+        get getProjectId() {
+            return this.projectId
         }
     }));
 }

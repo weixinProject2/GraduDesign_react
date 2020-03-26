@@ -1,8 +1,82 @@
 import React, { useEffect, Fragment } from 'react';
 import { observer } from 'mobx-react-lite';
 
-import { Table, Tag, Progress, Popover, Button } from 'antd';
+import { Table, Tag, Progress, Popover, Button, Modal, message, Form } from 'antd';
 import { useProjectStore } from './stores';
+import { deleteProject, distributeProject } from '../../api';
+import DepartSelect from '../../tool-components/AllDeptSelect';
+
+const FormItem = Form.Item;
+const formItemLayout = {
+    labelCol: {
+        xs: { span: 12 },
+        sm: { span: 5 },
+    },
+    wrapperCol: {
+        xs: { span: 24 },
+        sm: { span: 18 },
+    },
+};
+const { confirm } = Modal;
+
+const DistributeForm = observer(({ form }) => {
+    const { getFieldDecorator } = form;
+    const {
+        mainStore: {
+            getProjectId,
+            setDistributeVisible,
+            setProjectId,
+        }
+    } = useProjectStore();
+
+    function handleSubmit(e) {
+        e.preventDefault();
+        form.validateFields((err, value) => {
+            if (!err) {
+                value.projectId = getProjectId;
+                distributeProject(value).then((res) => {
+                    if (!res.error) {
+                        setProjectId('');
+                        setDistributeVisible(false);
+                        message.success(res.message)
+                    } else {
+                        message.error(res.message);
+                    }
+                })
+            }
+        })
+    }
+
+    function cancelModal() {
+        setDistributeVisible(false);
+        setProjectId('');
+    }
+
+    return (
+        <Fragment>
+            <Form onSubmit={handleSubmit} {...formItemLayout}>
+                <FormItem label="部门：" hasFeedback >
+                    {getFieldDecorator('bToDepartmentID', {
+                        rules: [{ required: true, message: '所分配的部门不能为空!' }, { pattern: /^[^ ]+$/, message: '不允许空格字符' }],
+                    })(
+                        <DepartSelect />
+                    )}
+                </FormItem>
+
+                <FormItem>
+                    <Button type="primary" htmlType="submit">
+                        确认分配
+                    </Button >
+                    <Button onClick={cancelModal}>
+                        取消
+                    </Button>
+                </FormItem>
+            </Form>
+        </Fragment>
+    )
+})
+const WrappedNormalDistributeForm = Form.create()(DistributeForm);
+
 
 export default observer(() => {
     const {
@@ -13,6 +87,9 @@ export default observer(() => {
             getCurrentPage,
             setCurrentPage,
             getTableLoading,
+            setDistributeVisible,
+            getDistributeModalVisible,
+            setProjectId,
         }
     } = useProjectStore();
 
@@ -31,13 +108,9 @@ export default observer(() => {
         </Fragment>
     )
 
-    const renderDeptsAdmin = (text, record) => (
-        <Fragment>
-            {
-                text ? <Tag color='green'>{text}</Tag> : <span style={{ color: '#acacac' }}>暂未设置部门管理员</span>
-            }
-        </Fragment>
-    )
+    const renderProject = (text, record) => (
+        <Tag color='green'>{text}</Tag>
+    );
 
     const renderSchedultion = (text, record) => (
         <Progress
@@ -54,19 +127,49 @@ export default observer(() => {
 
     }
 
-    function showDeleteConfirm() {
+    function deleteOneProject(projectId) {
+        const params = {
+            'projectId': projectId
+        }
+        deleteProject(params).then((res) => {
+            if (!res.error) {
+                loadInfo();
+                message.success(res.message);
+                return true
+            } else {
+                message.error(res.message);
+                return false;
+            }
+        })
+    }
 
+    function showDistribeModal(record) {
+        const { projectId } = record;
+        setDistributeVisible(true);
+        setProjectId(projectId);
+    }
+
+    // 打开删除对话框
+    function showDeleteConfirm(record) {
+        const { projectName, projectId } = record;
+        confirm({
+            title: '警告',
+            content: <p>确认删除<strong>{projectName}</strong>项目吗？删除之后将不可恢复！</p>,
+            okText: '确定',
+            okType: 'danger',
+            cancelText: '取消',
+            onOk: deleteOneProject.bind(this, projectId),
+        });
     }
 
     const Lists = ({ record }) => {
-        const hasDept = record.bToDepartment;
+        const hasDept = record.bToDepartmentID;
         const schedultion = record.schedultion;
         return (
             <ul className='gradu-form-opts'>
                 <li onClick={openModifyDrawer.bind(this, record)}>修改信息</li>
-                {!hasDept && <li >分配项目</li>}
+                {!hasDept && <li onClick={showDistribeModal.bind(this, record)}>分配项目</li>}
                 {(!hasDept || schedultion === 100) && <li onClick={showDeleteConfirm.bind(this, record)}>删除</li>}
-
             </ul>
         )
     }
@@ -86,22 +189,16 @@ export default observer(() => {
         {
             title: '项目总称',
             dataIndex: 'projectName',
+            render: renderProject,
         },
         {
             title: '项目描述',
             dataIndex: 'describtion',
-            ellipsis: true,
-            width: 100,
         },
         {
             title: '项目分配部门',
-            dataIndex: 'bToDepartment',
+            dataIndex: 'departmentName',
             render: renderDepts,
-        },
-        {
-            title: '项目部门管理员',
-            dataIndex: 'bToDepartmentAdmin',
-            render: renderDeptsAdmin,
         },
         {
             title: '创建日期',
@@ -128,16 +225,31 @@ export default observer(() => {
         loadInfo();
     }
 
+    function handleDistributeCancel() {
+        setDistributeVisible(false);
+        setProjectId('');
+    }
 
     return (
-        <Table
-            tableLayout='inline'
-            size='small'
-            columns={columns}
-            rowKey='projectId'
-            loading={getTableLoading}
-            dataSource={getTableData}
-            pagination={pageSet}
-        />
+        <Fragment>
+            <Table
+                tableLayout='inline'
+                size='small'
+                columns={columns}
+                rowKey='projectId'
+                loading={getTableLoading}
+                dataSource={getTableData}
+                pagination={pageSet}
+            />
+            <Modal
+                title="分配项目到部门"
+                visible={getDistributeModalVisible}
+                // onOk={this.handleOk}
+                footer={null}
+                onCancel={handleDistributeCancel}
+            >
+                <WrappedNormalDistributeForm />
+            </Modal>
+        </Fragment>
     )
 })

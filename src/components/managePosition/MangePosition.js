@@ -5,6 +5,7 @@ import { Button, message, Drawer, Modal } from 'antd';
 import { usePositionsStore } from './stores'
 import PosTable from './PosTable';
 import AddForm from './AddForm';
+import TableHeader from '../../tool-components/TableHeader';
 
 export default observer(() => {
     const {
@@ -28,22 +29,26 @@ export default observer(() => {
         setPosAddModalVisble(true);
     };
 
+    const headerBtns = (
+        <Fragment>
+            <Button
+                icon="user-add" ghost
+                type='primary'
+                disabled={getBtnDisabled}
+                onClick={openDrawer}
+            >添加新职位</Button>
+            <Button
+                icon="reload" ghost
+                type='primary'
+                disabled={getBtnDisabled}
+                onClick={refresh}
+            >刷新</Button>
+        </Fragment>
+    )
+
     return (
         <Fragment>
-            <header className="gradu-content-header">
-                <Button
-                    icon="user-add" ghost
-                    type='primary'
-                    disabled={getBtnDisabled}
-                    onClick={openDrawer}
-                >添加新职位</Button>
-                <Button
-                    icon="reload" ghost
-                    type='primary'
-                    disabled={getBtnDisabled}
-                    onClick={refresh}
-                >刷新</Button>
-            </header>
+            <TableHeader headerButtons={headerBtns} />
             <div className="gradu-form-content">
                 <h2>职位信息列表</h2>
                 <PosTable />

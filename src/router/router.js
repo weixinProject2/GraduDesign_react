@@ -21,6 +21,10 @@ import ManagePosition from '../components/managePosition';
 import ManageProf from '../components/manageProf';
 import ProjectSelector from '../components/projectSelector';
 import ManageProject from '../components/manageProject';
+import Notice from '../components/notice';
+import NoticeEditor from '../components/notice/noticeEditor';
+
+
 
 const SubMenu = Menu.SubMenu;
 
@@ -93,7 +97,7 @@ export default observer(() => {
                             <Menu.Item key="deptsStaffManage"><NavLink to={`/main/deptsStaffManage?projectId=${getProjectId}`} onClick={() => setPath('/main/deptsStaffManage')}><Icon type="team" /><span>部门员工管理</span></NavLink></Menu.Item>
                             <Menu.Item key="taskPanel"><NavLink to='/main/taskLists'><Icon type='ordered-list' /><span>工作列表</span></NavLink></Menu.Item>
                             <Menu.Item key="scrumboard"><NavLink to='/main/scrumboard'><Icon type='snippets' /><span>迭代计划</span></NavLink></Menu.Item>
-
+                            <Menu.Item key='notice'><NavLink to='/main/notice'><Icon type='solution' /><span>公告</span></NavLink></Menu.Item>
                             <SubMenu key="sub4" title={<span><Icon type="user" /><span>员工管理</span></span>}>
                                 <Menu.Item key="manageStaff"><NavLink to='/user/manageStaff'><Icon type="contacts" />员工数据管理</NavLink></Menu.Item>
                             </SubMenu>
@@ -115,6 +119,8 @@ export default observer(() => {
                         <Route path='/main/managePos' component={ManagePosition} />
                         <Route path='/main/manageProf' component={ManageProf} />
                         <Route path='/main/manageProject' component={ManageProject} />
+                        <Route path='/main/notice' component={Notice} exact/>
+                        <Route path='/main/notice/editor' component={NoticeEditor}/>
                     </div>
                 </main>
             </Spin>

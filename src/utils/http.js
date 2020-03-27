@@ -81,8 +81,11 @@ class http {
         return await instance.post(url, rawData)
     }
 
-    static async delete(url, params) { // 封装post方法
+    static async delete(url, params) { // 封装delete方法
         return await instance.delete(url, { params });
+    }
+    static async put(url, rawData) {
+        return await instance.put(url, rawData); // 封装put方法
     }
     // ....其他方法
     // ..............

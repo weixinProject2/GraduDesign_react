@@ -67,3 +67,6 @@ export const addNewProject = (params) => http.post('/admin/addProject', params);
 export const deleteProject = (params) => http.delete('/admin/deleteProject', params);
 // 分配项目到部门
 export const distributeProject = (params) => http.post('/admin/distribeProject', params);
+
+// 创建公告
+export const newNotice = (params) => http.put('/releaseAnnoun', params);

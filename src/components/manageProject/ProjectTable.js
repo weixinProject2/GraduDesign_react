@@ -7,16 +7,16 @@ import { deleteProject, distributeProject } from '../../api';
 import DepartSelect from '../../tool-components/AllDeptSelect';
 
 const FormItem = Form.Item;
-const formItemLayout = {
-    labelCol: {
-        xs: { span: 12 },
-        sm: { span: 5 },
-    },
-    wrapperCol: {
-        xs: { span: 24 },
-        sm: { span: 18 },
-    },
-};
+// const formItemLayout = {
+//     labelCol: {
+//         xs: { span: 12 },
+//         sm: { span: 5 },
+//     },
+//     wrapperCol: {
+//         xs: { span: 24 },
+//         sm: { span: 18 },
+//     },
+// };
 const { confirm } = Modal;
 
 const DistributeForm = observer(({ form }) => {
@@ -26,6 +26,7 @@ const DistributeForm = observer(({ form }) => {
             getProjectId,
             setDistributeVisible,
             setProjectId,
+            loadInfo,
         }
     } = useProjectStore();
 
@@ -38,9 +39,11 @@ const DistributeForm = observer(({ form }) => {
                     if (!res.error) {
                         setProjectId('');
                         setDistributeVisible(false);
-                        message.success(res.message)
+                        message.success(res.message);
+                        loadInfo();
                     } else {
                         message.error(res.message);
+                        setDistributeVisible(false);
                     }
                 })
             }
@@ -54,7 +57,7 @@ const DistributeForm = observer(({ form }) => {
 
     return (
         <Fragment>
-            <Form onSubmit={handleSubmit} {...formItemLayout}>
+            <Form onSubmit={handleSubmit} layout="inline" style={{ height: '83px' }}>
                 <FormItem label="部门：" hasFeedback >
                     {getFieldDecorator('bToDepartmentID', {
                         rules: [{ required: true, message: '所分配的部门不能为空!' }, { pattern: /^[^ ]+$/, message: '不允许空格字符' }],
@@ -67,7 +70,7 @@ const DistributeForm = observer(({ form }) => {
                     <Button type="primary" htmlType="submit">
                         确认分配
                     </Button >
-                    <Button onClick={cancelModal}>
+                    <Button onClick={cancelModal} style={{ marginLeft: '20px' }}>
                         取消
                     </Button>
                 </FormItem>
@@ -249,6 +252,9 @@ export default observer(() => {
                 onCancel={handleDistributeCancel}
             >
                 <WrappedNormalDistributeForm />
+                <p
+                    style={{ color: '#de0000c2' }}
+                >*注意：一个项目只能分配到一个部门，并且不可逆</p>
             </Modal>
         </Fragment>
     )

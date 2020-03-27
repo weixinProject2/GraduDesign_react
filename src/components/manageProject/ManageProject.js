@@ -6,6 +6,8 @@ import { Button, Drawer } from 'antd';
 import ProjectTable from './ProjectTable';
 import SearchForm from './ProjectSearchForm';
 import AddForm from './AddForm';
+import TableHeader from '../../tool-components/TableHeader';
+
 
 export default withRouter(observer(() => {
     const {
@@ -21,7 +23,7 @@ export default withRouter(observer(() => {
         setAddModalVisble(true);
     }
 
-    function closeAddDrawer(){
+    function closeAddDrawer() {
         setAddModalVisble(false);
     }
 
@@ -29,27 +31,31 @@ export default withRouter(observer(() => {
         loadInfo();
     }
 
+    const headerBtns = (
+        <Fragment>
+            <Button
+                icon="user-add"
+                ghost
+                type='primary'
+                disabled={getBtnDisabled}
+                onClick={openDrawer}
+            >
+                添加新项目
+                    </Button>
+            <Button
+                icon="reload" ghost
+                type='primary'
+                disabled={getBtnDisabled}
+                onClick={refresh}
+            >
+                刷新
+                </Button>
+        </Fragment>
+    )
+
     return (
         <Fragment>
-            <header className="gradu-content-header">
-                <Button
-                    icon="user-add"
-                    ghost
-                    type='primary'
-                    disabled={getBtnDisabled}
-                    onClick={openDrawer}
-                >
-                    添加新项目
-                    </Button>
-                <Button
-                    icon="reload" ghost
-                    type='primary'
-                    disabled={getBtnDisabled}
-                    onClick={refresh}
-                >
-                    刷新
-                </Button>
-            </header>
+            <TableHeader headerButtons={headerBtns} />
             <div className="gradu-form-content">
                 <h2>项目信息列表</h2>
                 <SearchForm />

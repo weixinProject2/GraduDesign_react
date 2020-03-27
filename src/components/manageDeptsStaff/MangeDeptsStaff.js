@@ -7,6 +7,7 @@ import { getProfessional, getPosition, deleteDeptStaff } from '../../api';
 import { useDeptsStaffStore } from './stores'
 import DeptStaffTable from './DeptStaffTable';
 import SearchForm from './SearchForm';
+import TableHeader from '../../tool-components/TableHeader';
 
 export default observer(() => {
     const {
@@ -46,17 +47,21 @@ export default observer(() => {
         loadAllOpts();
     }, [])
 
+    const headerBtns = (
+        <Fragment>
+            <Button
+                icon="usergroup-delete"
+                ghost type='danger'
+                disabled={!getSelectRows.length > 0}
+                onClick={removeStaff}
+            >移除员工</Button>
+            <Button type="primary" icon="reload" ghost onClick={loadInfo} disabled={getBtnDisabled}>刷新</Button>
+        </Fragment>
+    )
+
     return (
         <Fragment>
-            <header className="gradu-content-header">
-                <Button
-                    icon="usergroup-delete"
-                    ghost type='danger'
-                    disabled={!getSelectRows.length > 0}
-                    onClick={removeStaff}
-                >移除员工</Button>
-                <Button type="primary" icon="reload" ghost onClick={loadInfo} disabled={getBtnDisabled}>刷新</Button>
-            </header>
+            <TableHeader headerButtons={headerBtns} />
             <div className="gradu-form-content">
                 {
                     departmentName && <h2>{`"${departmentName}"员工信息列表`}</h2>

@@ -6,6 +6,8 @@ import { getAllStaffInfo, deleteStaffById } from '../../api'
 import StaffForm from './MangeStaffForm';
 import AddStaffForm from './AddStaffForm'
 import SearchForm from './SearchForm';
+import TableHeader from '../../tool-components/TableHeader';
+
 
 export default observer(() => {
     const {
@@ -100,13 +102,17 @@ export default observer(() => {
         setStaffVisible(false)
     }
 
+    const headerBtns = (
+        <Fragment>
+            <Button icon="user-add" ghost type='primary' disabled={getAddDisabled} onClick={openStaffDrawer}>增加员工</Button>
+            <Button icon="usergroup-delete" ghost type='danger' onClick={deleteMore} disabled={getBtnDisabled}>批量删除员工</Button>
+            <Button icon="reload" ghost type='primary' onClick={refresh} disabled={getAddDisabled}>刷新</Button>
+        </Fragment>
+    )
+
     return (
         <div className="gradu-staff-manage">
-            <header className="gradu-content-header">
-                <Button icon="user-add" ghost type='primary' disabled={getAddDisabled} onClick={openStaffDrawer}>增加员工</Button>
-                <Button icon="usergroup-delete" ghost type='danger' onClick={deleteMore} disabled={getBtnDisabled}>批量删除员工</Button>
-                <Button icon="reload" ghost type='primary' onClick={refresh} disabled={getAddDisabled}>刷新</Button>
-            </header>
+            <TableHeader headerButtons={headerBtns} />
             <div className="gradu-form-content">
                 <h2>员工信息列表</h2>
                 <SearchForm />

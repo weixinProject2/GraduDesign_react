@@ -6,6 +6,7 @@ import SearhForm from './SearchForm';
 import { getAllDeptsInfo } from '../../api';
 import DeptsTable from './DeptsTable';
 import AddDept from './AddDept';
+import TableHeader from '../../tool-components/TableHeader';
 
 
 export default observer(() => {
@@ -51,17 +52,24 @@ export default observer(() => {
     function closeDeptsDrawer() {
         setDeptAddModalVisble(false);
     }
+
+    const headerBtns = (
+        <Fragment>
+            <Button icon="user-add" ghost type='primary' onClick={changeVisible} disabled={getBtnDisabled}>添加部门</Button>
+            <Button icon="reload" ghost type='primary' onClick={loadDeptsInfo} disabled={getBtnDisabled}>刷新</Button>
+        </Fragment>
+    );
+
     return (
         <div className="gradu-depts-manage">
-            <header className="gradu-content-header">
-                <Button icon="user-add" ghost type='primary' onClick={changeVisible} disabled={getBtnDisabled}>添加部门</Button>
-                <Button icon="reload" ghost type='primary' onClick={loadDeptsInfo} disabled={getBtnDisabled}>刷新</Button>
-            </header>
+            <TableHeader headerButtons={headerBtns} />
+
             <div className="gradu-form-content">
                 <h2>部门信息列表</h2>
                 <SearhForm />
                 <DeptsTable />
             </div>
+            
             <Drawer
                 title="新增部门"
                 placement="right"

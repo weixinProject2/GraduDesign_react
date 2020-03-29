@@ -32,8 +32,9 @@ instance.interceptors.response.use((response) => {
 }, (error) => {
     const mess = error.response && error.response.data.message;
     const errorCode = error.response && error.response.data.error;
-    if (error.response.status) {  // 判断状态码
-        switch (error.response.status) {
+    const status = error.response && error.response.status;
+    if (status) {  // 判断状态码
+        switch (status) {
             case 400:
                 break;
             case 401:

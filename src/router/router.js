@@ -6,7 +6,7 @@ import { Button, Icon, Menu, Spin } from 'antd'
 
 import { MyContext } from '../stores/index'
 
-import { getMenu } from '../api/index'
+// import { getMenu } from '../api/index'
 
 import history from '../utils/history';
 import Avater from '../components/avater/index';
@@ -23,6 +23,7 @@ import ProjectSelector from '../components/projectSelector';
 import ManageProject from '../components/manageProject';
 import Notice from '../components/notice';
 import NoticeEditor from '../components/notice/noticeEditor';
+import NoticeDetail from '../components/notice/noticeDetail';
 
 
 
@@ -119,8 +120,9 @@ export default observer(() => {
                         <Route path='/main/managePos' component={ManagePosition} />
                         <Route path='/main/manageProf' component={ManageProf} />
                         <Route path='/main/manageProject' component={ManageProject} />
-                        <Route path='/main/notice' component={Notice} exact/>
-                        <Route path='/main/notice/editor' component={NoticeEditor}/>
+                        <Route path='/main/notice' component={Notice} exact />
+                        <Route path='/main/notice/editor' component={NoticeEditor} />
+                        <Route path='/main/notice/detail' component={NoticeDetail} />
                     </div>
                 </main>
             </Spin>

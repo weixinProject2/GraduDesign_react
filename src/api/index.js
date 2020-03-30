@@ -72,3 +72,5 @@ export const distributeProject = (params) => http.post('/admin/distribeProject',
 export const newNotice = (params) => http.put('/releaseAnnoun', params);
 // 获取整个公司的公告
 export const getSysNotice = (params) => http.get('/getAllAnnouncement', params);
+// 根据id查询公告详细信息
+export const getNoticeDetail = (params) => http.get('/getAnnounceDetail', params);

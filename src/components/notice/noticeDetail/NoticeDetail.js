@@ -1,14 +1,47 @@
-import React, { Fragment } from 'react';
+import React, { Fragment, useEffect, useState } from 'react';
 import { observer } from 'mobx-react-lite';
 import TableHeader from '../../../tool-components/TableHeader';
 import history from '../../../utils/history'
+import { getNoticeDetail } from '../../../api';
+import { message } from 'antd';
 
 export default observer(() => {
-    console.log(history);
+    const [title, setTitle] = useState('');
+    const [content, setContent] = useState('');
+    const [createTime, setTime] = useState('');
+
+
+    function checkHasId() {
+        const {
+            location: {
+                search, state,
+            }
+        } = history;
+        if (search.indexOf('noticeId') !== -1) {
+            const noticeId = search.split("=")[1];
+            getNoticeDetail({ anmountId: noticeId }).then((res) => {
+                if (!res.error) {
+                    const { content, title, createTime } = res.data;
+                    setContent(content);
+                    setTitle(title);
+                    setTime(createTime);
+                }
+            })
+        } else {
+            history.push('/main/notice');
+        }
+    }
+
+    useEffect(() => {
+        checkHasId();
+    }, [])
+
     return (
-        <Fragment>
+        <div className="gradu-notice-detail">
             <TableHeader hasBack />
-            llll
-        </Fragment>
+            <h1>{title}</h1>
+            <p>{createTime}</p>
+            <div className="gradu-notice-detail-content" dangerouslySetInnerHTML={{ __html: content }} />
+        </div>
     )
 })

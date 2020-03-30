@@ -55,7 +55,6 @@ const TitleForm = observer(({ form }) => {
   return (
     <div style={{ width: '100%', height: '65px' }}>
       <Form onSubmit={handleSubmit} layout="inline"  {...formItemLayout} className="gradu-notice-edit-form">
-
         <FormItem>
           {getFieldDecorator('title', {
             rules: [

@@ -68,6 +68,19 @@ export default function useStore() {
     get getBtnDisabled() {
       return this.btnDisabled;
     },
-
+    rowSelected: [],
+    get getRowSelect() {
+      return this.rowSelected.slice();
+    },
+    setRowSelect(value) {
+      this.rowSelected = value;
+    },
+    deleteMoreDisabled: false,
+    setDeleteMoreBtn(value) {
+      this.deleteMoreDisabled = value;
+    },
+    get getDeleteMoreDisabled() {
+      return this.deleteMoreDisabled;
+    }
   }))
 }

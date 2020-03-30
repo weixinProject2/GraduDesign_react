@@ -16,6 +16,9 @@ export default observer(() => {
             setCurrentPage,
             getTableLoading,
             getTableData,
+            getRowSelect,
+            setRowSelect,
+            setDeleteMoreBtn,
         }
     } = useNoticeStore();
 
@@ -47,7 +50,7 @@ export default observer(() => {
 
     const renderLink = (text, record) => (
         <Tooltip title={`查看${text}公告详情`}>
-            <span className="gradu-notice-link"  onClick={goDetail.bind(this, record.anmountId)}>{text}</span>
+            <span className="gradu-notice-link" onClick={goDetail.bind(this, record.anmountId)}>{text}</span>
         </Tooltip>
     )
 
@@ -64,6 +67,21 @@ export default observer(() => {
         },
     ];
 
+    const selectionSet = {
+        selectedRowKeys: getRowSelect,
+        onChange: (selectedRowKeys, selectedRows) => {
+            setRowSelect(selectedRowKeys);
+            if (selectedRowKeys.length > 0) {
+                setDeleteMoreBtn(true);
+            } else {
+                setDeleteMoreBtn(false);
+            }
+        },
+        // getCheckboxProps: record => ({
+        //     name: record.title,
+        // }),
+    }
+
     return (
         <Table
             tableLayout='inline'
@@ -72,6 +90,7 @@ export default observer(() => {
             rowKey='anmountId'
             loading={getTableLoading}
             dataSource={getTableData}
+            rowSelection={selectionSet}
             pagination={pageSet}
         />
     )

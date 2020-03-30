@@ -1,17 +1,22 @@
 import React, { useEffect, Fragment } from 'react';
-import { Button, Table } from 'antd';
+import { Button, Table, message } from 'antd';
 import { observer } from 'mobx-react-lite';
 import TableHeader from '../../tool-components/TableHeader';
 import history from '../../utils/history';
 import { useNoticeStore } from './stores';
 import NoticeTable from './NoticeTable';
 import SearchForm from './SearchForm';
+import { deleteMoreNotice } from '../../api'
 
 export default observer(() => {
   const {
     mainStore: {
       getBtnDisabled,
       loadInfo,
+      getDeleteMoreDisabled,
+      getRowSelect,
+      setRowSelect,
+      setDeleteMoreBtn,
     }
   } = useNoticeStore();
 
@@ -32,6 +37,21 @@ export default observer(() => {
     });
   }
 
+  function deleteNotice() {
+    deleteMoreNotice({ 'ids': getRowSelect.join(',') }).then((res) => {
+      if (!res.error) {
+        loadInfo();
+        setRowSelect([]);
+        setDeleteMoreBtn(false);
+        message.success(res.message);
+      } else {
+        setRowSelect([]);
+        setDeleteMoreBtn(false);
+        message.error(res.message);
+      }
+    })
+  }
+
   const headerBtns = (
     <Fragment>
       <Button
@@ -50,6 +70,15 @@ export default observer(() => {
         disabled={getBtnDisabled}
       >
         刷新
+      </Button>
+      <Button
+        ghost
+        icon="reload"
+        type='danger'
+        onClick={deleteNotice}
+        disabled={getBtnDisabled || !getDeleteMoreDisabled}
+      >
+        批量删除
       </Button>
     </Fragment>
   );

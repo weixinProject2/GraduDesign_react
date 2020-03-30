@@ -74,3 +74,5 @@ export const newNotice = (params) => http.put('/releaseAnnoun', params);
 export const getSysNotice = (params) => http.get('/getAllAnnouncement', params);
 // 根据id查询公告详细信息
 export const getNoticeDetail = (params) => http.get('/getAnnounceDetail', params);
+// 批量删除公告
+export const deleteMoreNotice = (params) => http.delete('/deleteAnouncement', params);

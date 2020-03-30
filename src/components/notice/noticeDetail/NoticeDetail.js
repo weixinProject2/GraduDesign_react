@@ -14,7 +14,7 @@ export default observer(() => {
     function checkHasId() {
         const {
             location: {
-                search, state,
+                search,
             }
         } = history;
         if (search.indexOf('noticeId') !== -1) {

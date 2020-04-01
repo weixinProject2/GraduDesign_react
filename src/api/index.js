@@ -76,3 +76,5 @@ export const getSysNotice = (params) => http.get('/getAllAnnouncement', params);
 export const getNoticeDetail = (params) => http.get('/getAnnounceDetail', params);
 // 批量删除公告
 export const deleteMoreNotice = (params) => http.delete('/deleteAnouncement', params);
+// markdown图片上传
+export const uploadNoticeImg = (params) => http.post('/postImg', params);

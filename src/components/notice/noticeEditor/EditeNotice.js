@@ -1,4 +1,4 @@
-import React, { Fragment, useState } from 'react';
+import React, { Fragment, useRef } from 'react';
 import { observer } from 'mobx-react-lite';
 import TableHeader from '../../../tool-components/TableHeader';
 
@@ -42,7 +42,7 @@ export default observer(() => {
           onChange={changeValue.bind(this)}
           onSave={onSave.bind(this)}
           placeholder='请输入公告内容.....'
-          addImg={addImg}
+          // addImg={addImg}
         />
       </div>
 

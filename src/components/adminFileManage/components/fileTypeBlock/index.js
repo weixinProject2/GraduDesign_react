@@ -5,11 +5,11 @@ import PropTypes from 'prop-types';
 
 const fileTypeObj = {
   'gif': {
-    color: '',
+    color: '#eb6a34',
     icon: 'file-image',
   },
   'zip': {
-    color: '',
+    color: '#eebf2c',
     icon: 'file-zip',
   },
   'pdf': {
@@ -17,35 +17,35 @@ const fileTypeObj = {
     icon: 'file-pdf',
   },
   'jpg': {
-    color: '',
+    color: '#eb6a34',
     icon: 'file-image',
   },
   'png': {
-    color: '',
+    color: '#eb6a34',
     icon: 'file-image',
   },
   'ppt': {
-    color: '',
+    color: '#e64a19',
     icon: 'file-ppt',
   },
   'doc': {
-    color: '',
+    color: '#1b85ff',
     icon: 'file-word',
   },
   'docx': {
-    color: '',
+    color: '#1b85ff',
     icon: 'file-word',
   },
   'txt': {
-    color: '',
+    color: '#949494',
     icon: 'file-text',
   },
   'md': {
-    color: '',
+    color: '#00d4a5',
     icon: 'file-markdown'
   },
   'xls': {
-    color: '',
+    color: '#4da1ff',
     icon: 'file-excel'
   },
   'unKnown': {

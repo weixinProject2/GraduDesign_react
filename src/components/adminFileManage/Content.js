@@ -35,6 +35,10 @@ export default observer(() => {
           <FileTypeBlock fileType="doc" />
           <FileTypeBlock fileType="png" />
           <FileTypeBlock fileType="gif" />
+          <FileTypeBlock fileType="md" />
+          <FileTypeBlock fileType="ppt" />
+          <FileTypeBlock fileType="xls" />
+          <FileTypeBlock fileType="zip" />
         </div>
       </div>
     </Fragment>

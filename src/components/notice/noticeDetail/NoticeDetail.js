@@ -37,11 +37,13 @@ export default observer(() => {
     }, [])
 
     return (
-        <div className="gradu-notice-detail">
+        <Fragment>
             <TableHeader hasBack />
-            <h1>{title}</h1>
-            <p>{createTime}</p>
-            <div className="gradu-notice-detail-content" dangerouslySetInnerHTML={{ __html: content }} />
-        </div>
+            <div className="gradu-form-content gradu-notice-detail">
+                <h1>{title}</h1>
+                <p>{createTime}</p>
+                <div className="gradu-notice-detail-content" dangerouslySetInnerHTML={{ __html: content }} />
+            </div>
+        </Fragment>
     )
 })

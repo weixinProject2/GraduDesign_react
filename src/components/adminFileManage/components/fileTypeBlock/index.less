@@ -2,14 +2,69 @@
   flex: 1;
   max-width: 1.5rem;
   padding-top: 10px;
-  max-height: 1.5rem;
+  max-height: 1.6rem;
   &+&{
-    margin-left: 10px;
+    margin-left: 11px;
   }
   main {
-    i {
+    position: relative;
+    &>i {
       font-size: 69px;
       display: block;
+      width: 69px;
+      margin: 0 auto;
+      cursor: pointer;
+      transition: .4s;
+      padding: 5px 0;
+      border-radius: 10px;
+      &:hover {
+        transform: translateY(-5%);
+      }
+    }
+    .gradu-file-opts{
+      position: absolute;
+      background: rgba(0, 0, 0, 0.48);
+      border-radius: 9px;
+      top: 0;
+      height: 79px;
+      left: 0;
+      width: 87px;
+      right: 0;
+      display: none;
+      margin: auto;
+      bottom: 0;
+      flex-direction: column;
+      span{
+        flex: 1 1;
+        line-height: 1.8;
+        text-align: center;
+        color: #e4e4e4;
+        transition: .2s;
+        cursor: pointer;
+        &:first-of-type{
+          border-radius: 9px 9px 0 0;
+        }
+        &:nth-of-type(3){
+          border-radius:  0 0 9px 9px;
+        }
+        &:hover{
+          background: rgba(0,0,0,.3);
+          color: #fff;
+        }
+        &:last-of-type{
+          position: absolute;
+          right: -22px;
+          cursor: pointer;
+          color: #af2121;
+          &:hover{
+            background: transparent;
+            color: #af2121;
+          }
+        }
+        i{
+          margin-right: 5px;
+        }
+      }
     }
   }
   footer{
@@ -17,6 +72,7 @@
     span{
       display: block;
       text-align: center;
+      font-size: 10px;
       &:first-of-type{
         font-size: 18px;
         font-weight: 500;
@@ -25,9 +81,6 @@
         white-space: nowrap;
         font-family: -webkit-pictograph;
         text-overflow: ellipsis;
-      }
-      &:nth-of-type(2){
-        font-size: 10px;
       }
     }
   }

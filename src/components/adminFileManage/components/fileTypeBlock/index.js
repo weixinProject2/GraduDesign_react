@@ -1,7 +1,8 @@
-import React from 'react';
+import React, { useState } from 'react';
 import "./index.less";
-import { Icon } from 'antd';
+import { Icon, Tooltip, Button } from 'antd';
 import PropTypes from 'prop-types';
+import { observer } from 'mobx-react-lite';
 
 const fileTypeObj = {
   'gif': {
@@ -54,24 +55,43 @@ const fileTypeObj = {
   }
 }
 
-const fileTypeBlock = ({ fileType }) => {
+const fileTypeBlock = observer(({ fileType }) => {
+  const [shadowBlock, setDisplay] = useState(true);
 
   return (
     <div className="gradu-file-block">
       <main>
-        <Icon
-          type={fileTypeObj[fileType] ? fileTypeObj[fileType].icon : 'file-unknown'}
-          theme="twoTone"
-          twoToneColor={fileTypeObj[fileType] ? fileTypeObj[fileType].color: "#666"}
-        />
+        <Tooltip placement="top" title={'hello world hello world hello world'}>
+          <Icon
+            type={fileTypeObj[fileType] ? fileTypeObj[fileType].icon : 'file-unknown'}
+            theme="twoTone"
+            twoToneColor={fileTypeObj[fileType] ? fileTypeObj[fileType].color : "#666"}
+            onClick={() => setDisplay(false)}
+          />
+        </Tooltip>
+
+        <div
+          className="gradu-file-opts"
+          style={{ display: shadowBlock ? 'none' : 'flex' }}
+        >
+          <span><Icon type="read" />文件预览</span>
+          <span><Icon type="download" />下载</span>
+          <span><Icon type="delete" />删除</span>
+          <span onClick={() => setDisplay(true)}>
+            <Icon type="close" />
+          </span>
+        </div>
       </main>
       <footer>
+
         <span>hello world hello world hello world</span>
-        <span>2019-10-20</span>
+        <span>{`文件类型：.${fileType}`}</span>
+        <span>上传时间：2019-10-20</span>
       </footer>
     </div>
   )
-};
+});
+
 fileTypeBlock.propTypes = {
   fileType: PropTypes.string.isRequired,
 };

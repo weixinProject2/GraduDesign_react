@@ -4,7 +4,7 @@ import useStore from './useStore';
 
 const Store = createContext(null);
 
-export function useDeptsStaffStore() {
+export function useFileStore() {
     return useContext(Store);
 }
 

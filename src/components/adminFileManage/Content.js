@@ -1,14 +1,31 @@
-import React, { useEffect, Fragment } from 'react';
+import React, { useEffect, Fragment, useState, createRef } from 'react';
 
-import { Button } from 'antd';
+import { Button, Modal } from 'antd';
 import { observer } from 'mobx-react-lite';
 import TableHeader from '../../tool-components/TableHeader';
 import FileTypeBlock from './components/fileTypeBlock';
+import { useFileStore } from './stores';
+import AddModalForm from './components/addModalForm'
 
 export default observer(() => {
+  const formRef = createRef();
+  const {
+    mainStore: {
+      getAddModalStatus,
+      setAddModalStatus,
+    }
+  } = useFileStore();
   useEffect(() => {
 
   })
+
+  function openUploadModal() {
+    setAddModalStatus(true);
+  }
+
+  function closeAddModal() {
+    setAddModalStatus(false);
+  }
 
   const btnGroup = (
     <Fragment>
@@ -16,6 +33,7 @@ export default observer(() => {
         icon="file-add"
         ghost
         type='primary'
+        onClick={openUploadModal}
       >新增文件</Button>
       <Button
         type="primary"
@@ -24,6 +42,15 @@ export default observer(() => {
       >刷新</Button>
     </Fragment>
   );
+
+  function handleCreate() {
+    const { form } = formRef.current;
+    form.validateFields((err, values) => {
+      if (!err) {
+        console.log('hello', values);
+      }
+    });
+  };
 
   return (
     <Fragment>
@@ -41,6 +68,12 @@ export default observer(() => {
           <FileTypeBlock fileType="zip" />
         </div>
       </div>
+      <AddModalForm
+        onCancel={closeAddModal}
+        onCreate={handleCreate}
+        visible={getAddModalStatus}
+        wrappedComponentRef={formRef}
+      />
     </Fragment>
   )
 })

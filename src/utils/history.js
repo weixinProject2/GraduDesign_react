@@ -7,4 +7,4 @@ const history = createHashHistory({
 });
 
 
-export default history
+export default history;

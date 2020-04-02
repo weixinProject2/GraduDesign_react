@@ -13,10 +13,14 @@ const fileTypeObj = {
     icon: 'file-zip',
   },
   'pdf': {
-    color: '',
+    color: '#9e584d',
     icon: 'file-pdf',
   },
   'jpg': {
+    color: '',
+    icon: 'file-image',
+  },
+  'png': {
     color: '',
     icon: 'file-image',
   },
@@ -45,7 +49,7 @@ const fileTypeObj = {
     icon: 'file-excel'
   },
   'unKnown': {
-    color: '',
+    color: '#666',
     icon: 'file-unknown'
   }
 }
@@ -55,10 +59,14 @@ const fileTypeBlock = ({ fileType }) => {
   return (
     <div className="gradu-file-block">
       <main>
-        <Icon type={fileTypeObj[fileTypeObj].icon} />
+        <Icon
+          type={fileTypeObj[fileType] ? fileTypeObj[fileType].icon : 'file-unknown'}
+          theme="twoTone"
+          twoToneColor={fileTypeObj[fileType] ? fileTypeObj[fileType].color: "#666"}
+        />
       </main>
       <footer>
-        <span>hello world.</span>
+        <span>hello world hello world hello world</span>
         <span>2019-10-20</span>
       </footer>
     </div>

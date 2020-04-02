@@ -3,7 +3,7 @@ import React, { useEffect, Fragment } from 'react';
 import { Button } from 'antd';
 import { observer } from 'mobx-react-lite';
 import TableHeader from '../../tool-components/TableHeader';
-
+import FileTypeBlock from './components/fileTypeBlock';
 
 export default observer(() => {
   useEffect(() => {
@@ -14,7 +14,7 @@ export default observer(() => {
     <Fragment>
       <Button
         icon="file-add"
-        ghost 
+        ghost
         type='primary'
       >新增文件</Button>
       <Button
@@ -31,7 +31,10 @@ export default observer(() => {
       <div className="gradu-form-content">
         <h2>文件管理</h2>
         <div className="gradu-file">
-
+          <FileTypeBlock fileType="pdf" />
+          <FileTypeBlock fileType="doc" />
+          <FileTypeBlock fileType="png" />
+          <FileTypeBlock fileType="gif" />
         </div>
       </div>
     </Fragment>

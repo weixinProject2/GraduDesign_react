@@ -1,3 +1,5 @@
+@import "../../myTheme.less";
+
 .project-selector {
     width       : 2.06rem;
     height      : 0.48rem;
@@ -8,7 +10,7 @@
     position    : relative;
 
     &:hover {
-        background-color: #16a597;
+        background-color: @dark-primary-color;
     }
 
     &-text {
@@ -81,7 +83,7 @@
             }
             &.active {
                 background: #1ac7b624;
-                color     : #17b3a3cc;
+                color     : @primary-color;
             }
 
             &:hover {

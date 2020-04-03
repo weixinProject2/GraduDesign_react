@@ -24,12 +24,6 @@ export default observer(withRouter((props) => {
     const { setProjectId, getPath } = useContext(MyContext);
 
     useEffect(() => {
-        document.getElementById('ProjectSelectorText').onblur = function () {
-            const ulDom = document.getElementById('ProjectLists');
-            ulDom.style.maxHeight = "0";
-            ulDom.style.top = "93%"
-            setExpand(false);
-        }
         if (dataSource.length > 0) {
             const search = history.location.search;
             if (search) {
@@ -76,6 +70,7 @@ export default observer(withRouter((props) => {
     }
 
     function changeProject(item, e) {
+        e.stopPropagation();
         const dom = e.currentTarget;
         const allLi = dom.parentNode.childNodes;
         allLi.forEach((liItem) => {
@@ -87,12 +82,16 @@ export default observer(withRouter((props) => {
         dom.setAttribute("class", "active");
         setProjectId(item.projectId);
         setSelectProject(item.projectName);
+        setExpand(false);
         history.push(`${getPath}?projectId=${item.projectId}`);
     }
 
     const renderLists = () => {
         return (
-            <ul id="ProjectLists">
+            <ul
+                id="ProjectLists"
+                style={{ maxHeight: expand ? '400px' : '0px', top: expand ? '100%' : '93%' }}
+            >
                 {dataSource.map((item, index) => (
                     <li
                         key={item.projectId}
@@ -105,23 +104,14 @@ export default observer(withRouter((props) => {
         )
     }
 
-    function handleExpand(e) {
-        const ulDom = document.getElementById('ProjectLists');
-        if (!expand) {
-            ulDom.style.maxHeight = '400px';
-            ulDom.style.top = "100%"
-            setExpand(true);
-        } else {
-            ulDom.style.maxHeight = "0";
-            ulDom.style.top = "93%"
-            setExpand(false);
-        }
+    function handleExpand() {
+        setExpand(!expand);
     }
 
     function renderIcon() {
         if (!loading) {
             if (hasProjects) {
-                return <Icon type="down" />
+                return <Icon type={!expand ? "down" : "up"} />
             }
         } else {
             return <Icon type="loading" />
@@ -136,9 +126,6 @@ export default observer(withRouter((props) => {
             <div
                 className="project-selector-text"
                 onClick={handleExpand}
-                id="ProjectSelectorText"
-                tabIndex="1"
-                hidefocus="true"
             >
                 <div className="project-selector-text-detail">
                     <span>项目</span>

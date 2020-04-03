@@ -1,6 +1,6 @@
 import React, { useState } from 'react';
 import "./index.less";
-import { Icon, Tooltip, Button } from 'antd';
+=import { Icon, Tooltip, Button } from 'antd';
 import PropTypes from 'prop-types';
 import { observer } from 'mobx-react-lite';
 
@@ -10,6 +10,10 @@ const fileTypeObj = {
     icon: 'file-image',
   },
   'zip': {
+    color: '#eebf2c',
+    icon: 'file-zip',
+  },
+  'rar': {
     color: '#eebf2c',
     icon: 'file-zip',
   },
@@ -54,6 +58,8 @@ const fileTypeObj = {
     icon: 'file-unknown'
   }
 }
+
+
 
 const fileTypeBlock = observer(({ fileType }) => {
   const [shadowBlock, setDisplay] = useState(true);

@@ -1,11 +1,21 @@
-import React, { forwardRef, useImperativeHandle } from 'react';
+import React, { forwardRef, useImperativeHandle, useState } from 'react';
 
-import { Button, Modal, Input, Radio, Upload, Icon } from 'antd';
+import { Button, Modal, Input, Radio, Upload, Icon, message } from 'antd';
 import Form from "antd/lib/form/Form";
 
 
-const addModalForm = forwardRef(({ form, onCreate, visible, onCancel }, ref) => {
+const formItemLayout = {
+    labelCol: {
+        sm: { span: 8 },
+    },
+    wrapperCol: {
+        sm: { span: 12 },
+    },
+};
+
+const addModalForm = forwardRef(({ form, onCreate, visible, onCancel, confirmLoading }, ref) => {
     const { getFieldDecorator } = form;
+    const [fileLists, setFile] = useState(null);
     useImperativeHandle(ref, () => ({
         form,
     }));
@@ -17,6 +27,41 @@ const addModalForm = forwardRef(({ form, onCreate, visible, onCancel }, ref) => 
         return e && e.fileList;
     }
 
+    function handleChange(info) {
+        let fileList = [...info.fileList];
+        fileList = fileList.slice(-1);
+        fileList = fileList.map(file => {
+            if (file.response) {
+                file.url = file.response.url;
+            }
+            return file;
+        });
+        setFile(fileList);
+    }
+
+    function removeFile(file) {
+        const temp = fileLists.filter(item => item.name !== file.name);
+        setFile(temp);
+        form.setFieldsValue({ 'fieldLists': temp });
+    }
+
+    const uploadProps = {
+        accept: ".rar,.zip,.doc,.docx,.pdf,.jpg,.png,.md,.gif,.xls,.txt",
+        multiple: false,
+        name: 'file',
+        beforeUpload(file) {
+            const isLt10M = file.size / 1024 / 1024 <= 10;
+            if (!isLt10M) {
+                message.error("文件大小限制在10M以下！");
+                return false;
+            }
+            return false;
+        },
+        onChange: handleChange,
+        onRemove: removeFile,
+        fileList: fileLists
+    }
+
     return (
         <Modal
             title="上传新文件"
@@ -25,8 +70,10 @@ const addModalForm = forwardRef(({ form, onCreate, visible, onCancel }, ref) => 
             visible={visible}
             onCancel={onCancel}
             onOk={onCreate}
+            confirmLoading={confirmLoading}
+            destroyOnClose={true}
         >
-            <Form>
+            <Form {...formItemLayout}>
                 <Form.Item label="文件描述">
                     {getFieldDecorator('desc', {
                         rules: [{ required: true, message: '请输入文件描述' }],
@@ -51,12 +98,11 @@ const addModalForm = forwardRef(({ form, onCreate, visible, onCancel }, ref) => 
                         valuePropName: 'fileList',
                         getValueFromEvent: normFile,
                     })(
-                        <Upload >
-                            {/* https://blog.csdn.net/weixin_30950887/article/details/98841829 */}
-                            {/* {...props} fileList={this.state.fileList} */}
+                        <Upload {...uploadProps}>
                             <Button>
-                                <Icon type="upload" /> Upload
+                                <Icon type="upload" /> 上传
                             </Button>
+                            <p className="gradu-upload-desc">支持扩展名：.rar .zip .doc .docx .gif .md .pdf .jpg .png .txt .ppt .xls</p>
                         </Upload>
                     )}
                 </Form.Item>

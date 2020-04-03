@@ -1,11 +1,13 @@
 import React, { useEffect, Fragment, useState, createRef } from 'react';
 
-import { Button, Modal } from 'antd';
+import { Button, Modal, message } from 'antd';
 import { observer } from 'mobx-react-lite';
 import TableHeader from '../../tool-components/TableHeader';
 import FileTypeBlock from './components/fileTypeBlock';
 import { useFileStore } from './stores';
 import AddModalForm from './components/addModalForm'
+
+import axios from 'axios';
 
 export default observer(() => {
   const formRef = createRef();
@@ -13,6 +15,8 @@ export default observer(() => {
     mainStore: {
       getAddModalStatus,
       setAddModalStatus,
+      getOkBtnLoading,
+      setOkBtnLoading,
     }
   } = useFileStore();
   useEffect(() => {
@@ -47,10 +51,38 @@ export default observer(() => {
     const { form } = formRef.current;
     form.validateFields((err, values) => {
       if (!err) {
-        console.log('hello', values);
+        values.file = values.file.file;
+        setOkBtnLoading(true);
+        postFormData(values).then((res) => {
+          if (res.status === 200) {
+            message.success(res.data.message);
+            setOkBtnLoading(false);
+            closeAddModal();
+          } else {
+            message.error(res.data.message);
+            setOkBtnLoading(false);
+          }
+        })
       }
     });
   };
+
+  function postFormData(obj) {
+    var formData = new FormData();
+    for (var key in obj) {
+      formData.append(key, obj[key]);
+    }
+    const TOKEN = localStorage.getItem('token');
+    return axios({
+      method: 'post',
+      url: 'http://106.54.206.102:3000/admin/postFile',
+      headers: {
+        'Content-Type': 'application/x-www-form-urlencoded',
+        'Authorization': `Bearer ${TOKEN}`,
+      },
+      data: formData,
+    })
+  }
 
   return (
     <Fragment>
@@ -73,6 +105,7 @@ export default observer(() => {
         onCreate={handleCreate}
         visible={getAddModalStatus}
         wrappedComponentRef={formRef}
+        confirmLoading={getOkBtnLoading}
       />
     </Fragment>
   )

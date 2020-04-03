@@ -1,6 +1,6 @@
 import React, { useState } from 'react';
 import "./index.less";
-=import { Icon, Tooltip, Button } from 'antd';
+import { Icon, Tooltip, Button } from 'antd';
 import PropTypes from 'prop-types';
 import { observer } from 'mobx-react-lite';
 

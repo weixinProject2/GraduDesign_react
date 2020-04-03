@@ -1,7 +1,7 @@
 import React, { useEffect, Fragment } from 'react';
 import { Button, Table, message } from 'antd';
 import { observer } from 'mobx-react-lite';
-import TableHeader from '../../tool-components/TableHeader';
+import TableContainer from '../../tool-components/TableContainerStyle';
 import history from '../../utils/history';
 import { useNoticeStore } from './stores';
 import NoticeTable from './NoticeTable';
@@ -84,13 +84,9 @@ export default observer(() => {
   );
 
   return (
-    <Fragment>
-      <TableHeader headerButtons={headerBtns} />
-      <div className="gradu-form-content">
-        <h2>公告列表</h2>
-        <SearchForm />
-        <NoticeTable />
-      </div>
-    </Fragment>
+    <TableContainer title="公告列表" headerButtons={headerBtns}>
+      <SearchForm />
+      <NoticeTable />
+    </TableContainer>
   )
 })

@@ -6,7 +6,7 @@ import SearhForm from './SearchForm';
 import { getAllDeptsInfo } from '../../api';
 import DeptsTable from './DeptsTable';
 import AddDept from './AddDept';
-import TableHeader from '../../tool-components/TableHeader';
+import TableContainer from '../../tool-components/TableContainerStyle';
 
 
 export default observer(() => {
@@ -61,15 +61,9 @@ export default observer(() => {
     );
 
     return (
-        <div className="gradu-depts-manage">
-            <TableHeader headerButtons={headerBtns} />
-
-            <div className="gradu-form-content">
-                <h2>部门信息列表</h2>
-                <SearhForm />
-                <DeptsTable />
-            </div>
-            
+        <TableContainer headerButtons={headerBtns} title="部门信息列表">
+            <SearhForm />
+            <DeptsTable />
             <Drawer
                 title="新增部门"
                 placement="right"
@@ -81,6 +75,6 @@ export default observer(() => {
             >
                 <AddDept />
             </Drawer>
-        </div>
+        </TableContainer>
     )
 })

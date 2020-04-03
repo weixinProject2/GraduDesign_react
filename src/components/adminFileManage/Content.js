@@ -2,7 +2,7 @@ import React, { useEffect, Fragment, useState, createRef } from 'react';
 
 import { Button, Modal, message } from 'antd';
 import { observer } from 'mobx-react-lite';
-import TableHeader from '../../tool-components/TableHeader';
+import TableContainer from '../../tool-components/TableContainerStyle';
 import FileTypeBlock from './components/fileTypeBlock';
 import { useFileStore } from './stores';
 import AddModalForm from './components/addModalForm'
@@ -85,20 +85,16 @@ export default observer(() => {
   }
 
   return (
-    <Fragment>
-      <TableHeader headerButtons={btnGroup} />
-      <div className="gradu-form-content">
-        <h2>文件管理</h2>
-        <div className="gradu-file">
-          <FileTypeBlock fileType="pdf" />
-          <FileTypeBlock fileType="doc" />
-          <FileTypeBlock fileType="png" />
-          <FileTypeBlock fileType="gif" />
-          <FileTypeBlock fileType="md" />
-          <FileTypeBlock fileType="ppt" />
-          <FileTypeBlock fileType="xls" />
-          <FileTypeBlock fileType="zip" />
-        </div>
+    <TableContainer headerButtons={btnGroup} title='文件管理'>
+      <div className="gradu-file">
+        <FileTypeBlock fileType="pdf" />
+        <FileTypeBlock fileType="doc" />
+        <FileTypeBlock fileType="png" />
+        <FileTypeBlock fileType="gif" />
+        <FileTypeBlock fileType="md" />
+        <FileTypeBlock fileType="ppt" />
+        <FileTypeBlock fileType="xls" />
+        <FileTypeBlock fileType="zip" />
       </div>
       <AddModalForm
         onCancel={closeAddModal}
@@ -107,6 +103,6 @@ export default observer(() => {
         wrappedComponentRef={formRef}
         confirmLoading={getOkBtnLoading}
       />
-    </Fragment>
+    </TableContainer>
   )
 })

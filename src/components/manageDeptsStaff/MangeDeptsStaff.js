@@ -7,7 +7,7 @@ import { getProfessional, getPosition, deleteDeptStaff } from '../../api';
 import { useDeptsStaffStore } from './stores'
 import DeptStaffTable from './DeptStaffTable';
 import SearchForm from './SearchForm';
-import TableHeader from '../../tool-components/TableHeader';
+import TableContainer from '../../tool-components/TableContainerStyle';
 
 export default observer(() => {
     const {
@@ -60,15 +60,9 @@ export default observer(() => {
     )
 
     return (
-        <Fragment>
-            <TableHeader headerButtons={headerBtns} />
-            <div className="gradu-form-content">
-                {
-                    departmentName && <h2>{`"${departmentName}"员工信息列表`}</h2>
-                }
-                <SearchForm searchStore={searchStore} mainStore={mainStore} />
-                <DeptStaffTable />
-            </div>
-        </Fragment>
+        <TableContainer headerButtons={headerBtns} title={departmentName && `"${departmentName}"员工信息列表`}>
+            <SearchForm searchStore={searchStore} mainStore={mainStore} />
+            <DeptStaffTable />
+        </TableContainer>
     )
 })

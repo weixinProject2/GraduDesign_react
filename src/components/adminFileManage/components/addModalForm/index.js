@@ -3,6 +3,7 @@ import React, { forwardRef, useImperativeHandle, useState } from 'react';
 import { Button, Modal, Input, Radio, Upload, Icon, message } from 'antd';
 import Form from "antd/lib/form/Form";
 
+const { TextArea } = Input;
 
 const formItemLayout = {
     labelCol: {
@@ -74,13 +75,6 @@ const addModalForm = forwardRef(({ form, onCreate, visible, onCancel, confirmLoa
             destroyOnClose={true}
         >
             <Form {...formItemLayout}>
-                <Form.Item label="文件描述">
-                    {getFieldDecorator('desc', {
-                        rules: [{ required: true, message: '请输入文件描述' }],
-                    })(
-                        <Input />
-                    )}
-                </Form.Item>
                 <Form.Item label="是否公开">
                     {getFieldDecorator('isPublic', {
                         rules: [{ required: true, message: '请选择是否公开文件' }],
@@ -89,6 +83,13 @@ const addModalForm = forwardRef(({ form, onCreate, visible, onCancel, confirmLoa
                             <Radio value="1">是</Radio>
                             <Radio value="0">否</Radio>
                         </Radio.Group>,
+                    )}
+                </Form.Item>
+                <Form.Item label="文件描述">
+                    {getFieldDecorator('desc', {
+                        rules: [{ required: true, message: '请输入文件描述' }],
+                    })(
+                        <TextArea />
                     )}
                 </Form.Item>
                 <Form.Item label="上传文件">

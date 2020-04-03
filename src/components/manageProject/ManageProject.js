@@ -6,8 +6,7 @@ import { Button, Drawer } from 'antd';
 import ProjectTable from './ProjectTable';
 import SearchForm from './ProjectSearchForm';
 import AddForm from './AddForm';
-import TableHeader from '../../tool-components/TableHeader';
-
+import TableContainer from '../../tool-components/TableContainerStyle';
 
 export default withRouter(observer(() => {
     const {
@@ -54,13 +53,9 @@ export default withRouter(observer(() => {
     )
 
     return (
-        <Fragment>
-            <TableHeader headerButtons={headerBtns} />
-            <div className="gradu-form-content">
-                <h2>项目信息列表</h2>
-                <SearchForm />
-                <ProjectTable />
-            </div>
+        <TableContainer headerButtons={headerBtns} title='项目信息列表'>
+            <SearchForm />
+            <ProjectTable />
             <Drawer
                 title="新增项目"
                 placement="right"
@@ -73,6 +68,6 @@ export default withRouter(observer(() => {
             >
                 <AddForm />
             </Drawer>
-        </Fragment>
+        </TableContainer>
     )
 }))

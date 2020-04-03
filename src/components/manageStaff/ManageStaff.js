@@ -6,8 +6,7 @@ import { getAllStaffInfo, deleteStaffById } from '../../api'
 import StaffForm from './MangeStaffForm';
 import AddStaffForm from './AddStaffForm'
 import SearchForm from './SearchForm';
-import TableHeader from '../../tool-components/TableHeader';
-
+import TableContainer from '../../tool-components/TableContainerStyle';
 
 export default observer(() => {
     const {
@@ -111,13 +110,9 @@ export default observer(() => {
     )
 
     return (
-        <div className="gradu-staff-manage">
-            <TableHeader headerButtons={headerBtns} />
-            <div className="gradu-form-content">
-                <h2>员工信息列表</h2>
-                <SearchForm />
-                <StaffForm />
-            </div>
+        <TableContainer title="员工信息列表" headerButtons={headerBtns}>
+            <SearchForm />
+            <StaffForm />
             <Drawer
                 title="增加员工"
                 placement="right"
@@ -129,7 +124,6 @@ export default observer(() => {
             >
                 <AddStaffForm />
             </Drawer>
-
-        </div>
+        </TableContainer>
     )
 })

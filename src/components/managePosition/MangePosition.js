@@ -5,7 +5,7 @@ import { Button, message, Drawer, Modal } from 'antd';
 import { usePositionsStore } from './stores'
 import PosTable from './PosTable';
 import AddForm from './AddForm';
-import TableHeader from '../../tool-components/TableHeader';
+import TableContainer from '../../tool-components/TableContainerStyle';
 
 export default observer(() => {
     const {
@@ -47,12 +47,8 @@ export default observer(() => {
     )
 
     return (
-        <Fragment>
-            <TableHeader headerButtons={headerBtns} />
-            <div className="gradu-form-content">
-                <h2>职位信息列表</h2>
-                <PosTable />
-            </div>
+        <TableContainer headerButtons={headerBtns} title='职位信息列表'>
+            <PosTable />
             <Drawer
                 title="新增职位"
                 placement="right"
@@ -64,6 +60,6 @@ export default observer(() => {
             >
                 <AddForm />
             </Drawer>
-        </Fragment>
+        </TableContainer>
     )
 })

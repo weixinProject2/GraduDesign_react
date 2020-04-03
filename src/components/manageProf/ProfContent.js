@@ -5,7 +5,7 @@ import { Button, message, Drawer, Modal } from 'antd';
 import { useProfStore } from './stores'
 import ProfTable from './ProfTable';
 import AddForm from './AddForm';
-import TableHeader from '../../tool-components/TableHeader';
+import TableContainer from '../../tool-components/TableContainerStyle';
 
 export default observer(() => {
     const {
@@ -42,12 +42,8 @@ export default observer(() => {
     )
 
     return (
-        <Fragment>
-            <TableHeader headerButtons={headerBtns} />
-            <div className="gradu-form-content">
-                <h2>职业信息列表</h2>
-                <ProfTable />
-            </div>
+        <TableContainer headerButtons={headerBtns} title='职业信息列表'>
+            <ProfTable />
             <Drawer
                 title="新增职业"
                 placement="right"
@@ -59,6 +55,6 @@ export default observer(() => {
             >
                 <AddForm />
             </Drawer>
-        </Fragment>
+        </TableContainer>
     )
 })

@@ -2,14 +2,14 @@ import React, { useEffect } from 'react';
 
 import { Form, Button, Input } from 'antd';
 import { observer } from 'mobx-react-lite';
-import { useNoticeStore } from './stores';
-import DatePick from '../../tool-components/DatePick';
+import { useFileStore } from '../../stores';
+import DatePick from '../../../../tool-components/DatePick';
 
 const FormItem = Form.Item;
 
 const SearchForm = observer(({ form }) => {
     const { getFieldDecorator, getFieldsValue } = form;
-    const { mainStore: { setCurrentPage, setQueryFileds, loadInfo, getBtnDisabled } } = useNoticeStore();
+    const { mainStore } = useFileStore();
 
     useEffect(() => {
 
@@ -19,22 +19,18 @@ const SearchForm = observer(({ form }) => {
         e.preventDefault();
         form.validateFields((error, value) => {
             if (!error) {
-                const startTime = value.time ? value.time[0].format('YYYY-MM-DD HH:mm:ss') : null;
-                const endTime = value.time ? value.time[1].format('YYYY-MM-DD HH:mm:ss') : null;
-                value.endTime = endTime;
-                value.startTime = startTime;
-                setCurrentPage(1);
-                setQueryFileds(value);
-                loadInfo();
+                // setCurrentPage(1);
+                // setQueryFileds(value);
+                // loadInfo();
             }
         })
     }
 
     function resetFields() {
         form.resetFields();
-        setCurrentPage(1);
-        setQueryFileds(null);
-        loadInfo()
+        // setCurrentPage(1);
+        // setQueryFileds(null);
+        // loadInfo()
     }
 
     function hasData(fieldsValues) {
@@ -44,18 +40,27 @@ const SearchForm = observer(({ form }) => {
     return (
         <Form onSubmit={handleSearchSubmit} layout="inline" style={{ marginBottom: '.15rem' }}>
             <FormItem  >
-                {getFieldDecorator('title', {
+                {getFieldDecorator('isPublic', {
                     rules: [{ required: false }],
                 })(
-                    <Input placeholder="标题" disabled={getBtnDisabled} />
+                    <Input maxLength={10} placeholder="文件查看范围" />
+                    //   disabled={getBtnDisabled}
                 )}
             </FormItem>
 
             <FormItem  >
-                {getFieldDecorator('time', {
+                {getFieldDecorator('createDate', {
                     rules: [{ required: false }],
                 })(
-                    <DatePick disabled={getBtnDisabled} />
+                    <DatePick />
+                )}
+            </FormItem>
+
+            <FormItem  >
+                {getFieldDecorator('fileType', {
+                    rules: [{ required: false }],
+                })(
+                    <Input maxLength={10} placeholder="文件类型" />
                 )}
             </FormItem>
 

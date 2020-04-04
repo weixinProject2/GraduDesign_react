@@ -78,3 +78,8 @@ export const getNoticeDetail = (params) => http.get('/getAnnounceDetail', params
 export const deleteMoreNotice = (params) => http.delete('/deleteAnouncement', params);
 // markdown图片上传
 export const uploadNoticeImg = (params) => http.post('/postImg', params);
+
+// 获取所有公司文件
+export const getAllAdminFile = (params) => http.get('/admin/queryfileList', params);
+// 删除文件
+export const deleteAdminFile = (params) => http.delete('/admin/deleteFile', params);

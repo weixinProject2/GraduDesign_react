@@ -1,6 +1,6 @@
 import React, { useEffect, Fragment, useState, createRef } from 'react';
 
-import { Button, Modal, message, Pagination, Spin } from 'antd';
+import { Button, message, Pagination, Spin, Empty } from 'antd';
 import { observer } from 'mobx-react-lite';
 import TableContainer from '../../tool-components/TableContainerStyle';
 import FileTypeBlock from './components/fileTypeBlock';
@@ -22,6 +22,9 @@ export default observer(() => {
       getBtnDisabled,
       getTableData,
       getLoading,
+      getTotalPage,
+      setCurrentPage,
+      getCurrentPage,
     }
   } = useFileStore();
 
@@ -97,26 +100,28 @@ export default observer(() => {
       data: formData,
     })
   }
-  const [current, setCurrent] = useState(1);
 
   function changePage(currentPage) {
-    setCurrent(currentPage);
+    setCurrentPage(currentPage);
+    loadInfo();
   }
 
   const renderLists = () => {
-    return getTableData.map((item, index) => {
-      return <FileTypeBlock {...item} key={index} />
-    })
+    if (getTableData.length > 0) {
+      return <div className="gradu-file">
+        {getTableData.map((item, index) => <FileTypeBlock {...item} key={index} />)}
+      </div>
+    } else {
+      return <div className="gradu-file"><Empty description="暂无文件数据" /></div>
+    }
   }
 
   return (
     <TableContainer headerButtons={btnGroup} title='文件管理'>
       <SearchForm />
       <Spin tip="获取文件列表中..." spinning={getLoading}>
-        <div className="gradu-file">
-          {renderLists()}
-        </div>
-        <Pagination className="gradu-file-pagination" current={current} onChange={changePage} total={50} />
+        {renderLists()}
+        {getTotalPage && <Pagination className="gradu-file-pagination" current={getCurrentPage} onChange={changePage} total={getTotalPage} />}
       </Spin>
       <AddModalForm
         onCancel={closeAddModal}
@@ -125,6 +130,6 @@ export default observer(() => {
         wrappedComponentRef={formRef}
         confirmLoading={getOkBtnLoading}
       />
-    </TableContainer>
+    </TableContainer >
   )
 })

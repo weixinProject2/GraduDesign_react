@@ -1,9 +1,9 @@
-import React, { useState, Fragment } from 'react';
+import React, { useState } from 'react';
 import "./index.less";
 import { Icon, Tooltip, Button, Modal, message, Alert } from 'antd';
 import PropTypes from 'prop-types';
 import { observer } from 'mobx-react-lite';
-import { deleteAdminFile, changeFilePublic } from '../../../../api';
+import { deleteAdminFile } from '../../../../api';
 import { useFileStore } from '../../stores'
 
 const fileTypeObj = {
@@ -63,15 +63,14 @@ const fileTypeObj = {
 
 
 
-const fileTypeBlock = observer(({ kinds, filename, fileId, fileDesc, createTime, filepath, isPublic }) => {
+const fileTypeBlock = observer(({ kinds, filename, fileId, fileDesc, createTime, filepath, }) => {
   const [shadowBlock, setDisplay] = useState(true);
   const [confirmLoading, setConfrimLoading] = useState(false);
   const [deleteVisible, setDeleteVisible] = useState(false);
-  const [fileOverview, setOverview] = useState(false);
 
   const {
     mainStore: {
-      loadInfo,setQueryFileds,setCurrentPage,
+      loadInfo,
     },
   } = useFileStore();
 
@@ -93,47 +92,6 @@ const fileTypeBlock = observer(({ kinds, filename, fileId, fileDesc, createTime,
 
   function openDeleteModal() {
     setDeleteVisible(true);
-    setDisplay(true);
-  }
-
-  function openViewModal() {
-    setOverview(true);
-    setDisplay(true);
-  };
-
-  function changeType() {
-    const isPublicType = isPublic === '1' ? 0 : 1;
-    const obj = {
-      fileId: fileId,
-      isPublic: isPublicType,
-    }
-    changeFilePublic(obj).then((res) => {
-      if (!res.error) {
-        message.success(res.message);
-        setDisplay(true);
-        setCurrentPage(1);
-        setQueryFileds(null);
-        loadInfo();
-      }else{
-        message.error(res.message);
-      }
-    })
-  }
-
-  function renderOpts() {
-    const isOverview = kinds === 'pdf' || kinds === 'txt' || kinds === 'png' || kinds === 'gif' || kinds === 'jpg';
-    const isDownload = kinds === 'png' || kinds === 'gif' || kinds === 'jpg' || kinds === 'txt';
-    const publicTypeText = isPublic !== '1' ? '设为公开' : '设为私有';
-    return (
-      <Fragment>
-        {isOverview && <span className='gradu-file-opts-item' onClick={openViewModal}><Icon type="read" />文件预览</span>}
-        {!isDownload && <span className='gradu-file-opts-item'><Icon type="download" /><a target='_blank' download={filename} href={filepath}>下载</a></span>}
-        <span className='gradu-file-opts-item' onClick={changeType}><Icon type="safety-certificate" />{publicTypeText}</span>
-        <span
-          style={{ borderRadius: '0 0 9px 9px' }}
-          className='gradu-file-opts-item' onClick={openDeleteModal}><Icon type="delete" />删除</span>
-      </Fragment>
-    )
   }
 
   return (
@@ -150,23 +108,20 @@ const fileTypeBlock = observer(({ kinds, filename, fileId, fileDesc, createTime,
 
         <div
           className="gradu-file-opts"
-          style={{ display: shadowBlock ? 'none' : 'block' }}
+          style={{ display: shadowBlock ? 'none' : 'flex' }}
         >
-          {renderOpts()}
-          <span onClick={() => setDisplay(true)} className="gradu-file-opts-close">
+          <span><Icon type="read" />文件预览</span>
+          <span><Icon type="download" /><a target='_blank' download={filename} href={filepath}>下载</a></span>
+          <span onClick={openDeleteModal}><Icon type="delete" />删除</span>
+          <span onClick={() => setDisplay(true)}>
             <Icon type="close" />
           </span>
         </div>
       </main>
       <footer>
+
         <span>{filename}</span>
-        <span>文件权限：
-          <strong
-            style={{ color: isPublic !== '1' ? '#ff0000c7' : '#17b3a3' }}>
-            {isPublic === '1' ? '公开' : '私有'}
-          </strong>
-        </span>
-        <span>文件类型<strong>{`：.${kinds}`}</strong></span>
+        <span>{`文件类型：.${kinds}`}</span>
         <span>上传时间：{createTime}</span>
       </footer>
 
@@ -188,23 +143,6 @@ const fileTypeBlock = observer(({ kinds, filename, fileId, fileDesc, createTime,
           type="warning"
           showIcon
         />
-      </Modal>
-      <Modal
-        title={filename}
-        visible={fileOverview}
-        footer={null}
-        onCancel={() => setOverview(false)}
-        width='800px'
-        centered
-      >
-        <iframe
-          width='100%'
-          height='500px'
-          style={{ border: 'none' }}
-          frameborder='1'
-          src={filepath}
-        >
-        </iframe>
       </Modal>
     </div>
   )

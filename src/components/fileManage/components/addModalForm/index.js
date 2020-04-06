@@ -47,7 +47,7 @@ const addModalForm = forwardRef(({ form, onCreate, visible, onCancel, confirmLoa
     }
 
     const uploadProps = {
-        accept: ".rar,.zip,.doc,.docx,.pdf,.jpg,.png,.md,.gif,.xls,.txt,.pptx",
+        accept: ".rar,.zip,.doc,.docx,.pdf,.jpg,.png,.md,.gif,.xls,.txt",
         multiple: false,
         name: 'file',
         beforeUpload(file) {

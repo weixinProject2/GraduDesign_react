@@ -10,7 +10,6 @@ export default function useStore() {
             size: 10,
             bToDepartmentID: '',
             projectName: '',
-
         },
         setQueryFileds(value) {
             this.params.bToDepartmentID = value && value.bToDepartmentID ? value.bToDepartmentID : '';

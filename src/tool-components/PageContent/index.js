@@ -4,12 +4,21 @@ import ProtoTypes from 'prop-types';
 
 import './index.less';
 
+
 const PageContent = (props) => {
-    const { children } = props;
+    const { children, hasSideTree } = props;
     return (
-        <div className="page-content">
+        !hasSideTree ? <div className="page-content">
             {children}
-        </div>
+        </div> :
+            <div className="page-side-content">
+                <div className="page-side-content-left">
+                    {hasSideTree}
+                </div>
+                <div className="page-side-content-right">
+                    {children}
+                </div>
+            </div>
     )
 }
 

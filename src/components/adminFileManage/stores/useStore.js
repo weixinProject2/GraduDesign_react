@@ -5,6 +5,39 @@ import { message } from 'antd';
 
 export default function useStore() {
     return useLocalStore(() => ({
+        params: {
+            size: 10,
+            page: 1,
+            kinds: null,
+            filename: null,
+            isPublic: null,
+            endTime: null,
+            startTime: null,
+        },
+
+        setQueryFileds(value) {
+            this.params.isPublic = value && value.isPublic ? value.isPublic : null;
+            this.params.kinds = value && value.kinds ? value.kinds : null;
+            this.params.filename = value && value.filename ? value.filename : null;
+            this.params.endTime = value && value.endTime ? value.endTime : null;
+            this.params.startTime = value && value.startTime ? value.startTime : null;
+        },
+
+        get getCurrentPage() {
+            return this.params.page;
+        },
+        setCurrentPage(pageNumber) {
+            this.params.page = pageNumber;
+        },
+
+        // 所有数据量
+        totalPage: 0,
+        get getTotalPage() {
+            return this.totalPage;
+        },
+        setTotalPage(value) {
+            this.totalPage = value;
+        },
 
         // 每一页的数据
         tableData: [],
@@ -27,11 +60,11 @@ export default function useStore() {
         loadInfo() {
             this.setLoading(true);
             this.setBtnDisabled(true);
-            getAllAdminFile().then((res) => {
+            getAllAdminFile(this.params).then((res) => {
                 if (!res.error) {
                     this.setLoading(false);
                     this.setTableData(res.list);
-                    // this.setTotalPage(res.total);
+                    this.setTotalPage(res.total);
                     this.setBtnDisabled(false);
                 } else {
                     message.error(res.mess);

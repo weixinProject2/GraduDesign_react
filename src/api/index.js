@@ -83,3 +83,5 @@ export const uploadNoticeImg = (params) => http.post('/postImg', params);
 export const getAllAdminFile = (params) => http.get('/admin/queryfileList', params);
 // 删除文件
 export const deleteAdminFile = (params) => http.delete('/admin/deleteFile', params);
+// 改变查看范围
+export const changeFilePublic = (params) => http.put('/admin/changeFilePublic', params);

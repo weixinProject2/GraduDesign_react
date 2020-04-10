@@ -1,6 +1,6 @@
 import React from 'react';
 import { useLocalStore } from 'mobx-react-lite';
-import { getAllAdminFile } from '../../../api';
+import { getAllAdminFile, getFolderTree } from '../../../api';
 import { message } from 'antd';
 
 export default function useStore() {
@@ -13,6 +13,32 @@ export default function useStore() {
             isPublic: null,
             endTime: null,
             startTime: null,
+        },
+
+        sideTreeData: [],
+        get getSideTreeData() {
+            return this.sideTreeData.slice();
+        },
+        setSideTree(value) {
+            this.sideTreeData = value;
+        },
+
+        treeLoading: false,
+        setTreeLoading(value) {
+            this.treeLoading = value;
+        },
+        get getTreeLoading() {
+            return this.treeLoading;
+        },
+
+        loadTreeData() {
+            this.setTreeLoading(true);
+            getFolderTree().then((res) => {
+                if (!res.error) {
+                    this.setSideTree(res.tree);
+                    this.setTreeLoading(false);
+                }
+            })
         },
 
         setQueryFileds(value) {

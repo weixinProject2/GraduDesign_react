@@ -85,3 +85,6 @@ export const getAllAdminFile = (params) => http.get('/admin/queryfileList', para
 export const deleteAdminFile = (params) => http.delete('/admin/deleteFile', params);
 // 改变查看范围
 export const changeFilePublic = (params) => http.put('/admin/changeFilePublic', params);
+
+// 获取文件树
+export const getFolderTree = (params) => http.get('/folderTree/getFolderTree');

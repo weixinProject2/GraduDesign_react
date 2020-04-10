@@ -7,6 +7,7 @@ import FileTypeBlock from './components/fileTypeBlock';
 import { useFileStore } from './stores';
 import AddModalForm from './components/addModalForm';
 import SearchForm from './components/searchForm';
+import SiderTree from './components/sideTree';
 
 import axios from 'axios';
 
@@ -25,12 +26,14 @@ export default observer(() => {
       getTotalPage,
       setCurrentPage,
       getCurrentPage,
+      loadTreeData,
     }
   } = useFileStore();
 
   useEffect(() => {
-    loadInfo();
-  }, [])
+    // loadInfo();
+    loadTreeData();
+  }, []);
 
   function openUploadModal() {
     setAddModalStatus(true);
@@ -115,9 +118,10 @@ export default observer(() => {
       return <div className="gradu-file"><Empty description="暂无文件数据" /></div>
     }
   }
+  const sideTree = (<SiderTree />)
 
   return (
-    <TableContainer headerButtons={btnGroup} title='文件管理'>
+    <TableContainer headerButtons={btnGroup} title='文件管理' hasSideTree={sideTree}>
       <SearchForm />
       <Spin tip="获取文件列表中..." spinning={getLoading}>
         {renderLists()}

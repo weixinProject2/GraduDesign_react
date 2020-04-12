@@ -1,18 +1,24 @@
 import React, { useEffect, Fragment, useState, createRef } from 'react';
 
-import { Button, message, Pagination, Spin, Empty } from 'antd';
+import { Button, message, Pagination, Spin, Empty, Modal } from 'antd';
 import { observer } from 'mobx-react-lite';
 import TableContainer from '../../tool-components/TableContainerStyle';
 import FileTypeBlock from './components/fileTypeBlock';
 import { useFileStore } from './stores';
+import { createNewFolder, deleteFolder } from '../../api';
 import AddModalForm from './components/addModalForm';
+import AddFolderForm from './components/addFolderForm';
 import SearchForm from './components/searchForm';
 import SiderTree from './components/sideTree';
 
 import axios from 'axios';
 
+const { confirm } = Modal;
+
 export default observer(() => {
   const formRef = createRef();
+  const formAddFolderRef = createRef();
+
   const {
     mainStore: {
       getAddModalStatus,
@@ -26,21 +32,34 @@ export default observer(() => {
       getTotalPage,
       setCurrentPage,
       getCurrentPage,
+      getSelectedTreeNode,
       loadTreeData,
+      getSideTreeData,
+      setAddFolderModalStatus,
+      getAddFolderModalStatus,
     }
   } = useFileStore();
 
+  // 当文件树或者文件ID变化得时候就得去重新获取对应得文件数据
   useEffect(() => {
-    // loadInfo();
-    loadTreeData();
-  }, []);
+    if (getSelectedTreeNode) {
+      loadInfo();
+    }
+  }, [getSelectedTreeNode, getSideTreeData])
 
   function openUploadModal() {
     setAddModalStatus(true);
   }
+  function openAddFolderModal() {
+    setAddFolderModalStatus(true);
+  }
 
   function closeAddModal() {
     setAddModalStatus(false);
+  }
+
+  function closeAddFolderModal() {
+    setAddFolderModalStatus(false);
   }
 
   function refresh() {
@@ -53,24 +72,59 @@ export default observer(() => {
         icon="file-add"
         ghost
         type='primary'
-        disabled={getBtnDisabled}
+        disabled={getBtnDisabled || !getSelectedTreeNode}
         onClick={openUploadModal}
-      >新增文件</Button>
+      >添加文件</Button>
       <Button
         type="primary"
         icon="reload"
         ghost
         onClick={refresh}
-        disabled={getBtnDisabled}
+        disabled={getBtnDisabled || !getSelectedTreeNode}
       >刷新</Button>
+      <Button
+        type="primary"
+        icon="folder-add"
+        ghost
+        onClick={openAddFolderModal}
+        disabled={getBtnDisabled || !getSelectedTreeNode}
+      >新建文件夹</Button>
+      <Button
+        type="danger"
+        icon="delete"
+        ghost
+        onClick={showDeleteConfirm}
+        disabled={getBtnDisabled || !getSelectedTreeNode}
+      >删除文件夹</Button>
     </Fragment>
   );
 
+  // 添加新文件夹
+  function handleFolderCreate() {
+    const { form } = formAddFolderRef.current;
+    form.validateFields((err, values) => {
+      if (!err) {
+        values.parentId = getSelectedTreeNode;
+        createNewFolder(values).then((res) => {
+          if (!res.error) {
+            message.success(res.message);
+            closeAddFolderModal();
+            loadTreeData();
+          } else {
+            message.error(res.message);
+          }
+        })
+      }
+    });
+  };
+
+  // 上传新文件
   function handleCreate() {
     const { form } = formRef.current;
     form.validateFields((err, values) => {
       if (!err) {
         values.file = values.file.file;
+        values.folderId = getSelectedTreeNode;
         setOkBtnLoading(true);
         postFormData(values).then((res) => {
           if (res.status === 200) {
@@ -109,13 +163,39 @@ export default observer(() => {
     loadInfo();
   }
 
+  function handleDeleteFolder() {
+    const obj = {
+      folderId: getSelectedTreeNode,
+    }
+    deleteFolder(obj).then((res) => {
+      if (!res.error) {
+        message.success(res.message);
+        loadTreeData();
+        return true;
+      } else {
+        message.error(res.message);
+      }
+    })
+  }
+
+  function showDeleteConfirm() {
+    confirm({
+      title: '你确定要删除此文件夹？',
+      content: '删除文件夹将会删除以下所有得文件以及子文件夹，确定这么做吗？',
+      okText: '确定',
+      okType: 'danger',
+      cancelText: '取消',
+      onOk: handleDeleteFolder
+    });
+  }
+
   const renderLists = () => {
     if (getTableData.length > 0) {
       return <div className="gradu-file">
         {getTableData.map((item, index) => <FileTypeBlock {...item} key={index} />)}
       </div>
     } else {
-      return <div className="gradu-file"><Empty description="暂无文件数据" /></div>
+      return <div className="gradu-file"><Empty description="此文件夹下暂无文件数据" /></div>
     }
   }
   const sideTree = (<SiderTree />)
@@ -125,7 +205,7 @@ export default observer(() => {
       <SearchForm />
       <Spin tip="获取文件列表中..." spinning={getLoading}>
         {renderLists()}
-        {getTotalPage && <Pagination className="gradu-file-pagination" current={getCurrentPage} onChange={changePage} total={getTotalPage} />}
+        {getTotalPage ? <Pagination className="gradu-file-pagination" current={getCurrentPage} onChange={changePage} total={getTotalPage} /> : null}
       </Spin>
       <AddModalForm
         onCancel={closeAddModal}
@@ -134,6 +214,14 @@ export default observer(() => {
         wrappedComponentRef={formRef}
         confirmLoading={getOkBtnLoading}
       />
+      {/* 添加文件夹modal */}
+      <AddFolderForm
+        onCancel={closeAddFolderModal}
+        onCreate={handleFolderCreate}
+        visible={getAddFolderModalStatus}
+        wrappedComponentRef={formAddFolderRef}
+      />
+
     </TableContainer >
   )
 })

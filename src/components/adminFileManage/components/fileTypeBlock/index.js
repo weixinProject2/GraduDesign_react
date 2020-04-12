@@ -102,7 +102,7 @@ const fileTypeBlock = observer(({ kinds, filename, fileId, fileDesc, createTime,
   };
 
   function changeType() {
-    const isPublicType = isPublic === '1' ? 0 : 1;
+    const isPublicType = isPublic ? 0 : 1;
     const obj = {
       fileId: fileId,
       isPublic: isPublicType,
@@ -123,7 +123,7 @@ const fileTypeBlock = observer(({ kinds, filename, fileId, fileDesc, createTime,
   function renderOpts() {
     const isOverview = kinds === 'pdf' || kinds === 'txt' || kinds === 'png' || kinds === 'gif' || kinds === 'jpg';
     const isDownload = kinds === 'png' || kinds === 'gif' || kinds === 'jpg' || kinds === 'txt';
-    const publicTypeText = isPublic !== '1' ? '设为公开' : '设为私有';
+    const publicTypeText = !isPublic ? '设为公开' : '设为私有';
     return (
       <Fragment>
         {isOverview && <span className='gradu-file-opts-item' onClick={openViewModal}><Icon type="read" />文件预览</span>}
@@ -162,8 +162,8 @@ const fileTypeBlock = observer(({ kinds, filename, fileId, fileDesc, createTime,
         <span>{filename}</span>
         <span>文件权限：
           <strong
-            style={{ color: isPublic !== '1' ? '#ff0000c7' : '#17b3a3' }}>
-            {isPublic === '1' ? '公开' : '私有'}
+            style={{ color: !isPublic ? '#ff0000c7' : '#17b3a3' }}>
+            {isPublic ? '公开' : '私有'}
           </strong>
         </span>
         <span>文件类型<strong>{`：.${kinds}`}</strong></span>

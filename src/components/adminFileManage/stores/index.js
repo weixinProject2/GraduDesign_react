@@ -1,4 +1,4 @@
-import React, { createContext, useContext } from 'react';
+import React, { createContext, useContext, useEffect } from 'react';
 import { observer } from 'mobx-react-lite';
 import useStore from './useStore';
 
@@ -13,8 +13,16 @@ export const StoreProvider = observer((props) => {
         children,
     } = props;
 
-
     const mainStore = useStore();
+
+    const {
+        loadTreeData,
+    } = mainStore;
+
+    useEffect(() => {
+        loadTreeData();
+    }, []);
+
 
     const value = {
         ...props,

@@ -1,4 +1,4 @@
-import React, { useState, Fragment } from 'react';
+import React, { useState, Fragment, useEffect } from 'react';
 import { observer } from 'mobx-react-lite';
 import { Tree, Icon, Input, Spin } from 'antd';
 import { useFileStore } from '../../stores';
@@ -8,27 +8,45 @@ const { Search } = Input;
 
 
 const sideTree = observer(() => {
+
     const {
         mainStore: {
-            getSideTreeData, getTreeLoading,
+            getSideTreeData,
+            getTreeLoading,
+            setExpandTreeNodes,
+            getSelectedTreeNode,
+            setSelectedTreeNode,
         },
     } = useFileStore();
 
+    function handleExpand(e, { expanded }) {
+        console.log(e, expanded);
+        setExpandTreeNodes(e);
+    }
 
-    function handleSelect(e) {
-        console.log(e);
+    function handleSelect(seletedKey, e) {
+        setSelectedTreeNode(seletedKey[0]);
     }
 
     function renderTreeNodes(data) {
         return data.map(item => {
             if (item.children) {
                 return (
-                    <TreeNode title={item.folderName} key={item.folderId} dataRef={item}>
+                    <TreeNode
+                        // icon={<Icon type="folder" />}
+                        title={item.folderName}
+                        key={item.folderId}
+                        dataRef={item}>
                         {renderTreeNodes(item.children)}
                     </TreeNode>
                 );
             }
-            return <TreeNode key={item.folderId} title={item.folderName} {...item} />;
+            return <TreeNode
+                key={item.folderId}
+                title={item.folderName}
+                {...item}
+                // icon={<Icon type="folder" />}
+            />;
         });
     }
 
@@ -39,15 +57,22 @@ const sideTree = observer(() => {
 
     return (
         <Spin spinning={getTreeLoading}>
-            <Search style={{ marginBottom: 8 }} placeholder="Search" onChange={onSearch} />
-            <DirectoryTree
-                checkable={false}
-                onSelect={handleSelect}
-            // autoExpandParent={this.state.autoExpandParent}
-            // selectedKeys={this.state.selectedKeys}
-            >
-                {renderTreeNodes(getSideTreeData)}
-            </DirectoryTree >
+            {
+                getSideTreeData && getSideTreeData.length > 0 && <Fragment>
+                    {/* <Search style={{ marginBottom: 8 }} placeholder="Search" onChange={onSearch} /> */}
+                    <Tree
+                        onSelect={handleSelect}
+                        showLine
+                        onExpand={handleExpand}
+                        showIcon={false}
+                        switcherIcon={null}
+                        defaultExpandAll
+                        selectedKeys={[getSelectedTreeNode]}
+                    >
+                        {renderTreeNodes(getSideTreeData)}
+                    </Tree >
+                </Fragment>
+            }
         </Spin>
     )
 })

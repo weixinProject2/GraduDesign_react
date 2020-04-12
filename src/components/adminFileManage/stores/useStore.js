@@ -5,16 +5,7 @@ import { message } from 'antd';
 
 export default function useStore() {
     return useLocalStore(() => ({
-        params: {
-            size: 10,
-            page: 1,
-            kinds: null,
-            filename: null,
-            isPublic: null,
-            endTime: null,
-            startTime: null,
-        },
-
+        // -------------------- 树控件 --------------------- 
         sideTreeData: [],
         get getSideTreeData() {
             return this.sideTreeData.slice();
@@ -31,16 +22,48 @@ export default function useStore() {
             return this.treeLoading;
         },
 
-        loadTreeData() {
+        async loadTreeData() {
             this.setTreeLoading(true);
-            getFolderTree().then((res) => {
+            await getFolderTree().then((res) => {
                 if (!res.error) {
                     this.setSideTree(res.tree);
+                    if (res.tree.length > 0) {
+                        this.setSelectedTreeNode(res.tree[0].folderId.toString());
+                    }
                     this.setTreeLoading(false);
                 }
             })
         },
 
+        setSelectedTreeNode(value) {
+            this.params.folderId = value;
+        },
+        get getSelectedTreeNode() {
+            return this.params.folderId;
+        },
+
+        expandTreeNodes: [],
+        setExpandTreeNodes(value) {
+            this.expandTreeNodes = value;
+        },
+        get getExpandTreeNodes() {
+            return this.expandTreeNodes.slice();
+        },
+
+
+        // -------------------- 文件控件 --------------------- 
+
+        params: {
+            size: 10,
+            page: 1,
+            kinds: null,
+            filename: null,
+            isPublic: null,
+            endTime: null,
+            startTime: null,
+            folderId: null,
+        },
+        // 设置参数
         setQueryFileds(value) {
             this.params.isPublic = value && value.isPublic ? value.isPublic : null;
             this.params.kinds = value && value.kinds ? value.kinds : null;
@@ -105,7 +128,7 @@ export default function useStore() {
         get getLoading() {
             return this.loading;
         },
-
+        // 新增文件得modal框
         addModalStatus: false,
         setAddModalStatus(value) {
             this.addModalStatus = value;
@@ -113,7 +136,7 @@ export default function useStore() {
         get getAddModalStatus() {
             return this.addModalStatus;
         },
-
+        // 新增文件button按钮
         addModalBtnLoading: false,
         addModalDisabled: true,
         setOkBtnLoading(value) {
@@ -127,6 +150,14 @@ export default function useStore() {
         },
         get getOkBtnDisabled() {
             return this.addModalDisabled;
-        }
+        },
+        // 新增文件得modal框
+        addFolderModalStatus: false,
+        setAddFolderModalStatus(value) {
+            this.addFolderModalStatus = value;
+        },
+        get getAddFolderModalStatus() {
+            return this.addFolderModalStatus;
+        },
     }))
 }

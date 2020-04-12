@@ -87,4 +87,8 @@ export const deleteAdminFile = (params) => http.delete('/admin/deleteFile', para
 export const changeFilePublic = (params) => http.put('/admin/changeFilePublic', params);
 
 // 获取文件树
-export const getFolderTree = (params) => http.get('/folderTree/getFolderTree');
+export const getFolderTree = () => http.get('/folderTree/getFolderTree');
+// 创建文件夹
+export const createNewFolder = (params) => http.post('/folderTree/createFolder', params);
+// 删除文件夹
+export const deleteFolder = (params) => http.delete('/folderTree/deleteFolder', params);

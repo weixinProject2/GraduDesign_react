@@ -8,7 +8,6 @@ const { Search } = Input;
 
 
 const sideTree = observer(() => {
-
     const {
         mainStore: {
             getSideTreeData,
@@ -19,8 +18,8 @@ const sideTree = observer(() => {
         },
     } = useFileStore();
 
+
     function handleExpand(e, { expanded }) {
-        console.log(e, expanded);
         setExpandTreeNodes(e);
     }
 
@@ -33,7 +32,7 @@ const sideTree = observer(() => {
             if (item.children) {
                 return (
                     <TreeNode
-                        // icon={<Icon type="folder" />}
+                        icon={<Icon type="folder" />}
                         title={item.folderName}
                         key={item.folderId}
                         dataRef={item}>
@@ -45,7 +44,7 @@ const sideTree = observer(() => {
                 key={item.folderId}
                 title={item.folderName}
                 {...item}
-                // icon={<Icon type="folder" />}
+                icon={<Icon type="folder" />}
             />;
         });
     }
@@ -62,10 +61,10 @@ const sideTree = observer(() => {
                     {/* <Search style={{ marginBottom: 8 }} placeholder="Search" onChange={onSearch} /> */}
                     <Tree
                         onSelect={handleSelect}
-                        showLine
+                        // showLine
                         onExpand={handleExpand}
-                        showIcon={false}
-                        switcherIcon={null}
+                        showIcon={true}
+                        switcherIcon={<Icon type='down' />}
                         defaultExpandAll
                         selectedKeys={[getSelectedTreeNode]}
                     >

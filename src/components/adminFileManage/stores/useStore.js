@@ -6,6 +6,17 @@ import { message } from 'antd';
 export default function useStore() {
     return useLocalStore(() => ({
         // -------------------- 树控件 --------------------- 
+
+        // 根节点
+        rootTrees: [],
+        get getRootTrees() {
+            return this.rootTrees.slice();
+        },
+        setRootTrees(value) {
+            this.rootTrees = value;
+        },
+
+        // 树的数据
         sideTreeData: [],
         get getSideTreeData() {
             return this.sideTreeData.slice();
@@ -26,9 +37,15 @@ export default function useStore() {
             this.setTreeLoading(true);
             await getFolderTree().then((res) => {
                 if (!res.error) {
-                    this.setSideTree(res.tree);
-                    if (res.tree.length > 0) {
-                        this.setSelectedTreeNode(res.tree[0].folderId.toString());
+                    const data = res.tree;
+                    this.setSideTree(data);
+                    if (data.length > 0) {
+                        this.setSelectedTreeNode(data[0].folderId.toString());
+                        const array = [];
+                        data.forEach(item => {
+                            array.push(item.folderId);
+                        });
+                        this.setRootTrees(array);
                     }
                     this.setTreeLoading(false);
                 }

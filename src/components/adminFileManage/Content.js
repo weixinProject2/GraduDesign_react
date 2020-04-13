@@ -37,6 +37,7 @@ export default observer(() => {
       getSideTreeData,
       setAddFolderModalStatus,
       getAddFolderModalStatus,
+      getRootTrees,
     }
   } = useFileStore();
 
@@ -94,10 +95,17 @@ export default observer(() => {
         icon="delete"
         ghost
         onClick={showDeleteConfirm}
-        disabled={getBtnDisabled || !getSelectedTreeNode}
+        disabled={getBtnDisabled || checkRootFolder()}
       >删除文件夹</Button>
     </Fragment>
   );
+
+  function checkRootFolder() {
+    if(!getSelectedTreeNode){
+      return true;
+    }
+    return getRootTrees.some(item => item.toString() === getSelectedTreeNode);
+  }
 
   // 添加新文件夹
   function handleFolderCreate() {

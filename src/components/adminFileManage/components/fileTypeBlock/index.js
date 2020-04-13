@@ -71,7 +71,7 @@ const fileTypeBlock = observer(({ kinds, filename, fileId, fileDesc, createTime,
 
   const {
     mainStore: {
-      loadInfo,setQueryFileds,setCurrentPage,
+      loadInfo, setQueryFileds, setCurrentPage,
     },
   } = useFileStore();
 
@@ -114,7 +114,7 @@ const fileTypeBlock = observer(({ kinds, filename, fileId, fileDesc, createTime,
         setCurrentPage(1);
         setQueryFileds(null);
         loadInfo();
-      }else{
+      } else {
         message.error(res.message);
       }
     })
@@ -201,9 +201,12 @@ const fileTypeBlock = observer(({ kinds, filename, fileId, fileDesc, createTime,
           width='100%'
           height='500px'
           style={{ border: 'none' }}
-          frameborder='1'
+          frameBorder='1'
           src={filepath}
         >
+          <head>
+            <meta httpEquiv="Content-Type" content="text/html; charset=gbk" />
+          </head>
         </iframe>
       </Modal>
     </div>

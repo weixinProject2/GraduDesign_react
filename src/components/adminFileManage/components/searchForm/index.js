@@ -85,7 +85,7 @@ const SearchForm = observer(({ form }) => {
                 {getFieldDecorator('time', {
                     rules: [{ required: false }],
                 })(
-                    <DatePick />
+                    <DatePick disabled={getBtnDisabled} />
                 )}
             </FormItem>
 

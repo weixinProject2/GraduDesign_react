@@ -25,7 +25,7 @@ import Notice from '../components/notice';
 import NoticeEditor from '../components/notice/noticeEditor';
 import NoticeDetail from '../components/notice/noticeDetail';
 import AdminFile from '../components/adminFileManage'
-import FileManage from '../components/fileManage';
+import DeptProjectsManage from '../components/deptProjectsManage';
 
 const SubMenu = Menu.SubMenu;
 
@@ -95,12 +95,22 @@ export default observer(() => {
                             <Menu.Item key="managePos"><NavLink to='/main/managePos'><Icon type='solution' /><span>职位管理</span></NavLink></Menu.Item>
                             <Menu.Item key="manageProf"><NavLink to='/main/manageProf'><Icon type='solution' /><span>职业管理</span></NavLink></Menu.Item>
                             <Menu.Item key="manageProject"><NavLink to={`/main/manageProject?projectId=${getProjectId}`}><Icon type='solution' /><span>项目管理</span></NavLink></Menu.Item>
-                            <Menu.Item key="deptsStaffManage"><NavLink to={`/main/deptsStaffManage?projectId=${getProjectId}`} onClick={() => setPath('/main/deptsStaffManage')}><Icon type="team" /><span>部门员工管理</span></NavLink></Menu.Item>
+                            <Menu.Item key="deptsStaffManage">
+                                <NavLink to={`/main/deptsStaffManage?projectId=${getProjectId}`} onClick={() => setPath('/main/deptsStaffManage')}>
+                                    <Icon type="team" />
+                                    <span>部门员工管理</span>
+                                </NavLink>
+                            </Menu.Item>
+                            <Menu.Item key="deptProjectsManage">
+                                <NavLink to={`/main/deptProjectsManage?projectId=${getProjectId}`} onClick={() => setPath('/main/deptProjectsManage')}>
+                                    <Icon type="team" />
+                                    <span>部门项目管理</span>
+                                </NavLink>
+                            </Menu.Item>
                             <Menu.Item key="taskPanel"><NavLink to='/main/taskLists'><Icon type='ordered-list' /><span>工作列表</span></NavLink></Menu.Item>
                             <Menu.Item key="scrumboard"><NavLink to='/main/scrumboard'><Icon type='snippets' /><span>迭代计划</span></NavLink></Menu.Item>
                             <Menu.Item key='notice'><NavLink to='/main/notice'><Icon type='solution' /><span>公告</span></NavLink></Menu.Item>
                             <Menu.Item key='adminFileManage'><NavLink to='/main/adminFileManage'><Icon type='solution' /><span>文件管理</span></NavLink></Menu.Item>
-                            <Menu.Item key='fileManage'><NavLink to='/main/fileManage'><Icon type='solution' /><span>文件管理</span></NavLink></Menu.Item>
                             <SubMenu key="sub4" title={<span><Icon type="user" /><span>员工管理</span></span>}>
                                 <Menu.Item key="manageStaff"><NavLink to='/user/manageStaff'><Icon type="contacts" />员工数据管理</NavLink></Menu.Item>
                             </SubMenu>
@@ -126,7 +136,7 @@ export default observer(() => {
                         <Route path='/main/notice/editor' component={NoticeEditor} />
                         <Route path='/main/notice/detail' component={NoticeDetail} />
                         <Route path='/main/adminFileManage' component={AdminFile} />
-                        <Route path='/main/fileManage' component={FileManage} />
+                        <Route path='/main/deptProjectsManage' component={DeptProjectsManage} />
                     </div>
                 </main>
             </Spin>

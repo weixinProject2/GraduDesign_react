@@ -70,6 +70,7 @@ const fileTypeBlock = observer(({ kinds, filename, fileId, fileDesc, createTime,
   const [fileOverview, setOverview] = useState(false);
 
   const {
+    permissions,
     mainStore: {
       loadInfo, setQueryFileds, setCurrentPage,
     },
@@ -128,7 +129,7 @@ const fileTypeBlock = observer(({ kinds, filename, fileId, fileDesc, createTime,
       <Fragment>
         {isOverview && <span className='gradu-file-opts-item' onClick={openViewModal}><Icon type="read" />文件预览</span>}
         {!isDownload && <span className='gradu-file-opts-item'><Icon type="download" /><a target='_blank' download={filename} href={filepath}>下载</a></span>}
-        <span className='gradu-file-opts-item' onClick={changeType}><Icon type="safety-certificate" />{publicTypeText}</span>
+        {permissions === '0' && <span className='gradu-file-opts-item' onClick={changeType}><Icon type="safety-certificate" />{publicTypeText}</span>}
         <span
           style={{ borderRadius: '0 0 9px 9px' }}
           className='gradu-file-opts-item' onClick={openDeleteModal}><Icon type="delete" />删除</span>
@@ -160,12 +161,12 @@ const fileTypeBlock = observer(({ kinds, filename, fileId, fileDesc, createTime,
       </main>
       <footer>
         <span>{filename}</span>
-        <span>文件权限：
+        {permissions === '0' && <span>文件权限：
           <strong
             style={{ color: !isPublic ? '#ff0000c7' : '#17b3a3' }}>
             {isPublic ? '公开' : '私有'}
           </strong>
-        </span>
+        </span>}
         <span>文件类型<strong>{`：.${kinds}`}</strong></span>
         <span>上传时间：{createTime}</span>
       </footer>

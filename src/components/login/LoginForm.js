@@ -21,11 +21,14 @@ const Login = ({ form }) => {
                         localStorage.setItem('token', data.token);
                         localStorage.setItem('userInfo', JSON.stringify(data.userInfo));
                         message.success('登陆成功');
-                        if (data.userInfo.projectList.length > 0) {
+                        if (data.userInfo.projectList && data.userInfo.projectList.length > 0) {
                             history.push(`/main?projectId=${data.userInfo.projectList[0].projectId}`);
-
+                            setProjectName(data.userInfo.projectList[0].projectName);
+                            setProjectId(data.userInfo.projectList[0].projectId);
                         } else {
                             history.push('/main?projectId=null');
+                            setProjectName('暂无任何项目');
+                            setProjectId(null);
                         }
                         setPath('/main');
                     } else {

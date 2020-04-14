@@ -23,9 +23,12 @@ const fileType = ['gif', 'zip', 'rar', 'pdf', 'jpg', 'png', 'pptx', 'doc', 'docx
 
 const SearchForm = observer(({ form }) => {
     const { getFieldDecorator, getFieldsValue } = form;
-    const { mainStore: {
-        setCurrentPage, setQueryFileds, loadInfo, getBtnDisabled,
-    } } = useFileStore();
+    const {
+        mainStore: {
+            setCurrentPage, setQueryFileds, loadInfo, getBtnDisabled,
+        },
+        permissions,
+    } = useFileStore();
 
     useEffect(() => {
 
@@ -89,7 +92,7 @@ const SearchForm = observer(({ form }) => {
                 )}
             </FormItem>
 
-            <FormItem  >
+            {permissions === '0' && <FormItem  >
                 {getFieldDecorator('isPublic', {
                     rules: [{ required: false }],
                 })(
@@ -106,7 +109,7 @@ const SearchForm = observer(({ form }) => {
                         {renderAllFileChecked()}
                     </Select>
                 )}
-            </FormItem>
+            </FormItem>}
 
             <FormItem  >
                 {getFieldDecorator('kinds', {

@@ -13,6 +13,10 @@ export const StoreProvider = observer((props) => {
         children,
     } = props;
 
+    const userInfo = localStorage.getItem('userInfo') && JSON.parse(localStorage.getItem('userInfo'));
+
+    const permissions = userInfo && userInfo.permissions.toString();
+
     const mainStore = useStore();
 
     const {
@@ -27,6 +31,7 @@ export const StoreProvider = observer((props) => {
     const value = {
         ...props,
         mainStore,
+        permissions,
     }
     return (
         <Store.Provider value={value}>

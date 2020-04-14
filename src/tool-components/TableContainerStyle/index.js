@@ -14,12 +14,13 @@ const PageConatiner = (props) => {
         children,
         style,
         hasSideTree,
+        titleStyle,
     } = props;
 
     return (
         <div className="page-container" {...style} >
             <TableHeader headerButtons={headerButtons} hasBack={hasBack} />
-            {title && <ContentTitle title={title} />}
+            {title && <ContentTitle title={title} style={titleStyle} />}
             <PageContent hasSideTree={hasSideTree}>
                 {children}
             </PageContent>

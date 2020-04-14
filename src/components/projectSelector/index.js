@@ -15,13 +15,11 @@ export default observer(withRouter((props) => {
         dataSource,
         loading,
     } = props;
-    // const { location } = history;
 
     const [expand, setExpand] = useState(false);
     const [hasProjects, setHasPorjects] = useState(false);
-    const [selectProject, setSelectProject] = useState("");
 
-    const { setProjectId, getPath } = useContext(MyContext);
+    const { setProjectId, getPath, setProjectName, getProjectName } = useContext(MyContext);
 
     useEffect(() => {
         if (dataSource.length > 0) {
@@ -30,23 +28,23 @@ export default observer(withRouter((props) => {
                 const checkSearch = dataSource.some((item) => item.projectId === search.split('=')[1]);
                 const checkSearchItem = dataSource.filter((item) => item.projectId === search.split('=')[1]);
                 if (checkSearch) {
-                    setSelectProject(checkSearchItem[0].projectName);
+                    setProjectName(checkSearchItem[0].projectName);
                     setProjectId(search.split('=')[1]);
                     setProject(checkSearchItem[0].projectName);
                     history.push(`${getPath}?projectId=${search.split('=')[1]}`);
                 } else {
-                    setSelectProject(dataSource[0].projectName);
+                    setProjectName(dataSource[0].projectName);
                     setProjectId(dataSource[0].projectId);
                     history.push(`${getPath}?projectId=${dataSource[0].projectId}`);
                 }
             } else {
-                history.push(`${getPath}?projectId=${dataSource[0].projectId}`);
-                setSelectProject(dataSource[0].projectName);
+                setProjectName(dataSource[0].projectName);
                 setProjectId(dataSource[0].projectId);
+                history.push(`${getPath}?projectId=${dataSource[0].projectId}`);
             }
             setHasPorjects(true);
         } else {
-            setSelectProject("暂无任何项目");
+            setProjectName("暂无任何项目");
             setProjectId(null);
             setHasPorjects(false);
             history.push(`${getPath}?projectId=null`);
@@ -81,7 +79,7 @@ export default observer(withRouter((props) => {
         })
         dom.setAttribute("class", "active");
         setProjectId(item.projectId);
-        setSelectProject(item.projectName);
+        setProjectName(item.projectName);
         setExpand(false);
         history.push(`${getPath}?projectId=${item.projectId}`);
     }
@@ -129,7 +127,7 @@ export default observer(withRouter((props) => {
             >
                 <div className="project-selector-text-detail">
                     <span>项目</span>
-                    <span>{selectProject}</span>
+                    <span>{getProjectName}</span>
                 </div>
                 {renderIcon()}
             </div>

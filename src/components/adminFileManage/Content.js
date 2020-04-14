@@ -1,6 +1,6 @@
 import React, { useEffect, Fragment, useState, createRef } from 'react';
 
-import { Button, message, Pagination, Spin, Empty, Modal } from 'antd';
+import { Button, message, Pagination, Spin, Modal } from 'antd';
 import { observer } from 'mobx-react-lite';
 import TableContainer from '../../tool-components/TableContainerStyle';
 import FileTypeBlock from './components/fileTypeBlock';
@@ -10,7 +10,7 @@ import AddModalForm from './components/addModalForm';
 import AddFolderForm from './components/addFolderForm';
 import SearchForm from './components/searchForm';
 import SiderTree from './components/sideTree';
-
+import EmptyPage from '../../tool-components/EmptyPage';
 import axios from 'axios';
 
 const { confirm } = Modal;
@@ -38,7 +38,8 @@ export default observer(() => {
       setAddFolderModalStatus,
       getAddFolderModalStatus,
       getRootTrees,
-    }
+    },
+    permissions,
   } = useFileStore();
 
   // 当文件树或者文件ID变化得时候就得去重新获取对应得文件数据
@@ -67,15 +68,32 @@ export default observer(() => {
     loadInfo();
   }
 
+  function checkBtnRight() {
+    if (permissions === '1') {
+      if (getSelectedTreeNode !== '100000') {
+        return true;
+      }
+      return false
+    } else if (permissions === '2') {
+      if (getSelectedTreeNode !== '200000' && getSelectedTreeNode !== '100000') {
+        return true
+      }
+      return false
+    } else if (permissions === '0') {
+      return true;
+    }
+    return false
+  }
+
   const btnGroup = (
     <Fragment>
-      <Button
+      {checkBtnRight() && <Button
         icon="file-add"
         ghost
         type='primary'
-        disabled={getBtnDisabled || !getSelectedTreeNode}
+        disabled={getBtnDisabled || (!getSelectedTreeNode)}
         onClick={openUploadModal}
-      >添加文件</Button>
+      >添加文件</Button>}
       <Button
         type="primary"
         icon="reload"
@@ -83,25 +101,25 @@ export default observer(() => {
         onClick={refresh}
         disabled={getBtnDisabled || !getSelectedTreeNode}
       >刷新</Button>
-      <Button
+      {checkBtnRight() && <Button
         type="primary"
         icon="folder-add"
         ghost
         onClick={openAddFolderModal}
         disabled={getBtnDisabled || !getSelectedTreeNode}
-      >新建文件夹</Button>
-      <Button
+      >新建文件夹</Button>}
+      {checkBtnRight() && <Button
         type="danger"
         icon="delete"
         ghost
         onClick={showDeleteConfirm}
         disabled={getBtnDisabled || checkRootFolder()}
-      >删除文件夹</Button>
+      >删除文件夹</Button>}
     </Fragment>
   );
 
   function checkRootFolder() {
-    if(!getSelectedTreeNode){
+    if (!getSelectedTreeNode) {
       return true;
     }
     return getRootTrees.some(item => item.toString() === getSelectedTreeNode);
@@ -135,7 +153,7 @@ export default observer(() => {
         values.folderId = getSelectedTreeNode;
         setOkBtnLoading(true);
         postFormData(values).then((res) => {
-          if (res.status === 200) {
+          if (res.status === 200 && !res.data.error) {
             message.success(res.data.message);
             setOkBtnLoading(false);
             closeAddModal();
@@ -198,13 +216,11 @@ export default observer(() => {
   }
 
   const renderLists = () => {
-    if (getTableData.length > 0) {
-      return <div className="gradu-file">
-        {getTableData.map((item, index) => <FileTypeBlock {...item} key={index} />)}
+    return (
+      <div className="gradu-file">
+        {getTableData.length > 0 ? getTableData.map((item, index) => <FileTypeBlock {...item} key={index} />) : <EmptyPage description={'此文件夹下暂无文件数据'} />}
       </div>
-    } else {
-      return <div className="gradu-file"><Empty description="此文件夹下暂无文件数据" /></div>
-    }
+    )
   }
   const sideTree = (<SiderTree />)
 

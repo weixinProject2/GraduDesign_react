@@ -72,7 +72,7 @@ const fileTypeBlock = observer(({ kinds, filename, fileId, fileDesc, createTime,
   const {
     permissions,
     mainStore: {
-      loadInfo, setQueryFileds, setCurrentPage,
+      loadInfo, setQueryFileds, setCurrentPage, getSelectedTreeNode,
     },
   } = useFileStore();
 
@@ -130,10 +130,12 @@ const fileTypeBlock = observer(({ kinds, filename, fileId, fileDesc, createTime,
         {isOverview && <span className='gradu-file-opts-item' onClick={openViewModal}><Icon type="read" />文件预览</span>}
         {!isDownload && <span className='gradu-file-opts-item'><Icon type="download" /><a target='_blank' download={filename} href={filepath}>下载</a></span>}
         {permissions === '0' && <span className='gradu-file-opts-item' onClick={changeType}><Icon type="safety-certificate" />{publicTypeText}</span>}
-        <span
-          style={{ borderRadius: '0 0 9px 9px' }}
-          className='gradu-file-opts-item' onClick={openDeleteModal}><Icon type="delete" />删除</span>
-      </Fragment>
+        {
+          getSelectedTreeNode !== '100000' && getSelectedTreeNode !== '200000' && < span
+            style={{ borderRadius: '0 0 9px 9px' }}
+            className='gradu-file-opts-item' onClick={openDeleteModal}><Icon type="delete" />删除</span>
+        }
+      </Fragment >
     )
   }
 

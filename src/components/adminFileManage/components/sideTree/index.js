@@ -1,10 +1,9 @@
-import React, { useState, Fragment, useEffect } from 'react';
+import React, { Fragment } from 'react';
 import { observer } from 'mobx-react-lite';
-import { Tree, Icon, Input, Spin } from 'antd';
+import { Tree, Icon, Spin } from 'antd';
 import { useFileStore } from '../../stores';
 
-const { TreeNode, DirectoryTree } = Tree;
-const { Search } = Input;
+const { TreeNode } = Tree;
 
 
 const sideTree = observer(() => {
@@ -65,7 +64,7 @@ const sideTree = observer(() => {
                         onExpand={handleExpand}
                         showIcon={true}
                         switcherIcon={<Icon type='down' />}
-                        defaultExpandAll
+                        // defaultExpandAll
                         selectedKeys={[getSelectedTreeNode]}
                     >
                         {renderTreeNodes(getSideTreeData)}

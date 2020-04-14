@@ -1,6 +1,6 @@
 import React, { useEffect, Fragment, useState, createRef } from 'react';
 
-import { Button, message, Pagination, Spin, Modal } from 'antd';
+import { Button, message, Pagination, Spin, Modal, Breadcrumb } from 'antd';
 import { observer } from 'mobx-react-lite';
 import TableContainer from '../../tool-components/TableContainerStyle';
 import FileTypeBlock from './components/fileTypeBlock';
@@ -38,6 +38,7 @@ export default observer(() => {
       setAddFolderModalStatus,
       getAddFolderModalStatus,
       getRootTrees,
+      getNodeName,
     },
     permissions,
   } = useFileStore();
@@ -224,8 +225,17 @@ export default observer(() => {
   }
   const sideTree = (<SiderTree />)
 
+  const title = (
+    <Breadcrumb separator=">">
+      <Breadcrumb.Item>文件管理</Breadcrumb.Item>
+      <Breadcrumb.Item>
+        {getNodeName}
+      </Breadcrumb.Item>
+    </Breadcrumb>
+  )
+
   return (
-    <TableContainer headerButtons={btnGroup} title='文件管理' hasSideTree={sideTree}>
+    <TableContainer headerButtons={btnGroup} title={title} hasSideTree={sideTree}>
       <SearchForm />
       <Spin tip="获取文件列表中..." spinning={getLoading}>
         {renderLists()}

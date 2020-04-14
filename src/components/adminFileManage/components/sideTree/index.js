@@ -14,6 +14,7 @@ const sideTree = observer(() => {
             setExpandTreeNodes,
             getSelectedTreeNode,
             setSelectedTreeNode,
+            setNodeName,
         },
     } = useFileStore();
 
@@ -23,7 +24,13 @@ const sideTree = observer(() => {
     }
 
     function handleSelect(seletedKey, e) {
-        setSelectedTreeNode(seletedKey[0]);
+        if(seletedKey.length>0){
+            if (seletedKey[0] === getSelectedTreeNode) {
+                return true;
+            }
+            setSelectedTreeNode(seletedKey[0]);
+            setNodeName(e.node.props.title);
+        }
     }
 
     function renderTreeNodes(data) {

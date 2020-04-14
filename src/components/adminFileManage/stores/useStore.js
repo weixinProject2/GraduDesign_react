@@ -41,6 +41,7 @@ export default function useStore() {
                     this.setSideTree(data);
                     if (data.length > 0) {
                         this.setSelectedTreeNode(data[0].folderId.toString());
+                        this.setNodeName(data[0].folderName);
                         const array = [];
                         data.forEach(item => {
                             array.push(item.folderId);
@@ -57,6 +58,13 @@ export default function useStore() {
         },
         get getSelectedTreeNode() {
             return this.params.folderId;
+        },
+        nodeName: null,
+        setNodeName(value) {
+            this.nodeName = value
+        },
+        get getNodeName() {
+            return this.nodeName
         },
 
         expandTreeNodes: [],

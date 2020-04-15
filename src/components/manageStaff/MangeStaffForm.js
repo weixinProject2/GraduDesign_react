@@ -40,7 +40,7 @@ export default observer(() => {
             }
         },
         getCheckboxProps: record => ({
-            disabled: record.permissions === "1",
+            disabled: record.permissions === 1,
             name: record.userName,
         }),
     }
@@ -50,7 +50,7 @@ export default observer(() => {
         return (
             <ul className='gradu-form-opts'>
                 <li onClick={openModifyDrawer.bind(this, record)}>修改信息</li>
-                {permissions === "1" ? null : <li onClick={showDeleteConfirm.bind(this, record)}>删除</li>}
+                {permissions ? null : <li onClick={showDeleteConfirm.bind(this, record)}>删除</li>}
             </ul>
         )
     }
@@ -180,7 +180,7 @@ export default observer(() => {
     }
 
     function renderName(value, record) {
-        const status = record.permissions === "1";
+        const status = record.permissions === 1;
         return (
             <Tooltip
                 placement="top"

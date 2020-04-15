@@ -68,6 +68,8 @@ const fileTypeBlock = observer(({ kinds, filename, fileId, fileDesc, createTime,
   const [confirmLoading, setConfrimLoading] = useState(false);
   const [deleteVisible, setDeleteVisible] = useState(false);
   const [fileOverview, setOverview] = useState(false);
+  const [modalExpand, setModalExpand] = useState(false);
+
 
   const {
     permissions,
@@ -193,16 +195,27 @@ const fileTypeBlock = observer(({ kinds, filename, fileId, fileDesc, createTime,
         />
       </Modal>
       <Modal
-        title={filename}
+        title={
+          <div className="gradu-modal-title">
+            <span>
+              {filename}
+            </span>
+            <Icon type={!modalExpand ? 'fullscreen' : 'fullscreen-exit'} onClick={() => setModalExpand(!modalExpand)} />
+          </div>
+        }
         visible={fileOverview}
         footer={null}
         onCancel={() => setOverview(false)}
-        width='800px'
+        width={!modalExpand ? '70%' : '100%'}
         centered
+        wrapClassName="chle"
       >
+        {
+          console.log(window.outerHeight)
+        }
         <iframe
           width='100%'
-          height='500px'
+          height={!modalExpand ? '500px' : `${window.innerHeight - 108}px`}
           style={{ border: 'none' }}
           frameBorder='1'
           src={filepath}
@@ -212,7 +225,7 @@ const fileTypeBlock = observer(({ kinds, filename, fileId, fileDesc, createTime,
           </head>
         </iframe>
       </Modal>
-    </div>
+    </div >
   )
 });
 

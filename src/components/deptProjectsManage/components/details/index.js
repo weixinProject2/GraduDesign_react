@@ -24,7 +24,7 @@ export default observer(() => {
         </Descriptions.Item>
       </Descriptions>
       <Divider />
-      <Descriptions layout='horizontal' column={2}>
+      <Descriptions layout='horizontal' column={2} title="迭代详情">
         <Descriptions.Item label="当前项目迭代数目">12</Descriptions.Item>
         <Descriptions.Item label="当前迭代阶段">Sprint1.1</Descriptions.Item>
       </Descriptions>

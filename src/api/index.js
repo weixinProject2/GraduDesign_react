@@ -80,11 +80,11 @@ export const deleteMoreNotice = (params) => http.delete('/deleteAnouncement', pa
 export const uploadNoticeImg = (params) => http.post('/postImg', params);
 
 // 获取所有公司文件
-export const getAllAdminFile = (params) => http.get('/admin/queryfileList', params);
+export const getAllAdminFile = (params) => http.get('/file/queryfileList', params);
 // 删除文件
-export const deleteAdminFile = (params) => http.delete('/admin/deleteFile', params);
+export const deleteAdminFile = (params) => http.delete('/file/deleteFile', params);
 // 改变查看范围
-export const changeFilePublic = (params) => http.put('/admin/changeFilePublic', params);
+export const changeFilePublic = (params) => http.put('/file/changeFilePublic', params);
 
 // 获取文件树
 export const getFolderTree = () => http.get('/folderTree/getFolderTree');

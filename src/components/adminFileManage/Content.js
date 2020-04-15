@@ -164,8 +164,11 @@ export default observer(() => {
             setOkBtnLoading(false);
           }
         })
+      }else{
+        setOkBtnLoading(false);
       }
-    });
+    }
+    );
   };
 
   function postFormData(obj) {
@@ -176,7 +179,7 @@ export default observer(() => {
     const TOKEN = localStorage.getItem('token');
     return axios({
       method: 'post',
-      url: 'http://106.54.206.102:3000/admin/postFile',
+      url: 'http://106.54.206.102:3000/file/postFile',
       headers: {
         'Content-Type': 'application/x-www-form-urlencoded',
         'Authorization': `Bearer ${TOKEN}`,

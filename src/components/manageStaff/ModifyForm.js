@@ -165,7 +165,7 @@ const ModifyForm = observer(({ form }) => {
                         initialValue: departmentId,
                         rules: [{ required: true, message: '部门不能为空!' }, { pattern: /^[^ ]+$/, message: '不允许空格字符' }],
                     })(
-                        <AllDeptSelect />
+                        <AllDeptSelect disabled={permissions === 1} />
                     )}
                 </FormItem>
 

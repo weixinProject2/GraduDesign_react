@@ -1,49 +1,7 @@
 import React from 'react';
 import { useLocalStore } from 'mobx-react-lite';
 import { message } from 'antd';
-
-const res = {
-    "list": [
-        {
-            "userName": "翁恺敏",
-            "permissions": 1,
-            "workNumber": 100001,
-            "position": "技术顾问",
-            "professional": "前端工程师",
-            "departmentId": 741101,
-            "email": "765543432@qq.com",
-            "telNumber": 2147483647,
-            "sex": "男",
-            "address": "北京市,市辖区,东城区",
-            "entryTime": "2020年04月08日",
-            "Id_Card": "430987666576789876",
-            "departmentName": "能效中台",
-            "positionId": 1200001,
-            "professionalId": 10001
-        },
-        {
-            "userName": "王尼玛",
-            "permissions": 2,
-            "workNumber": 100003,
-            "position": "技术顾问",
-            "professional": "前端工程师",
-            "departmentId": 741101,
-            "email": "765543432@qq.com",
-            "telNumber": 2147483647,
-            "sex": "男",
-            "address": "北京市,市辖区,东城区",
-            "entryTime": "2020年04月06日",
-            "Id_Card": "430987666576789875",
-            "departmentName": "能效中台",
-            "positionId": 1200001,
-            "professionalId": 10001
-        }
-    ],
-    "page": 1,
-    "size": 10,
-    "totalPage": 1,
-    "total": 2
-}
+import { getDeptProjectDetails, getProjectMembers } from '../../../api';
 
 export default function useStore() {
     return useLocalStore(() => ({
@@ -52,7 +10,6 @@ export default function useStore() {
             size: 10,
             userName: '',
             workNumber: '',
-            positionId: '',
             professionalId: '',
         },
         // tabs
@@ -64,31 +21,53 @@ export default function useStore() {
             return this.activeKey
         },
 
+        // 项目对应操作 -----------------------------------------------
+        dataSource: null,
+        setDataSource(value) {
+            this.dataSource = value;
+        },
+        contentLoading: false,
+        setContentLoading(value) {
+            this.contentLoading = value;
+        },
+        contentBtnDisbled: false,
+        setContentBtnDisabled(value) {
+            this.contentBtnDisbled = value;
+        },
+        loadProjectInfo(projectId) {
+            this.setContentLoading(true);
+            this.setContentBtnDisabled(true);
+            getDeptProjectDetails({ projectId: projectId }).then((res) => {
+                if (!res.error) {
+                    this.setContentLoading(false);
+                    this.setContentBtnDisabled(false);
+                    this.setDataSource(res.data);
+                } else {
+                    message.error(res.message);
+                    this.setContentLoading(true);
+                    this.setContentBtnDisabled(true);
+                }
+            })
+        },
+
         // table------------------------------------------------
-        loadInfo() {
+        loadInfo(projectId) {
             this.setTableLoading(true);
             this.setBtnDisabled(true);
-            if (!res.error) {
-                setTimeout(() => {
+            this.params.projectId = projectId;
+            getProjectMembers(this.params).then((res) => {
+                if (!res.error) {
                     this.setTableLoading(false);
                     this.setTableData(res.list);
                     this.setTotalPage(res.total);
                     this.setBtnDisabled(false)
-                }, 500);
-            }
-            // getYourDeptStaff(this.params).then((res) => {
-            //     if (!res.error) {
-            //         this.setTableLoading(false);
-            //         this.setTableData(res.list);
-            //         this.setTotalPage(res.total);
-            //         this.setBtnDisabled(false)
-            //     } else {
-            //         message.error(res.mess);
-            //         this.setTableLoading(false);
-            //         this.setTableData(null);
-            //         this.setTotalPage(0);
-            //     }
-            // });
+                } else {
+                    message.error(res.mess);
+                    this.setTableLoading(false);
+                    this.setTableData(null);
+                    this.setTotalPage(0);
+                }
+            });
         },
 
         setQueryFiled(value) {
@@ -138,7 +117,7 @@ export default function useStore() {
         setTableLoading(value) {
             this.tableLoading = value;
         },
-        btnDisabled: true,
+        btnDisabled: false,
         setBtnDisabled(value) {
             this.btnDisabled = value;
         },

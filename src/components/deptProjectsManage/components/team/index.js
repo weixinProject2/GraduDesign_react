@@ -6,6 +6,7 @@ import { Table, Tag, Icon } from 'antd';
 const TeamForm = observer(() => {
   const {
     mainStore,
+    projectId,
   } = useDeptProjectsStore();
 
   const {
@@ -30,7 +31,7 @@ const TeamForm = observer(() => {
 
   function changePage(page) {
     setCurrentPage(page);
-    loadInfo();
+    loadInfo(projectId);
   }
 
   const pageSet = {
@@ -58,21 +59,9 @@ const TeamForm = observer(() => {
       width: 80,
     },
     {
-      title: '地址',
-      dataIndex: 'address',
-      width: 230,
-      ellipsis: true,
-    },
-    {
       title: '联系电话',
       dataIndex: 'telNumber',
       ellipsis: true,
-    },
-    {
-      title: '职位',
-      dataIndex: 'position',
-      ellipsis: true,
-      render: (text) => <Tag color='gold'>{text}</Tag>
     },
     {
       title: '职业',
@@ -85,11 +74,6 @@ const TeamForm = observer(() => {
       dataIndex: 'email',
       ellipsis: true,
     },
-    {
-      title: '入职时间',
-      dataIndex: 'entryTime',
-      ellipsis: true,
-    },
   ];
 
   const selectionSet = {
@@ -100,8 +84,8 @@ const TeamForm = observer(() => {
   }
 
   useEffect(() => {
-    loadInfo();
-  }, [])
+    loadInfo(projectId);
+  }, [projectId])
 
   return (
     <Table

@@ -26,6 +26,8 @@ import NoticeEditor from '../components/notice/noticeEditor';
 import NoticeDetail from '../components/notice/noticeDetail';
 import AdminFile from '../components/adminFileManage'
 import DeptProjectsManage from '../components/deptProjectsManage';
+import JobLists from '../components/jobLists';
+
 
 const SubMenu = Menu.SubMenu;
 
@@ -107,7 +109,12 @@ export default observer(() => {
                                     <span>部门项目管理</span>
                                 </NavLink>
                             </Menu.Item>
-                            <Menu.Item key="taskPanel"><NavLink to='/main/taskLists'><Icon type='ordered-list' /><span>工作列表</span></NavLink></Menu.Item>
+                            <Menu.Item key="taskPanel">
+                                <NavLink to={`/main/taskLists?projectId=${getProjectId}`} onClick={() => setPath('/main/taskLists')}>
+                                    <Icon type="ordered-list" />
+                                    <span>工作列表</span>
+                                </NavLink>
+                            </Menu.Item>
                             <Menu.Item key="scrumboard"><NavLink to='/main/scrumboard'><Icon type='snippets' /><span>迭代计划</span></NavLink></Menu.Item>
                             <Menu.Item key='notice'><NavLink to='/main/notice'><Icon type='solution' /><span>公告</span></NavLink></Menu.Item>
                             <Menu.Item key='adminFileManage'><NavLink to='/main/adminFileManage'><Icon type='solution' /><span>文件管理</span></NavLink></Menu.Item>
@@ -137,6 +144,7 @@ export default observer(() => {
                         <Route path='/main/notice/detail' component={NoticeDetail} />
                         <Route path='/main/adminFileManage' component={AdminFile} />
                         <Route path='/main/deptProjectsManage' component={DeptProjectsManage} />
+                        <Route path='/main/taskLists' component={JobLists} />
                     </div>
                 </main>
             </Spin>

@@ -11,6 +11,7 @@ const SearchForm = observer(({ form }) => {
   const { getFieldDecorator, getFieldsValue } = form;
   const {
     mainStore,
+    projectId,
   } = useDeptProjectsStore();
 
   const { setQueryFiled, loadInfo, setCurrentPage, getBtnDisabled } = mainStore;
@@ -21,7 +22,7 @@ const SearchForm = observer(({ form }) => {
       if (!error) {
         setCurrentPage(1);
         setQueryFiled(value);
-        loadInfo();
+        loadInfo(projectId);
       }
     })
   }
@@ -34,7 +35,7 @@ const SearchForm = observer(({ form }) => {
     form.resetFields();
     setCurrentPage(1);
     setQueryFiled(null);
-    loadInfo()
+    loadInfo(projectId)
   }
   return (
     <Fragment>
@@ -62,14 +63,7 @@ const SearchForm = observer(({ form }) => {
             <AllProfSelect disabled={getBtnDisabled} />
           )}
         </FormItem>
-
-        <FormItem >
-          {getFieldDecorator('positionId', {
-            rules: [{ required: false }],
-          })(
-            <AllPostionSelect disabled={getBtnDisabled} />
-          )}
-        </FormItem>
+        
         <FormItem>
           <Button type="primary" icon='search' htmlType="submit" ghost disabled={!hasData(getFieldsValue())} >
             搜索

@@ -13,10 +13,23 @@ const { TabPane } = Tabs;
 export default observer(() => {
   const {
     projectId, projectName,
-    mainStore: {
-      setActiveKey, getActiveKey, getSelectRows,
-    }
+    mainStore
   } = useDeptProjectsStore();
+
+  const {
+    loadProjectInfo,
+    loadInfo,
+    setActiveKey,
+    getActiveKey,
+    getSelectRows,
+    contentBtnDisbled,
+    getBtnDisabled,
+  } = mainStore;
+
+  function refresh() {
+    const status = getActiveKey === 'details';
+    return status ? loadProjectInfo(projectId) : loadInfo(projectId);
+  }
 
   const btnGroup = (
     <Fragment>
@@ -24,7 +37,7 @@ export default observer(() => {
         icon="play-circle"
         ghost
         type='primary'
-      // disabled={getBtnDisabled || !getSelectedTreeNode}
+        disabled={contentBtnDisbled}
       // onClick={openUploadModal}
       >开启项目</Button>}
 
@@ -32,25 +45,24 @@ export default observer(() => {
         type="primary"
         icon="usergroup-add"
         ghost
-      // onClick={refresh}
-      // disabled={getBtnDisabled || !getSelectedTreeNode}
+        // onClick={refresh}
+        disabled={getBtnDisabled}
       >导入项目成员</Button>}
 
       {getActiveKey && getActiveKey === 'team' && <Button
         type="danger"
         icon="delete"
         ghost
-        disabled={!getSelectRows.length > 0}
-      // onClick={refresh}
-      // disabled={getBtnDisabled || !getSelectedTreeNode}
+        disabled={!getSelectRows.length > 0 || getBtnDisabled}
+        // onClick={refresh}
       >删除项目成员</Button>}
 
       <Button
         type="primary"
         icon="reload"
         ghost
-      // onClick={refresh}
-      // disabled={getBtnDisabled || !getSelectedTreeNode}
+        onClick={refresh}
+        disabled={getBtnDisabled || contentBtnDisbled}
       >刷新</Button>
 
     </Fragment>
@@ -58,9 +70,12 @@ export default observer(() => {
 
   const title = (
     <Breadcrumb separator=">">
-      <Breadcrumb.Item>{projectName}</Breadcrumb.Item>
       <Breadcrumb.Item>
         项目管理
+      </Breadcrumb.Item>
+      <Breadcrumb.Item>{projectName}</Breadcrumb.Item>
+      <Breadcrumb.Item>
+        {getActiveKey === 'details' ? '项目详情' : '项目成员'}
       </Breadcrumb.Item>
     </Breadcrumb>
   )

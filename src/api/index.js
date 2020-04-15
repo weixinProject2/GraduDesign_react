@@ -92,3 +92,9 @@ export const getFolderTree = () => http.get('/folderTree/getFolderTree');
 export const createNewFolder = (params) => http.post('/folderTree/createFolder', params);
 // 删除文件夹
 export const deleteFolder = (params) => http.delete('/folderTree/deleteFolder', params);
+
+
+//  获取项目详细信息
+export const getDeptProjectDetails = (params) => http.get('/project/getProjectDetailInfo', params);
+// 获取项目成员信息
+export const getProjectMembers = (params) => http.get('/project/queryListInfo', params);

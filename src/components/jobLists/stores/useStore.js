@@ -12,5 +12,10 @@ export default function useStore() {
     get getActiveKey() {
       return this.activeKey;
     },
+
+    addSprintModal:false,
+    setAddSprintModal(value){
+      this.addSprintModal = value;
+    },
   }))
 }

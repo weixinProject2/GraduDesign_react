@@ -1,0 +1,22 @@
+@import '../../myTheme.less';
+
+.gradu-status-tag {
+  border: 1px solid ;
+  border-radius: 3px;
+  padding: 0 3px;
+  &-pending {
+    color: @link-color;
+    border-color: fade(@link-color,15%);
+    background-color: fade(@link-color,10%);
+  }
+  &-create {
+    color: @warning-color;
+    border-color: fade(@warning-color,15%);
+    background-color: fade(@warning-color,10%);
+  }
+  &-success {
+    color: @success-color;
+    border-color: fade(@success-color,15%);
+    background-color: fade(@success-color,10%);
+  }
+}

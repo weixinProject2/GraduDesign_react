@@ -1,11 +1,11 @@
 import React, { useEffect, useState, Fragment } from 'react';
 import { observer } from 'mobx-react-lite';
-import { Breadcrumb, Button, Tabs } from 'antd';
+import { Breadcrumb, Button, Tabs, Drawer } from 'antd';
 import { useJobStore } from './stores';
 import TableContainer from '../../tool-components/TableContainerStyle';
 import EmptyPage from '../../tool-components/EmptyPage';
 import DetailLists from './components/detailLists';
-
+import AddSprintForm from './components/addSprintForm';
 const { TabPane } = Tabs;
 
 export default observer(() => {
@@ -16,6 +16,8 @@ export default observer(() => {
   const {
     setActiveKey,
     getActiveKey,
+    addSprintModal,
+    setAddSprintModal,
   } = mainStore;
 
   const title = (
@@ -43,6 +45,7 @@ export default observer(() => {
           type="primary"
           icon="interaction"
           ghost
+          onClick={() => setAddSprintModal(true)}
         >
           创建冲刺
         </Button>
@@ -81,6 +84,17 @@ export default observer(() => {
           </TabPane>
         </Tabs>
       </TableContainer> : <EmptyPage description="部门下暂无项目" style={{ height: '100%' }} />}
+
+      <Drawer
+        visible={addSprintModal}
+        destroyOnClose
+        width={500}
+        title='新增冲刺'
+        onClose={() => setAddSprintModal(false)}
+      >
+        <AddSprintForm />
+      </Drawer>
+
     </Fragment>
   )
 })

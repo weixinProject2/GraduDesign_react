@@ -9,9 +9,9 @@
     padding: 11px 7px;
     display: flex;
     .sprint-item-btn{ 
-      height: 14px;
-      width: 14px;
-      margin: 3px 0 0 0;
+      height: 16px;
+      width: 16px;
+      margin: 4px 0 0 0;
       cursor: pointer;
     }
     &-avater {
@@ -81,7 +81,7 @@
 
     section {
       flex:1;
-      margin-left:3px;
+      margin-left:6px;
     }
 
     main {
@@ -115,5 +115,51 @@
       }
     }
     
+  }
+}
+
+.gradu-sprint-lists{
+  &-item {
+    display: flex;
+    cursor: pointer;
+    transition: .2s;
+    align-items: center;
+    padding: 8px 9px;
+    border: 1px solid rgba(0, 0, 0, 0.12);
+    border-top: none;
+    &:hover {
+      background-color: rgba(0, 0, 0, 0.02);
+    }
+    &-left {
+      display: flex;
+      align-items: center;
+      &>i {
+        font-size: 12px;
+        color: #fff;
+        padding: 3px;
+        border-radius: 4px;
+        font-weight: bold;
+        margin-right: 5px;
+      }
+      &>i.anticon-bug{
+        background:@error-color;
+      }
+      &>i.anticon-check{
+        background-color: @link-color;
+      }
+    }
+    &-right {
+      margin: 0 10px 0 auto;
+      display: flex;
+      align-items: center;
+      &-user {
+        display: inline-flex;
+        align-items: center;
+        margin-right: 18px;
+        span + span {
+          margin-left: 5px;
+        }
+      }
+    }
   }
 }

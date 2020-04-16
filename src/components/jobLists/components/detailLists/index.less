@@ -1,6 +1,119 @@
+@import "../../../../myTheme.less";
+
 .gradu-sprint {
+  margin-top: -16px;
   &-item {
-    border-bottom: 0.01rem solid rgba(0, 0, 0, 0.12);
     background: rgba(0, 0, 0, 0.02);
+    border: 0.01rem solid rgba(0, 0, 0, 0.12);
+    border-top: none;
+    padding: 11px 7px;
+    display: flex;
+    .sprint-item-btn{ 
+      height: 14px;
+      width: 14px;
+      margin: 3px 0 0 0;
+      cursor: pointer;
+    }
+    &-avater {
+      &>span {
+        
+      }
+      &>span +span{
+          margin-left: 6px;
+      }
+      
+    }
+    &-status {
+      margin: 0 10px 0 auto;
+      & > span + span {
+        margin-left: 7px;
+      }
+      &>span {
+        color: #fff;
+        padding: 0 5px;
+        border-radius: 9px;
+        cursor: pointer;
+        &.finished {
+          background-color: @primary-color;
+        }
+        &.pending {
+          background-color:@link-color;
+        }
+        &.not {
+          background-color: @warning-color ;
+        }
+      }
+    }
+
+
+    header {
+      display: flex;
+      align-items: center;
+      &>i{
+        color: #000;
+      }
+      span{
+        &:first-of-type{
+          color: #000;
+          margin: 0 20px 0 0px;
+        }
+        &:nth-of-type(2){
+          
+        }
+        &.sprint-btn {
+          margin: 0 10px 0 auto;
+          cursor: pointer;
+        }
+        &.sprint-begin{
+          color: @primary-color;
+          &:active {
+            color: @light-primary-color;
+          }
+        }
+        &.sprint-end {
+          color: @error-color ;
+          &:active {
+            color: lighten(@error-color,7%);
+          }
+        }
+      }
+    }
+
+    section {
+      flex:1;
+      margin-left:3px;
+    }
+
+    main {
+      margin-top: 10px;
+      display: flex;
+      flex: 1;
+      align-items: center;
+      &>i.anticon-more{
+        font-size: 16px;
+        font-weight: BOLD;
+        margin-left: 10px;
+        color: #000;
+        vertical-align: middle;
+        display: inline-block;
+        border-radius: 50%;
+        padding: 4px;
+        transition: 0.2s;
+        cursor: pointer;
+        &:hover {
+          background: #ecececbf;
+        }
+      }
+    }
+
+    footer {
+      margin-top: 10px;
+      display: flex;
+      font-size: .12rem;
+      .gradu-sprint-item-describe{
+        margin: 0 10px 0 auto;
+      }
+    }
+    
   }
 }

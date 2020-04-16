@@ -98,3 +98,11 @@ export const deleteFolder = (params) => http.delete('/folderTree/deleteFolder', 
 export const getDeptProjectDetails = (params) => http.get('/project/getProjectDetailInfo', params);
 // 获取项目成员信息
 export const getProjectMembers = (params) => http.get('/project/queryListInfo', params);
+// 开启项目
+export const runProjects = (params) => http.put('/project/openProject', params);
+// 设置项目进度
+export const setProjectStep = (params) => http.post('/project/setProjectSchedultion', params);
+// 获取未被分配项目得成员
+export const getUnsetLists = (params) => http.get('/project/queryUndistributedList', params);
+// 添加新员工到这个项目上
+export const addProjectMember = (params) => http.post('/project/distribeProject', params);

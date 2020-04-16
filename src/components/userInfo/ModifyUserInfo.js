@@ -110,18 +110,16 @@ const ModifyUserInfo = observer(({ form }) => {
                 object.workNumber = workNumber;
                 changeUserInfo(object).then((data) => {
                     if (data.code === 0) {
+                        message.success(data.message);
                         setBtnLoading(false);
                         setUserInfo(object);
                         setInfoVisible(false);
-                        message.success(data.message);
+                        debugger;
                         loadUserInfo();
                     } else {
                         setBtnLoading(false);
                         message.error(data.message)
                     }
-
-                }).catch((err) => {
-                    setBtnLoading(false);
                 })
             }
         })

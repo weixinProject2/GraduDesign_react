@@ -5,6 +5,7 @@ import { observer } from 'mobx-react-lite';
 import { useJobStore } from '../../stores';
 import AllJobStatusSelect from '../../../../tool-components/AllJobStatusSelect';
 import JobTypeSelect from '../../../../tool-components/AlljobTypeSelect';
+import AllSprintSelect from '../../../../tool-components/AllSprintSelect'
 
 const FormItem = Form.Item;
 
@@ -78,7 +79,7 @@ const SearchForm = observer(({ form }) => {
         {getFieldDecorator('sprintId', {
           rules: [{ required: false }],
         })(
-          <Input placeholder="所在冲刺" />
+          <AllSprintSelect disabled={tableBtnDiabled} projectId={projectId}/>
         )}
       </FormItem>
 

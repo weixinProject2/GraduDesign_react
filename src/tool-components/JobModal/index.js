@@ -71,7 +71,7 @@ const JobModal = observer((props) => {
       closable={false}
       title={listprops ? `编辑问题详情(最后更新时间:${updateTime})` : '创建新问题'}
     >
-      <Form className="sprint-problem-form sprint-problem-form-eidt" labelAlign="left">
+      <Form className={`sprint-problem-form ${listprops && 'sprint-problem-form-eidt'}`} labelAlign="left">
         <Form.Item
           label="问题名称"
           labelCol={{ span: 4 }}

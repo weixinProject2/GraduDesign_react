@@ -10,7 +10,7 @@ export default observer((props) => {
 
   const [loading, setLoading] = useState(false);
 
-  const { projectId } = props
+  const { projectId, width } = props
 
   // 渲染所有选项
   function renderAllSprint() {
@@ -46,7 +46,7 @@ export default observer((props) => {
       {
         allSprint.length > 0 ? <Select
           placeholder="选择冲刺"
-          // style={{ width: 180 }}
+          style={{ width: width || 180 }}
           allowClear
           showSearch
           loading={loading}

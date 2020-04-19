@@ -110,7 +110,7 @@ const JobModal = observer((props) => {
               {...itemLayout}
             >
               {getFieldDecorator('reporterRoleId', {
-                rules: [{ required: true, message: '请选择经办人' }],
+                rules: [{ required: false}],
                 initialValue: reporterRoleId,
               })(
                 <AllprojectMemberSelect allowClear projectId={projectId} />

@@ -1,4 +1,4 @@
-import React, { useEffect } from 'react';
+import React, { useEffect, Fragment, useState } from 'react';
 
 import { Table, Avatar } from 'antd';
 import { observer } from 'mobx-react-lite';
@@ -7,12 +7,16 @@ import JobTypeIcon from '../../../../tool-components/jobTypeIcon';
 import StatusTag from '../../../../tool-components/StatusTag';
 import "./index.less";
 import { renderStatusType } from '../../../../Constants';
-
+import JobModal from '../../../../tool-components/JobModal';
 
 export default observer(() => {
   const {
     projectId, mainStore,
   } = useJobStore();
+
+  const [jobModalVisible, setCreateModal] = useState(false);
+  const [listData, setListData] = useState([]);
+
 
   const {
     setCurrentPage, getCurrentPage, getTotalPage,
@@ -32,14 +36,22 @@ export default observer(() => {
   }
 
   const renderName = (text, record) => {
+
     return (
-      <a
-        className="gradu-sprint-table-name"
-      >
-        {text}
-      </a>
+      <Fragment>
+        <span
+          className="gradu-sprint-table-name"
+          onClick={() => {
+            setListData(record);
+            setCreateModal(true);
+          }}
+        >
+          {text}
+        </span>
+      </Fragment>
     )
   }
+
 
   const renderSprintName = (text, record) => (
     text ? <StatusTag
@@ -50,8 +62,8 @@ export default observer(() => {
   );
 
   const renderType = (text, record) => {
-    const problemType = record.kinds.toString() === '1' ? "job" : 'bug';
-    const problemTypeName = record.kinds.toString() === '1' ? '任务' : '缺陷';
+    const problemType = record.kinds === 1 ? "job" : 'bug';
+    const problemTypeName = record.kinds === 1 ? '任务' : '缺陷';
     return <div
       style={{
         display: 'flex',
@@ -158,16 +170,30 @@ export default observer(() => {
     loadTableData(projectId);
   }, [projectId])
 
+  function jobModalCallBack() {
+    setCreateModal(false);
+    loadTableData(projectId);
+  }
+
   return (
-    <Table
-      className="gradu-sprint-table"
-      columns={columns}
-      tablelayout='inline'
-      rowKey='problemId'
-      size='small'
-      loading={tableLoading}
-      dataSource={getTableData}
-      pagination={pageSet}
-    />
+    <Fragment>
+      <Table
+        className="gradu-sprint-table"
+        columns={columns}
+        tablelayout='inline'
+        rowKey='problemId'
+        size='small'
+        loading={tableLoading}
+        dataSource={getTableData}
+        pagination={pageSet}
+      />
+      <JobModal
+        visible={jobModalVisible}
+        onClose={() => setCreateModal(false)}
+        projectId={projectId}
+        listprops={listData}
+        callBack={jobModalCallBack}
+      />
+    </Fragment>
   )
 })

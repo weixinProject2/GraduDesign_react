@@ -106,3 +106,15 @@ export const setProjectStep = (params) => http.post('/project/setProjectSchedult
 export const getUnsetLists = (params) => http.get('/project/queryUndistributedList', params);
 // 添加新员工到这个项目上
 export const addProjectMember = (params) => http.post('/project/distribeProject', params);
+// 获取所有问题
+export const getAllJobs = (params) => http.get('/project/sprint/problem/getAllProblem', params);
+// 获取冲刺列表
+export const getSprintList = (params) => http.get('/project/sprint/queryAllSprint', params);
+// 获取冲刺下拉框
+export const getAllSprintSelect = (params) => http.get('/project/sprint/selectSprintInfo', params);
+// 创建冲刺
+export const createNewSprint = (params) => http.post('/project/sprint/createSprint', params);
+// 修改问题
+export const changeProblemDetail = (params) => http.post('/project/sprint/problem/changeProblem', params);
+// 创建问题
+export const newProblem = (params) => http.post('/project/sprint/problem/createProblem', params);

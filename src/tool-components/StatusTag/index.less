@@ -1,22 +1,53 @@
 @import '../../myTheme.less';
 
+.gradu-status-tag-dotted {
+  border-radius: 50%;
+  display: inline-block;
+  margin-right: 3px;
+  &-pending {
+    background-color: @link-color !important;
+  }
+  &-create {
+    background-color: @warning-color !important;
+  }
+  &-success {
+    background-color: @success-color !important;
+  }
+  &-default {
+    background-color: @primary-color !important;
+  }
+  &-testing {
+    background-color: @other-color !important;
+  }
+}
+
 .gradu-status-tag {
   border: 1px solid ;
   border-radius: 3px;
   padding: 0 3px;
   &-pending {
-    color: @link-color;
-    border-color: fade(@link-color,15%);
-    background-color: fade(@link-color,10%);
+    color: @link-color !important;
+    border-color: fade(@link-color,15%) !important;
+    background-color: fade(@link-color,10%) !important;
   }
   &-create {
-    color: @warning-color;
-    border-color: fade(@warning-color,15%);
-    background-color: fade(@warning-color,10%);
+    color: @warning-color !important;
+    border-color: fade(@warning-color,15%) !important;
+    background-color: fade(@warning-color,10%) !important;
   }
   &-success {
-    color: @success-color;
-    border-color: fade(@success-color,15%);
-    background-color: fade(@success-color,10%);
+    color: @success-color !important;
+    border-color: fade(@success-color,15%) !important;
+    background-color: fade(@success-color,10%) !important;
+  }
+  &-default {
+    color: @primary-color !important;
+    border-color: fade(@primary-color,15%) !important;
+    background-color: fade(@primary-color,10%) !important;
+  }
+  &-testing {
+    color:@other-color !important;
+    border-color: fade(@other-color,15%) !important;
+    background-color: fade(@other-color,10%) !important;
   }
 }

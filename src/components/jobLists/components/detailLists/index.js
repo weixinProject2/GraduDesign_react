@@ -1,49 +1,177 @@
-import React, { Fragment, useState } from 'react';
+import React, { Fragment, useState, useEffect } from 'react';
 import { observer } from 'mobx-react-lite';
 import './index.less';
-import { Icon, Collapse, Avatar, Tooltip } from 'antd';
+import { Icon, Avatar, Tooltip, Spin, Button, Drawer, Switch } from 'antd';
 import StatusTag from '../../../../tool-components/StatusTag';
+import { useJobStore } from '../../stores';
+import EmptyPage from '../../../../tool-components/EmptyPage';
+import JobItem from '../listsJobItem';
+import JobMdal from '../../../../tool-components/JobModal';
+import WorkLists from '../workLists';
+
+function getSprintStatus(num) {
+  let status;
+  let statusText;
+  switch (num) {
+    case 0:
+      status = 'create';
+      statusText = "未开启";
+      break;
+    case 1:
+      status = 'pending';
+      statusText = '进行中';
+      break;
+    case 2:
+      status = 'success';
+      statusText = '已结束';
+      break;
+    default:
+      break;
+  }
+  return {
+    status, statusText
+  }
+}
 
 
-const { Panel } = Collapse;
+const SprintItem = (props) => {
 
-const SprintItem = () => {
+  const {
+    sprintId,
+    sprintName,
+    index,
+    createTime,
+    endTime,
+    status,
+    sprintDesc,
+    dealtWith,
+    development,
+    InTest,
+    needCheck,
+    workList,
+    complate,
+    problemList,
+  } = props;
+
+  const {
+    projectId, mainStore,
+  } = useJobStore();
+
+  const {
+    loadSprintData,
+  } = mainStore;
+
   const [expand, setEpand] = useState(true);
+  const [jobModalVisible, setCreateModal] = useState(false);
+
+  function jobModalCallBack() {
+    setCreateModal(false);
+    loadSprintData(projectId);
+  }
+
+  const renderSprintStatus = () => {
+    const { statusText, status: sprintStatus } = getSprintStatus(status);
+    return <StatusTag text={statusText} status={sprintStatus} size={10} />
+  }
+
+  const renderSrintBtn = () => {
+    const show = status !== 2;
+    const title = !status ? '开启冲刺' : '结束冲刺';
+    return show && <Tooltip title={title}>
+      <Switch
+        size="small"
+        checked={status}
+        style={{
+          marginLeft: 'auto', marginRight: '10px'
+        }}
+      />
+    </Tooltip>
+
+  }
+
+  const renderListItem = () => (
+    problemList.map((item, index) => {
+      return <JobItem key={index} {...item} />
+    })
+  )
+
+  const renderAvatarLists = () => {
+    return (
+      workList && workList.length > 0 && workList.map((item, index) => {
+        const { userName, headerImg } = item;
+        return <Tooltip title={userName}>
+          {headerImg ? <Avatar src={headerImg} /> :
+            <Avatar size='small' className="gradu-avatar">{userName.split('')[0]}</Avatar>}
+        </Tooltip>
+      })
+    )
+  }
+
+  const [workListModal, setWorkListsModal] = useState(false);
 
   return (
     <Fragment>
       <div className="gradu-sprint-item">
-        <Icon
-          type={expand ? "caret-down" : "caret-right"}
-          className="sprint-item-btn"
-          onClick={() => setEpand(!expand)}
-        />
+        {
+          problemList && problemList.length > 0 && <Icon
+            type={expand ? "caret-down" : "caret-right"}
+            className="sprint-item-btn"
+            onClick={() => setEpand(!expand)}
+          />
+        }
         <section>
           <header>
-            <span>Sprint1.1</span>
-            <StatusTag text="进行中" status="pending" size={10}/>
-            <span className="sprint-btn sprint-end">结束冲刺</span>
-            {/* <span className="sprint-btn sprint-begin">开始冲刺</span> */}
+            <span>{sprintName}</span>
+            {renderSprintStatus()}
+            <span
+              className="sprint-btn sprint-create"
+              onClick={() => setCreateModal(true)}
+            >
+              <Icon type="plus" />
+              创建问题
+            </span>
+            {renderSrintBtn()}
+            {status !== 1 && <Tooltip title="删除冲刺">
+              <Icon type="close"
+                style={{ color: '#ccc' }}
+              />
+            </Tooltip>}
+            <JobMdal
+              visible={jobModalVisible}
+              onClose={() => setCreateModal(false)}
+              projectId={projectId}
+              callBack={jobModalCallBack}
+              defaultSprintId={sprintId}
+            />
           </header>
           <main>
 
             <div className="gradu-sprint-item-avater">
-              <Avatar size='small' className="gradu-avatar">U</Avatar>
-              <Avatar size='small' className="gradu-avatar">a</Avatar>
-              <Avatar size="small" className="gradu-avatar">b</Avatar>
+              {renderAvatarLists()}
             </div>
 
-            <Icon type="more" />
+            {workList && workList.length > 0 && <Icon type="more"
+              onClick={() => setWorkListsModal(true)}
+            />}
+            <Drawer
+              destroyOnClose
+              title='工作量'
+              width='calc(100% - 380px)'
+              visible={workListModal}
+              onClose={() => setWorkListsModal(false)}
+            >
+              <WorkLists dataSource={workList} />
+            </Drawer>
 
             <div className="gradu-sprint-item-status">
-              <Tooltip title={'代办问题数:10'}>
-                <span className="not">10</span>
+              <Tooltip title={`代办问题数:${dealtWith}`}>
+                <span className="not">{dealtWith}</span>
               </Tooltip>
-              <Tooltip title={'进行中问题数:20'}>
-                <span className="pending">20</span>
+              <Tooltip title={`开发中问题数:${development}`}>
+                <span className="pending">{development}</span>
               </Tooltip>
-              <Tooltip title={'已完成问题数:'}>
-                <span className="finished">12</span>
+              <Tooltip title={`已完成问题数:${complate}`}>
+                <span className="finished">{complate}</span>
               </Tooltip>
 
             </div>
@@ -52,79 +180,52 @@ const SprintItem = () => {
 
           <footer>
             <div className="gradu-sprint-item-createDate">
-              2020年4月1日 ~ 2020年4月12日
-          </div>
+              {createTime} ~ {endTime}
+            </div>
             <div className="gradu-sprint-item-describe">
-              冲刺目标：完成项目部署
-          </div>
+              冲刺目标：{sprintDesc}
+            </div>
           </footer>
         </section>
       </div>
 
-      <div className="gradu-sprint-lists" style={{ display: expand ? 'block' : 'none' }}>
-        <div className="gradu-sprint-lists-item">
-
-          <div className="gradu-sprint-lists-item-left">
-            <Icon type="bug" theme="filled" />
-            <span>流水线页面构建</span>
-          </div>
-
-          <div className="gradu-sprint-lists-item-right">
-            <div className="gradu-sprint-lists-item-right-user">
-              <Avatar size="small" className="gradu-avatar">U</Avatar>
-              <span>张硕</span>
-            </div>
-            <StatusTag text="待处理" size={12} status="create" />
-          </div>
-
-        </div>
-
-        <div className="gradu-sprint-lists-item">
-
-          <div className="gradu-sprint-lists-item-left">
-            <Icon type="check" />
-            <span>创建流水线模块构建</span>
-          </div>
-
-          <div className="gradu-sprint-lists-item-right">
-            <div className="gradu-sprint-lists-item-right-user">
-              <Avatar size="small" className="gradu-avatar">U</Avatar>
-              <span>张硕</span>
-            </div>
-            <StatusTag text="开发中" size={12} status="pending" />
-          </div>
-
-        </div>
-
-        <div className="gradu-sprint-lists-item">
-
-          <div className="gradu-sprint-lists-item-left">
-            <Icon type="check" />
-            <span>部署构建</span>
-          </div>
-
-          <div className="gradu-sprint-lists-item-right">
-            <div className="gradu-sprint-lists-item-right-user">
-              <Avatar size="small" className="gradu-avatar">翁</Avatar>
-              <span>翁恺敏</span>
-            </div>
-            <StatusTag text="已完成" size={12} status="success" />
-          </div>
-
-        </div>
+      {problemList && problemList.length > 0 && <div className="gradu-sprint-lists" style={{ display: expand ? 'block' : 'none' }}>
+        {renderListItem()}
       </div>
+      }
     </Fragment>
   )
 }
 
-function handleChange() {
-
-}
 
 export default observer(() => {
+  const {
+    mainStore,
+    projectId,
+  } = useJobStore()
+
+  const {
+    sprintLoading,
+    loadSprintData,
+    getSprintData,
+  } = mainStore;
+
+  useEffect(() => {
+    loadSprintData(projectId);
+  }, [projectId]);
+
+
+  const renderSprint = () => (
+    getSprintData && getSprintData.length > 0 ?
+      getSprintData.map((item, index) => <SprintItem {...item} key={item.problemId} index={index} projectId={projectId} />) :
+      <EmptyPage description="本项目暂无冲刺，点击上方按钮创建" />
+  );
+
   return (
-    <div className="gradu-sprint">
-      <SprintItem />
-    </div>
+    <Spin spinning={sprintLoading}>
+      <div className="gradu-sprint">
+        {renderSprint()}
+      </div>
+    </Spin>
   );
 })

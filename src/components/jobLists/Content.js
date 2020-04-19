@@ -6,6 +6,10 @@ import TableContainer from '../../tool-components/TableContainerStyle';
 import EmptyPage from '../../tool-components/EmptyPage';
 import DetailLists from './components/detailLists';
 import AddSprintForm from './components/addSprintForm';
+import JobsTable from './components/jobsTable';
+import SearchForm from './components/searchForm';
+import JobMdal from '../../tool-components/JobModal';
+
 const { TabPane } = Tabs;
 
 export default observer(() => {
@@ -13,12 +17,27 @@ export default observer(() => {
     projectId, projectName, mainStore,
   } = useJobStore();
 
+  const [jobModalVisible, setJobModalVisible] = useState(false);
+
   const {
     setActiveKey,
     getActiveKey,
     addSprintModal,
     setAddSprintModal,
+    loadTableData,
+    loadSprintData,
+    tableBtnDiabled,
+    sprintBtnDisabled,
   } = mainStore;
+
+  function refresh() {
+    return getActiveKey === 'details' ? loadSprintData(projectId) : loadTableData(projectId);
+  }
+
+  function jobCreateCallBack() {
+    loadTableData(projectId);
+    setJobModalVisible(false);
+  }
 
   const title = (
     <Breadcrumb separator=">">
@@ -32,10 +51,11 @@ export default observer(() => {
   const btnGroup = (
     <Fragment>
       {
-        getActiveKey === 'details' && <Button
+        getActiveKey !== 'details' && <Button
           type="primary"
           icon="form"
           ghost
+          onClick={() => setJobModalVisible(true)}
         >
           创建问题
         </Button>
@@ -44,6 +64,7 @@ export default observer(() => {
         getActiveKey === 'details' && <Button
           type="primary"
           icon="interaction"
+          disabled={sprintBtnDisabled}
           ghost
           onClick={() => setAddSprintModal(true)}
         >
@@ -54,9 +75,11 @@ export default observer(() => {
         type="primary"
         icon="reload"
         ghost
-      // onClick={refresh}
-      // disabled={getBtnDisabled || !getSelectedTreeNode}
-      >刷新</Button>
+        onClick={refresh}
+        disabled={tableBtnDiabled || sprintBtnDisabled}
+      >
+        刷新
+      </Button>
     </Fragment>
   );
 
@@ -79,8 +102,10 @@ export default observer(() => {
             <DetailLists />
           </TabPane>
           <TabPane tab="所有问题" key="all">
-            {/* <SearchForm />
+            {/* 
             <TeamForm /> */}
+            <SearchForm />
+            <JobsTable />
           </TabPane>
         </Tabs>
       </TableContainer> : <EmptyPage description="部门下暂无项目" style={{ height: '100%' }} />}
@@ -89,11 +114,18 @@ export default observer(() => {
         visible={addSprintModal}
         destroyOnClose
         width={500}
-        title='新增冲刺'
+        title='创建冲刺'
         onClose={() => setAddSprintModal(false)}
       >
         <AddSprintForm />
       </Drawer>
+
+      <JobMdal
+        visible={jobModalVisible}
+        onClose={() => setJobModalVisible(false)}
+        projectId={projectId}
+        callBack={jobCreateCallBack}
+      />
 
     </Fragment>
   )

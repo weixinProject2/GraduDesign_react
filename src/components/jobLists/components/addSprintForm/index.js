@@ -1,9 +1,10 @@
 import React from 'react';
 import { observer } from 'mobx-react-lite';
-import { Form, Input, Icon, Button } from 'antd';
+import { Form, Input, Icon, Button, message } from 'antd';
 import { useJobStore } from '../../stores';
 import "./index.less";
 import DatePick from '../../../../tool-components/DatePick';
+import { createNewSprint } from '../../../../api';
 
 const { TextArea } = Input;
 
@@ -25,7 +26,11 @@ const addForm = observer(({ form }) => {
 
   const {
     projectId, mainStore,
-  } = useJobStore;
+  } = useJobStore();
+
+  const {
+    setAddSprintModal, loadSprintData,
+  } = mainStore;
 
   function handleCreateSubmit(e) {
     e.preventDefault();
@@ -36,13 +41,21 @@ const addForm = observer(({ form }) => {
         const endTime = value.time ? value.time[1].format('YYYY-MM-DD') : null;
         value.createTime = createTime;
         value.endTime = endTime;
-
+        createNewSprint(value).then((res) => {
+          if (!res.error) {
+            setAddSprintModal(false);
+            message.success(res.message);
+            loadSprintData(projectId);
+          } else {
+            message.error(res.message);
+          }
+        })
       }
     })
   }
 
   return <Form onSubmit={handleCreateSubmit} {...formItemLayout}>
-    <FormItem label="员工姓名：" hasFeedback >
+    <FormItem label="迭代名：" hasFeedback >
       {getFieldDecorator('sprintName', {
         rules: [{ required: true, message: '冲刺名称不能为空!' }],
       })(

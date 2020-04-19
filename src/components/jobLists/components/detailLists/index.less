@@ -52,6 +52,15 @@
       &>i{
         color: #000;
       }
+      i.anticon-close {
+        color: #ccc;
+        transition: .2s;
+        cursor: pointer;
+        margin-right: 10px;
+        &:hover {
+          color: @error-color !important;
+        }
+      }
       span{
         &:first-of-type{
           color: #000;
@@ -61,16 +70,24 @@
           
         }
         &.sprint-btn {
-          margin: 0 10px 0 auto;
           cursor: pointer;
         }
-        &.sprint-begin{
+        &.sprint-create {
           color: @primary-color;
+          margin-left: 20px;
           &:active {
             color: @light-primary-color;
           }
         }
+        &.sprint-begin{
+          margin: 0 10px 0 auto;
+          color: @link-color;
+          &:active {
+            color:lighten(@link-color,7%);
+          }
+        }
         &.sprint-end {
+          margin: 0 10px 0 auto;
           color: @error-color ;
           &:active {
             color: lighten(@error-color,7%);
@@ -133,20 +150,6 @@
     &-left {
       display: flex;
       align-items: center;
-      &>i {
-        font-size: 12px;
-        color: #fff;
-        padding: 3px;
-        border-radius: 4px;
-        font-weight: bold;
-        margin-right: 5px;
-      }
-      &>i.anticon-bug{
-        background:@error-color;
-      }
-      &>i.anticon-check{
-        background-color: @link-color;
-      }
     }
     &-right {
       margin: 0 10px 0 auto;
@@ -158,6 +161,9 @@
         margin-right: 18px;
         span + span {
           margin-left: 5px;
+        }
+        span:nth-of-type(2){
+          font-size: 10px;
         }
       }
     }

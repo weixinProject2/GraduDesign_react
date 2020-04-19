@@ -25,7 +25,9 @@ export default observer(() => {
 
   function loadInfoSelect() {
     getUnsetLists({ projectId: projectId }).then((res) => {
-      setLists(res.list);
+      if (!res.error) {
+        setLists(res.list);
+      }
     })
   }
 
@@ -155,6 +157,8 @@ export default observer(() => {
     }
     addProjectMember(obj).then((res) => {
       if (!res.error) {
+        const newLists = selectLists.filter((value) => value.workNumber.toString() !== selectedValue);
+        setLists(newLists);
         message.success(res.message);
         setDrawerVisible(false);
         loadInfo(projectId);
@@ -205,16 +209,7 @@ export default observer(() => {
           {optionsGroup()}
         </Select>
         <div
-          style={{
-            position: 'absolute',
-            bottom: 0,
-            width: '100%',
-            borderTop: '1px solid #e8e8e8',
-            padding: '10px 16px',
-            left: 0,
-            background: '#fff',
-            borderRadius: '0 0 4px 4px',
-          }}
+          className="gradu-drawer-footer"
         >
           <Button onClick={addNewMember} type="primary">
             确认添加

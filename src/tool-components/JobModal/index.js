@@ -1,12 +1,12 @@
 import React, { useEffect } from 'react';
-import { Drawer, Form, Button, Input, Col, Row, InputNumber, message } from 'antd';
+import { Drawer, Form, Button, Input, Col, Row, InputNumber, message, Modal } from 'antd';
 import { observer } from 'mobx-react-lite';
 import AllJobTypeSelect from '../AlljobTypeSelect';
 import AllJobStatusSelect from '../AllJobStatusSelect';
 import AllprojectMemberSelect from '../AllprojectMemberSelect';
 import "./index.less"
 import AllSprintSelect from '../AllSprintSelect';
-import { changeProblemDetail, newProblem } from '../../api';
+import { changeProblemDetail, newProblem, deleteProblem } from '../../api';
 
 const { TextArea } = Input;
 
@@ -62,28 +62,55 @@ const JobModal = observer((props) => {
     })
   }
 
+  function handleDeleteProblem() {
+    deleteProblem({ problemId }).then((res) => {
+      if (!res.error) {
+        callBack();
+        message.success(res.message);
+      } else {
+        message.error(res.message);
+      }
+    })
+  }
+
+  function openDeleteModal() {
+    Modal.confirm({
+      title: '确认删除此任务？',
+      content: '删除之后将清楚所有数据',
+      okText: '确认',
+      okType: 'danger',
+      zIndex: 9999,
+      cancelText: '取消',
+      onOk: handleDeleteProblem,
+    })
+  }
 
   return (
     <Drawer
       {...props}
       destroyOnClose
       width={600}
+      mask={false}
       closable={false}
       title={listprops ? `编辑问题详情(最后更新时间:${updateTime})` : '创建新问题'}
     >
       <Form className={`sprint-problem-form ${listprops && 'sprint-problem-form-eidt'}`} labelAlign="left">
-        <Form.Item
-          label="问题名称"
-          labelCol={{ span: 4 }}
-          wrapperCol={{ span: 12 }}
-        >
-          {getFieldDecorator('problemName', {
-            rules: [{ required: true, message: '请输入问题名称' }],
-            initialValue: problemName || ''
-          })(
-            <Input placeholder="输入问题名称" />,
-          )}
-        </Form.Item>
+        <Row gutter={6}>
+          <Col span={16}>
+            <Form.Item
+              label="问题名称"
+              labelCol={{ span: 6 }}
+              wrapperCol={{ span: 18 }}
+            >
+              {getFieldDecorator('problemName', {
+                rules: [{ required: true, message: '请输入问题名称' }],
+                initialValue: problemName || ''
+              })(
+                <Input placeholder="输入问题名称" />,
+              )}
+            </Form.Item>
+          </Col>
+        </Row>
 
         <Row gutter={6}>
           {
@@ -110,7 +137,7 @@ const JobModal = observer((props) => {
               {...itemLayout}
             >
               {getFieldDecorator('reporterRoleId', {
-                rules: [{ required: false}],
+                rules: [{ required: false }],
                 initialValue: reporterRoleId,
               })(
                 <AllprojectMemberSelect allowClear projectId={projectId} />
@@ -205,6 +232,17 @@ const JobModal = observer((props) => {
         <Button onClick={handleSubmit} type="primary">
           {listprops ? '保存' : '创建'}
         </Button>
+        {
+          listprops && <Button
+            style={{
+              marginLeft: 8,
+            }}
+            type="danger"
+            onClick={openDeleteModal}
+          >
+            删除
+        </Button>
+        }
         <Button
           style={{
             marginLeft: 8,

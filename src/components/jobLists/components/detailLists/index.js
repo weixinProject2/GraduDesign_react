@@ -1,13 +1,14 @@
 import React, { Fragment, useState, useEffect } from 'react';
 import { observer } from 'mobx-react-lite';
 import './index.less';
-import { Icon, Avatar, Tooltip, Spin, Button, Drawer, Switch } from 'antd';
+import { Icon, Avatar, Tooltip, Spin, Button, Drawer, Switch, Modal, message } from 'antd';
 import StatusTag from '../../../../tool-components/StatusTag';
 import { useJobStore } from '../../stores';
 import EmptyPage from '../../../../tool-components/EmptyPage';
 import JobItem from '../listsJobItem';
 import JobMdal from '../../../../tool-components/JobModal';
 import WorkLists from '../workLists';
+import { deleteSprint } from '../../../../api';
 
 function getSprintStatus(num) {
   let status;
@@ -61,7 +62,7 @@ const SprintItem = (props) => {
     loadSprintData,
   } = mainStore;
 
-  const [expand, setEpand] = useState(true);
+  const [expand, setEpand] = useState(index === 0);
   const [jobModalVisible, setCreateModal] = useState(false);
 
   function jobModalCallBack() {
@@ -109,6 +110,28 @@ const SprintItem = (props) => {
 
   const [workListModal, setWorkListsModal] = useState(false);
 
+  function handleDeleteSprint() {
+    deleteSprint({ sprintId }).then((res) => {
+      if (!res.error) {
+        message.success(res.message);
+        loadSprintData(projectId);
+      } else {
+        message.error(res.message);
+      }
+    })
+  }
+
+  function openDeleteSprintModal() {
+    Modal.confirm({
+      title: '确认删除此冲刺？',
+      content: '删除这个迭代将清空所有数据',
+      okText: '确认',
+      okType: 'danger',
+      cancelText: '取消',
+      onOk: handleDeleteSprint,
+    })
+  }
+
   return (
     <Fragment>
       <div className="gradu-sprint-item">
@@ -134,6 +157,7 @@ const SprintItem = (props) => {
             {status !== 1 && <Tooltip title="删除冲刺">
               <Icon type="close"
                 style={{ color: '#ccc' }}
+                onClick={openDeleteSprintModal}
               />
             </Tooltip>}
             <JobMdal

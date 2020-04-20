@@ -118,3 +118,7 @@ export const createNewSprint = (params) => http.post('/project/sprint/createSpri
 export const changeProblemDetail = (params) => http.post('/project/sprint/problem/changeProblem', params);
 // 创建问题
 export const newProblem = (params) => http.post('/project/sprint/problem/createProblem', params);
+// 删除冲刺
+export const deleteSprint = (params) => http.delete('/project/sprint/deleteSprint', params);
+// 删除问题
+export const deleteProblem = (params) => http.delete('/project/sprint/problem/deleteProblem', params);

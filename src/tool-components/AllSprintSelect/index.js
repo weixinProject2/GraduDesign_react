@@ -39,25 +39,24 @@ export default observer((props) => {
 
   useEffect(() => {
     loadProfs();
-  }, [])
+  }, [projectId])
 
   return (
     <Fragment>
-      {
-        allSprint.length > 0 ? <Select
-          placeholder="选择冲刺"
-          style={{ width: width || 180 }}
-          allowClear
-          showSearch
-          loading={loading}
-          filterOption={(input, option) =>
-            option.props.children.indexOf(input) >= 0
-          }
-          {...props}
-        >
-          {renderAllSprint()}
-        </Select> : <Spin size="small" />
-      }
+      <Select
+        placeholder="选择冲刺"
+        style={{ width: width || 180 }}
+        allowClear
+        showSearch
+        loading={loading}
+        onDropdownVisibleChange={loadProfs}
+        filterOption={(input, option) =>
+          option.props.children.indexOf(input) >= 0
+        }
+        {...props}
+      >
+        {renderAllSprint()}
+      </Select>
     </Fragment>
   )
 })

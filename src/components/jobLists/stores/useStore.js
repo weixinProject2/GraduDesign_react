@@ -95,6 +95,7 @@ export default function useStore() {
           this.tableData = [];
           this.setTableLoading(true);
           this.setTotalPage(0);
+          this.setCurrentPage(1);
         }
       })
     },

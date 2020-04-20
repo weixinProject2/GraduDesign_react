@@ -45,6 +45,9 @@ export default observer(() => {
       <Breadcrumb.Item>
         工作列表
       </Breadcrumb.Item>
+      <Breadcrumb.Item>
+        {getActiveKey === 'details' ? '待办事项' : '全部问题'}
+      </Breadcrumb.Item>
     </Breadcrumb>
   )
 
@@ -94,7 +97,7 @@ export default observer(() => {
         headerButtons={btnGroup}
       >
         <Tabs
-          onChange={setActiveKey}
+          onChange={(e) => setActiveKey(e)}
           size="small"
           defaultActiveKey={getActiveKey}
         >

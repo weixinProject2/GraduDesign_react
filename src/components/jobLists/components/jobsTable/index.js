@@ -19,8 +19,13 @@ export default observer(() => {
 
 
   const {
-    setCurrentPage, getCurrentPage, getTotalPage,
-    tableLoading, getTableData, loadTableData,
+    setCurrentPage,
+    getCurrentPage,
+    getTotalPage,
+    tableLoading,
+    getTableData,
+    loadTableData,
+    loadSprintData,
   } = mainStore;
 
   function changePage(page) {
@@ -173,6 +178,7 @@ export default observer(() => {
   function jobModalCallBack() {
     setCreateModal(false);
     loadTableData(projectId);
+    loadSprintData(projectId);
   }
 
   return (

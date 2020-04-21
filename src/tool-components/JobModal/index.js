@@ -7,6 +7,7 @@ import AllprojectMemberSelect from '../AllprojectMemberSelect';
 import "./index.less"
 import AllSprintSelect from '../AllSprintSelect';
 import { changeProblemDetail, newProblem, deleteProblem } from '../../api';
+import { parseStatusCode } from '../../Constants';
 
 const { TextArea } = Input;
 
@@ -22,7 +23,7 @@ const itemLayout = {
 };
 
 const JobModal = observer((props) => {
-  const { form, visible, onClose, listprops, projectId, callBack, defaultSprintId } = props;
+  const { form, onClose, listprops, projectId, callBack, defaultSprintId } = props;
 
   const { getFieldDecorator } = form;
 
@@ -35,6 +36,7 @@ const JobModal = observer((props) => {
     reporterRoleId,
     kinds,
     status,
+    statusNum,
     problemDesc,
     sprintId,
     remainTime,
@@ -47,6 +49,9 @@ const JobModal = observer((props) => {
     form.validateFields((err, values) => {
       if (!err) {
         values.projectId = projectId;
+        if (typeof values.status !== 'number') {
+          values.status = parseStatusCode(values.status);
+        }
         if (listprops) {
           values.problemId = problemId;
         }
@@ -169,7 +174,7 @@ const JobModal = observer((props) => {
             >
               {getFieldDecorator('status', {
                 rules: [{ required: true, message: '请选择状态' }],
-                initialValue: status || 1
+                initialValue: status || 1 || statusNum
               })(
                 <AllJobStatusSelect allowClear={false} />
               )}

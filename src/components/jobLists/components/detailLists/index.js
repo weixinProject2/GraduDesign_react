@@ -8,7 +8,7 @@ import EmptyPage from '../../../../tool-components/EmptyPage';
 import JobItem from '../listsJobItem';
 import JobMdal from '../../../../tool-components/JobModal';
 import WorkLists from '../workLists';
-import { deleteSprint } from '../../../../api';
+import { deleteSprint, switchSprint } from '../../../../api';
 
 function getSprintStatus(num) {
   let status;
@@ -75,6 +75,22 @@ const SprintItem = (props) => {
     return <StatusTag text={statusText} status={sprintStatus} size={10} />
   }
 
+  function switchSprintStatus(e) {
+    const num = e ? 1 : 0;
+    const obj = {
+      sprintId,
+      status: num,
+    }
+    switchSprint(obj).then((res) => {
+      if (!res.error) {
+        message.success(res.message);
+        loadSprintData(projectId);
+      } else {
+        message.error(res.message);
+      }
+    })
+  }
+
   const renderSrintBtn = () => {
     const show = status !== 2;
     const title = !status ? '开启冲刺' : '结束冲刺';
@@ -82,6 +98,7 @@ const SprintItem = (props) => {
       <Switch
         size="small"
         checked={status}
+        onChange={switchSprintStatus}
         style={{
           marginLeft: 'auto', marginRight: '10px'
         }}
@@ -99,8 +116,8 @@ const SprintItem = (props) => {
   const renderAvatarLists = () => {
     return (
       workList && workList.length > 0 && workList.map((item, index) => {
-        const { userName, headerImg } = item;
-        return <Tooltip title={userName}>
+        const { userName, headerImg, workNumber } = item;
+        return <Tooltip title={userName} key={workNumber + index}>
           {headerImg ? <Avatar src={headerImg} /> :
             <Avatar size='small' className="gradu-avatar">{userName.split('')[0]}</Avatar>}
         </Tooltip>
@@ -241,7 +258,7 @@ export default observer(() => {
 
   const renderSprint = () => (
     getSprintData && getSprintData.length > 0 ?
-      getSprintData.map((item, index) => <SprintItem {...item} key={item.problemId} index={index} projectId={projectId} />) :
+      getSprintData.map((item, index) => <SprintItem {...item} key={item.problemId + index} index={index} projectId={projectId} />) :
       <EmptyPage description="本项目暂无冲刺，点击上方按钮创建" />
   );
 

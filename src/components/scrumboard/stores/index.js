@@ -1,6 +1,7 @@
-import React, { createContext, useContext } from 'react';
+import React, { createContext, useContext, useEffect } from 'react';
 import { useLocalStore, observer } from 'mobx-react-lite';
 import useStore from './useScrumStore';
+import { MyContext } from '../../../stores';
 
 const Store = createContext(null);
 
@@ -12,6 +13,12 @@ export const StoreProvider = observer((props) => {
     const {
         children,
     } = props;
+
+    const appStore = useContext(MyContext);
+
+    const {
+        getProjectId: projectId, getProjectName: projectName,
+    } = appStore;
 
     const STATUS_TODO = 'STATUS_TODO';
     const STATUS_DOING = 'STATUS_DOING';
@@ -81,6 +88,7 @@ export const StoreProvider = observer((props) => {
     }
 
     const mainStore = useStore()
+
     const value = {
         ...props,
         mainStore,
@@ -89,8 +97,21 @@ export const StoreProvider = observer((props) => {
         STATUS_DONE,
         STATUS_CODE,
         tasks,
-        // SearchFormStore,
+        projectId,
+        projectName
     }
+
+    const {
+        loadProfs, setSelectSprint,
+    } = mainStore;
+
+    useEffect(() => {
+        if (projectId) {
+            setSelectSprint('');
+            loadProfs(projectId);
+        }
+    }, [projectId]);
+
     return (
         <Store.Provider value={value}>
             {children}

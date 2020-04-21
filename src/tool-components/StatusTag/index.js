@@ -1,6 +1,7 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 import './index.less'
+import { Tooltip } from 'antd';
 
 const StatusTag = ({ size, status, text, dotted }, props) => {
   const styles = {
@@ -19,11 +20,13 @@ const StatusTag = ({ size, status, text, dotted }, props) => {
       {...props}
     >
       {text}
-    </span> : <i
-        className={`gradu-status-tag-dotted gradu-status-tag-dotted-${status}`}
-        style={{ ...dottedStyles }}
-        {...props}
-      />
+    </span> : <Tooltip title={text}>
+        <i
+          className={`gradu-status-tag-dotted gradu-status-tag-dotted-${status}`}
+          style={{ ...dottedStyles }}
+          {...props}
+        />
+      </Tooltip>
   )
 }
 

@@ -31,9 +31,9 @@ const SearchForm = observer(({ form }) => {
         // const endTime = value.time ? value.time[1].format('YYYY-MM-DD HH:mm:ss') : null;
         // value.endTime = endTime;
         // value.startTime = startTime;
-        // setCurrentPage(1);
-        // setQueryFileds(value);
-        // loadInfo();
+        setCurrentPage(1);
+        setQueryFileds(value);
+        loadTableData(projectId);
       }
     })
   }
@@ -79,7 +79,7 @@ const SearchForm = observer(({ form }) => {
         {getFieldDecorator('sprintId', {
           rules: [{ required: false }],
         })(
-          <AllSprintSelect disabled={tableBtnDiabled} projectId={projectId}/>
+          <AllSprintSelect disabled={tableBtnDiabled} projectId={projectId} />
         )}
       </FormItem>
 

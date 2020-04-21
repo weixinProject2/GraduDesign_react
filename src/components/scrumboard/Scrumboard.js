@@ -1,30 +1,39 @@
-import React, { useState, Fragment } from 'react';
+import React, { useState, Fragment, useEffect } from 'react';
 import { observer } from 'mobx-react-lite';
 import { useScrumStore } from './stores';
 import TaskCol from './TaskCol';
 import TaskItem from './TaskItem';
-import { Button } from 'antd';
+import { Button, Breadcrumb, Spin } from 'antd';
 import TableContainer from '../../tool-components/TableContainerStyle'
-import AddressPicker from '../../tool-components/AddressPick'
-
+import EmptyPage from '../../tool-components/EmptyPage';
+import SprintSelect from './components/sprintSelect';
+import JobModal from '../../tool-components/JobModal';
 
 export default observer(() => {
     const {
-        tasks, STATUS_CODE,
+        tasks, STATUS_CODE, projectId, projectName, mainStore,
     } = useScrumStore();
 
-    const [myTasks, setTasks] = useState(tasks);
+    const [createVisible, setCreateVisible] = useState(false);
+
     const [activeId, setActiveId] = useState(null);
+    const {
+        loadMyJob, getSeletSprint, getAllSprint, getAlljobLists, boardLoading, changeJobStatus,
+    } = mainStore;
+
+    useEffect(() => {
+        getSeletSprint && projectId && loadMyJob(projectId);
+    }, [projectId, getSeletSprint])
 
     function onDragStart(id) {
         setActiveId(id);
     }
 
     function dragTo(status) {
-        let task = tasks[activeId];
+        let task = getAlljobLists && getAlljobLists.filter(item => item.problemId === activeId)[0];
         if (task.status !== status) {
             task.status = status;
-            setTasks(tasks);
+            changeJobStatus(task);
         }
         cancelSelect();
     }
@@ -33,36 +42,93 @@ export default observer(() => {
         setActiveId(null);
     }
 
+
     const headerBtns = (
-        <Button icon="clock-circle" ghost type='primary'>完成本次迭代</Button>
+        <Fragment>
+            <SprintSelect />
+            <Button
+                icon="plus"
+                ghost type='primary'
+                onClick={() => setCreateVisible(true)}
+            >
+                创建问题
+            </Button>
+        </Fragment>
     );
 
+    const title = (
+        <Breadcrumb separator=">">
+            <Breadcrumb.Item>{projectName}</Breadcrumb.Item>
+            <Breadcrumb.Item>
+                迭代计划
+          </Breadcrumb.Item>
+        </Breadcrumb>
+    )
+
+    const [jobModalVisible, setVisible] = useState(false);
+
+    function callBack() {
+        loadMyJob(projectId);
+        setVisible(false);
+    }
+
+    function createCallBack() {
+        loadMyJob(projectId);
+        setCreateVisible(false);
+    }
+
     return (
-        <TableContainer headerButtons={headerBtns} title="任务面板">
-            <div className="task-wrapper">
-                {
-                    Object.keys(STATUS_CODE).map(status =>
-                        <TaskCol
-                            status={status}
-                            key={status}
-                            dragTo={dragTo}
-                            canDragIn={activeId !== null && tasks[activeId].status !== status}>
-                            {tasks.filter(t => t.status === status).map(t =>
-                                <TaskItem
-                                    key={t.id}
-                                    active={t.id === activeId}
-                                    id={t.id}
-                                    title={t.title}
-                                    point={t.point}
-                                    username={t.username}
-                                    onDragStart={onDragStart}
-                                    onDragEnd={cancelSelect}
-                                />)
-                            }
-                        </TaskCol>
-                    )
-                }
-            </div>
-        </TableContainer>
+        getAllSprint && getAllSprint.length > 0 ?
+            <Spin spinning={boardLoading}>
+                <TableContainer headerButtons={headerBtns} title={title}>
+                    <div className="task-wrapper">
+                        {
+                            Object.keys(STATUS_CODE).map(status =>
+                                <TaskCol
+                                    status={status}
+                                    key={status}
+                                    dragTo={dragTo}
+                                    canDragIn={activeId !== null && getAlljobLists.filter(item => item.problemId === activeId)[0].status !== status}>
+                                    {getAlljobLists.filter(t => t.status === status).map(t =>
+                                        <Fragment>
+                                            <TaskItem
+                                                key={t.problemId}
+                                                active={t.problemId === activeId}
+                                                id={t.problemId}
+                                                {...t}
+                                                onDragStart={onDragStart}
+                                                onDragEnd={cancelSelect}
+                                                onClick={() => setVisible(true)}
+                                            />
+                                            <JobModal
+                                                visible={jobModalVisible}
+                                                onClose={() => {
+                                                    setVisible(false)
+                                                }}
+                                                callBack={callBack}
+                                                listprops={t}
+                                                projectId={projectId}
+                                                defaultSprintId={t.sprintId || ''}
+                                                statusNum
+                                            />
+                                        </Fragment>
+                                    )
+                                    }
+                                </TaskCol>
+                            )
+                        }
+                    </div>
+                    <JobModal
+                        visible={createVisible}
+                        onClose={() => {
+                            setCreateVisible(false)
+                        }}
+                        callBack={createCallBack}
+                        projectId={projectId}
+                        defaultSprintId={getSeletSprint || ''}
+                        statusNum
+                    />
+                </TableContainer>
+            </Spin> : <EmptyPage description={'项目下无任何迭代'} style={{ height: '100%' }} />
     )
 })

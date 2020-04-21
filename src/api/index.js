@@ -122,3 +122,7 @@ export const newProblem = (params) => http.post('/project/sprint/problem/createP
 export const deleteSprint = (params) => http.delete('/project/sprint/deleteSprint', params);
 // 删除问题
 export const deleteProblem = (params) => http.delete('/project/sprint/problem/deleteProblem', params);
+// 获取个人得所有问题
+export const getAllMyjobs = (params) => http.get('/project/sprint/problem/getMyProblem', params);
+// 开启或关闭冲刺
+export const switchSprint = (params) => http.post('/project/sprint/startOrEndSprint', params);

@@ -4,7 +4,7 @@ import { useScrumStore } from './stores'
 export default observer((props) => {
     const [ins, setIn] = useState(false);
     const { canDragIn, status, dragTo, children } = props;
-    
+
     const { STATUS_CODE } = useScrumStore();
 
     function handleDragEnter(e) {
@@ -35,7 +35,7 @@ export default observer((props) => {
                 onDragOver={handleDragEnter}
                 onDrop={handleDrop}
             >
-                <header className="col-header">
+                <header className={`col-header col-header-${status}`} >
                     {STATUS_CODE[status]}
                 </header>
                 <main className={'col-main' + (ins ? ' active' : '')}>

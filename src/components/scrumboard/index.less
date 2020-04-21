@@ -1,27 +1,48 @@
 @import "../../myTheme.less";
 
 .item {
-    border: 1px solid #139a87;
-    width: 91%;
-    height: 1rem;
+    padding: 6px 7px;
+    height: 1.1rem;
     display: flex;
+    width: 94%;
     flex-direction: column;
-    border-radius: 5px;
-    box-shadow: 0 0 5px 0 #b3b3b3;
+    border-radius: 3px;
+    box-shadow: 0 0 5px 0 #cacaca;
     margin: 0.05rem auto;
     background: #fff;
+    cursor: move;
+    footer {
+        display: flex;
+        align-items: center;
+        margin-top: 5px;
+        &>span:nth-of-type(2){
+            width: 108px;
+            overflow: hidden;
+            text-overflow: ellipsis;
+            white-space: nowrap;
+            margin-left: auto;
+            font-size: 10px;
+        }
+    }
 }
 .item.active {
-    border-style: dashed;
+    cursor: move;
+    background: #fff;
+    box-shadow: 0 0 10px 0 #cacaca;
+    border: 3px dotted @light-primary-color;
 }
 .item-header {
     font-size: 12px;
     color: #9e9e9e;
-    padding: 3px 5px;
+    display: flex;
+    align-items: center;
+    span{
+        font-size: 14px;
+    }
 }
 .item-main {
-    padding: 5px;
     font-size: 14px;
+    margin-top: 5px;
     color: #424242;
     flex: 1;
     overflow: hidden;
@@ -40,33 +61,33 @@
     border-radius: 50%;
 }
 .col {
-    border: 1px solid #d2d2d2;
-    flex-grow: 1;
     width: 180px;
+    flex: 1 1;
     height: inherit;
-    margin: 0 2px;
-    background: #eee;
-    flex-grow: 1;
+    margin: 0 5px;
+    background: #f5f5f5;
     display: flex;
     flex-direction: column;
 }
 .col-header {
-    height: 40px;
+    height: 46px;
     line-height: 40px;
-    background: @primary-color;
-    color: #fff;
-    text-align: center;
+    // background:#;
+    color: #000;
+    padding-left: 12px;
+    text-align: left;
 }
 .col-main {
     overflow: auto;
     flex-grow: 1;
+    transition: .2s;
 }
 .col-main.active {
-    background: #00ad23;
-    opacity: 0.1;
+    border: 3px dotted @light-primary-color;
+    opacity: 1;
 }
 .task-wrapper {
     display: flex;
-    height: auto;
+    min-height: 100%;
     width: 100%;
 }

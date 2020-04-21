@@ -36,6 +36,7 @@ export default observer(() => {
 
   function jobCreateCallBack() {
     loadTableData(projectId);
+    loadSprintData(projectId);
     setJobModalVisible(false);
   }
 

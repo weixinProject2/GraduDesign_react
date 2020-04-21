@@ -8,8 +8,5 @@ const contentTitle = ({ title, style }) => (
     </div>
 )
 
-contentTitle.propTypes = {
-    title: PropTypes.isRequired,
-};
 
 export default contentTitle;

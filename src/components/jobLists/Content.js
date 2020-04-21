@@ -14,7 +14,7 @@ const { TabPane } = Tabs;
 
 export default observer(() => {
   const {
-    projectId, projectName, mainStore,
+    projectId, projectName, mainStore, permissions,
   } = useJobStore();
 
   const [jobModalVisible, setJobModalVisible] = useState(false);
@@ -65,7 +65,7 @@ export default observer(() => {
         </Button>
       }
       {
-        getActiveKey === 'details' && <Button
+        getActiveKey === 'details' && permissions !== 2 && <Button
           type="primary"
           icon="interaction"
           disabled={sprintBtnDisabled}

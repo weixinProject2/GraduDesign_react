@@ -23,12 +23,15 @@ export const StoreProvider = withRouter(observer((props) => {
 
   const mainStore = useStore();
 
+  const permissions = localStorage.getItem('userInfo') && JSON.parse(localStorage.getItem('userInfo')).permissions;
+
   const value = {
     ...props,
     ...appStore,
     mainStore,
     projectId,
     projectName,
+    permissions,
   }
   return (
     <Store.Provider value={value}>

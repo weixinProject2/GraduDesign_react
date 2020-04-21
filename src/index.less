@@ -25,6 +25,59 @@ li {
     padding   : 0;
 }
 
+@keyframes myBack
+{
+    0%{
+        background-position-x: 0%;
+    }
+    100% {
+        background-position-x: 100%;
+    }
+}
+
+@keyframes rotation
+{
+    from {
+        -webkit-transform: rotate(0deg);
+    }
+    to {
+        -webkit-transform: rotate(360deg);
+    }
+}
+.home-page{
+    width: 100%;
+    height: 100%;
+    position: relative;   
+    i{
+        position: absolute;
+        font-size: 67px;
+        width: fit-content;
+        left: 0;
+        right: 0;
+        margin: auto;
+        top: 183px;
+        color: darken(@primary-color,15%);
+        transform-origin:center center;
+        animation: rotation 3s linear infinite;
+    } 
+    .page-title {
+        position: absolute;
+        left: 0;
+        right: 0;
+        top: 0;
+        margin: auto;
+        bottom: 0;
+        color: darken(@primary-color,10%);
+        height: max-content;
+        font-size: 50px;
+        width: max-content;
+        text-align: center;
+        font-weight: 800;
+        text-shadow: 2px 2px 5px #a7a7a7;
+        font-family: initial;
+        letter-spacing: 5px;
+    }
+}
 .ant-popover-inner-content {
     padding: 0 !important;
 }
@@ -126,7 +179,10 @@ li {
     width  : 100%;
     height : calc(100% - .48rem);
     display: flex;
-
+    background-image: url('./assets/images/homeImg.jpg');
+    background-size: cover;
+    animation: myBack 12s linear infinite;
+    animation-direction: alternate;
     .gradu-side-menu {
         .ant-menu-submenu-title {
             span {
@@ -139,14 +195,14 @@ li {
 
         .ant-menu {
             height          : 100%;
-            background-color: rgba(236, 236, 236, 0.65);
+            background-color: transparent;
         }
     }
 
     .gradu-container {
         flex      : 1;
         height    : 100%;
-        background: #fff;
+        background: #ffffffad;
     }
 }
 

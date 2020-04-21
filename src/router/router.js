@@ -1,6 +1,5 @@
 import React, { Fragment, useContext, useEffect, useState } from 'react'
-import { BrowserRouter as Router, Route, NavLink } from 'react-router-dom';
-// import ProtectedRoute from '../components/ProtectedRoute'
+import { BrowserRouter, Route, NavLink } from 'react-router-dom';
 import { observer } from 'mobx-react-lite';
 import { Button, Icon, Menu, Spin } from 'antd'
 
@@ -11,7 +10,7 @@ import { MyContext } from '../stores/index'
 import history from '../utils/history';
 import Avater from '../components/avater/index';
 import Bell from '../components/userMessage/Bell';
-
+import Home from './Home';
 import UserInfoContent from '../components/userInfo';
 import ManageStaffForm from '../components/manageStaff';
 import ManangeDeptsForm from '../components/manageDepts';
@@ -27,9 +26,6 @@ import NoticeDetail from '../components/notice/noticeDetail';
 import AdminFile from '../components/adminFileManage'
 import DeptProjectsManage from '../components/deptProjectsManage';
 import JobLists from '../components/jobLists';
-
-
-const SubMenu = Menu.SubMenu;
 
 export default observer(() => {
     const stores = useContext(MyContext);
@@ -54,6 +50,10 @@ export default observer(() => {
         setCollapse(!tempCollapse);
     }
 
+    function linkToHome() {
+        history.push(`/main?projectId=${getProjectId}`);
+        setPath('/main')
+    }
 
     return (
         <Fragment>
@@ -61,6 +61,9 @@ export default observer(() => {
                 <header className='gradu-header'>
                     <div className="gradu-header-left">
                         <Button shape="circle" icon="menu" type='primary' onClick={toggleMenu} />Gradu <Icon type='deployment-unit' />&nbsp;员工系统
+                    </div>
+                    <div className="gradu-header-middle">
+                        <Button shape='circle' icon="home" type="primary" onClick={linkToHome} />
                     </div>
                     <div className="gradu-header-right">
                         <Bell />
@@ -148,6 +151,7 @@ export default observer(() => {
                     </div>
 
                     <div className="gradu-container">
+                        <Route path='/main' component={Home} exact/>
                         <Route path='/main/userInfo' component={UserInfoContent} />
                         <Route path='/main/manageStaffs' component={ManageStaffForm} />
                         <Route path='/main/manageDepts' component={ManangeDeptsForm} />

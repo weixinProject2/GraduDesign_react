@@ -18,7 +18,7 @@ export default observer(() => {
 
     const [activeId, setActiveId] = useState(null);
     const {
-        loadMyJob, getSeletSprint, getAllSprint, getAlljobLists, boardLoading, changeJobStatus,
+        loadMyJob, getSeletSprint, getAllSprint, getAlljobLists, boardLoading, changeJobStatus, editData
     } = mainStore;
 
     useEffect(() => {
@@ -95,21 +95,11 @@ export default observer(() => {
                                                 key={t.problemId}
                                                 active={t.problemId === activeId}
                                                 id={t.problemId}
+                                                dataSource={t}
                                                 {...t}
                                                 onDragStart={onDragStart}
                                                 onDragEnd={cancelSelect}
                                                 onClick={() => setVisible(true)}
-                                            />
-                                            <JobModal
-                                                visible={jobModalVisible}
-                                                onClose={() => {
-                                                    setVisible(false)
-                                                }}
-                                                callBack={callBack}
-                                                listprops={t}
-                                                projectId={projectId}
-                                                defaultSprintId={t.sprintId || ''}
-                                                statusNum
                                             />
                                         </Fragment>
                                     )
@@ -126,6 +116,17 @@ export default observer(() => {
                         callBack={createCallBack}
                         projectId={projectId}
                         defaultSprintId={getSeletSprint || ''}
+                        statusNum
+                    />
+                    <JobModal
+                        visible={jobModalVisible}
+                        onClose={() => {
+                            setVisible(false)
+                        }}
+                        callBack={callBack}
+                        listprops={editData}
+                        projectId={projectId}
+                        defaultSprintId={editData.sprintId || ''}
                         statusNum
                     />
                 </TableContainer>

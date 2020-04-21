@@ -89,6 +89,10 @@ export default function useScrumStore() {
                     this.boardLoading = true;
                 }
             })
-        }
+        },
+        editData:'',
+        setEditData(value){
+            this.editData =value;
+        },
     }))
 }

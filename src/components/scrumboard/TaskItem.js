@@ -10,6 +10,7 @@ import { observer } from 'mobx-react-lite';
 
 export default observer((props) => {
     const {
+        dataSource,
         id, problemName, problemDesc, active, onDragEnd, onDragStart, onClick, kinds, createTime, status,
     } = props;
 
@@ -17,6 +18,9 @@ export default observer((props) => {
         mainStore, projectId,
     } = useScrumStore();
 
+    const {
+        setEditData,
+    } = mainStore;
 
     function handleDragStart() {
         onDragStart(id);
@@ -34,6 +38,11 @@ export default observer((props) => {
         );
     }
 
+    function handleClick() {
+        setEditData(dataSource)
+        onClick();
+    }
+
     return (
         <div
             onDragStart={handleDragStart}
@@ -41,7 +50,7 @@ export default observer((props) => {
             id={`item-${id}`}
             className={'item' + (active ? ' active' : '')}
             draggable="true"
-            onClick={onClick}
+            onClick={handleClick}
         >
             <header className="item-header">
                 {renderKinds()}
@@ -57,7 +66,7 @@ export default observer((props) => {
             </footer>
             <main className="item-main">{problemDesc}</main>
 
-            
+
         </div>
     )
 })

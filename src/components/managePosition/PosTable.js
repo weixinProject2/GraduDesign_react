@@ -1,5 +1,5 @@
 import React, { useEffect, Fragment } from 'react';
-import { Table, Modal, Popover, Button, Spin, message } from 'antd';
+import { Table, Modal, Popover, Button, Spin, message, Tag } from 'antd';
 import { usePositionsStore } from './stores';
 import { observer } from 'mobx-react-lite';
 import { deletePosition } from '../../api';
@@ -36,6 +36,7 @@ export default observer(() => {
         {
             title: '职位',
             dataIndex: 'positionName',
+            render: (text) => <Tag color='gold'>{text}</Tag>
         },
         {
             title: '职位描述',

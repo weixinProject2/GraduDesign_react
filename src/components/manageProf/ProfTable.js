@@ -33,6 +33,7 @@ export default observer(() => {
         {
             title: '职业',
             dataIndex: 'professionalName',
+            render: (text) => <Tag color='cyan'>{text}</Tag>
         },
         {
             title: '职业描述',

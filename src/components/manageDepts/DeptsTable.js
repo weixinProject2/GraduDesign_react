@@ -92,7 +92,6 @@ export default observer(() => {
 
     // 打开珊删除弹框
     function showDeleteConfirm(record) {
-        console.log(record);
         const { departmentId } = record;
         deleteModal = confirm({
             autoFocusButton: 'cancel',
@@ -121,14 +120,12 @@ export default observer(() => {
                         loadDeptsInfo(defaultParams);
                         setCurrentPage(1);
                     } else {
-                        setTimeout(() => {
-                            deleteModal.update({
-                                content: res.mess,
-                                okText: '确定',
-                                onOk: () => deleteModal.destroy(),
-                            });
-                            reject();
-                        }, 500);
+                        deleteModal.update({
+                            content: res.mess,
+                            okText: '确定',
+                            onOk: () => deleteModal.destroy(),
+                        });
+                        reject();
 
                     }
                 } else {
@@ -183,7 +180,6 @@ export default observer(() => {
     return (
         <Fragment>
             <Table
-                size='default'
                 tablelayout='inline'
                 columns={columns}
                 dataSource={getTableData}

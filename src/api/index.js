@@ -3,7 +3,7 @@ import http from '../utils/http'
 // 登陆
 export const login = (params) => http.get('/login', params);
 // 获取侧边menu
-export const getMenu = () => http.get('/getMenu');
+export const getMenu = () => http.get('/menu/getSiderMenu');
 
 // 获取个人信息
 export const getUserInfoDetail = (workNumber) => http.get('/user/getUserInfo', workNumber)
@@ -106,6 +106,12 @@ export const setProjectStep = (params) => http.post('/project/setProjectSchedult
 export const getUnsetLists = (params) => http.get('/project/queryUndistributedList', params);
 // 添加新员工到这个项目上
 export const addProjectMember = (params) => http.post('/project/distribeProject', params);
+// 关闭项目
+export const closeDeptProject = (params) => http.put('/project/closeProject', params);
+// 删除项目成员
+export const removeProjectMember = (params) => http.post('/project/deleteProjectStuff', params);
+
+
 // 获取所有问题
 export const getAllJobs = (params) => http.get('/project/sprint/problem/getAllProblem', params);
 // 获取冲刺列表

@@ -2,10 +2,7 @@ import React, { Fragment, useContext, useEffect, useState } from 'react'
 import { BrowserRouter, Route, NavLink } from 'react-router-dom';
 import { observer } from 'mobx-react-lite';
 import { Button, Icon, Menu, Spin } from 'antd'
-
 import { MyContext } from '../stores/index'
-
-// import { getMenu } from '../api/index'
 
 import history from '../utils/history';
 import Avater from '../components/avater/index';
@@ -37,9 +34,12 @@ export default observer(() => {
         getSelectorLoading,
         getPath,
         setPath,
+        getMenuData,
+        loadMenu,
     } = stores;
 
     useEffect(() => {
+        loadMenu();
         loadUserInfo();
     }, [])
 
@@ -54,6 +54,43 @@ export default observer(() => {
         history.push(`/main?projectId=${getProjectId}`);
         setPath('/main')
     }
+
+    function renderSelectedKey() {
+        const {
+            location
+        } = history;
+        const keyUrl = location && location.pathname;
+        const key = keyUrl.split('/')[2];
+        if (key === undefined) {
+            return '';
+        } else {
+            const arr = [].concat(key);
+            return arr;
+        }
+
+    }
+
+    const renderMenu = () => (
+        <Menu
+            mode="inline"
+            inlineCollapsed={collapse}
+            defaultSelectedKeys={renderSelectedKey()}
+        >
+            {
+                getMenuData && getMenuData.map((item, i) => {
+                    const { menu_key, menu_icon, menu_path, menu_text } = item;
+                    return (
+                        <Menu.Item key={menu_key}>
+                            <NavLink to={`${menu_path}?projectId=${getProjectId}`} onClick={() => setPath(menu_path)}>
+                                <Icon type={menu_icon} />
+                                <span style={{ width: '185px', display: 'inline-block' }}>{menu_text}</span>
+                            </NavLink>
+                        </Menu.Item>
+                    )
+                })
+            }
+        </Menu>
+    )
 
     return (
         <Fragment>
@@ -77,81 +114,11 @@ export default observer(() => {
                 </header>
                 <main id='mainContainer'>
                     <div className="gradu-side-menu">
-                        <Menu
-                            mode="inline"
-                            inlineCollapsed={collapse}
-                        // inlineCollapsed={this.state.collapsed}
-                        // openKeys={this.state.openKeys}
-                        // onOpenChange={this.onOpenChange}
-                        // selectedKeys={[this.state.curentKey]}
-                        >
-
-                            <Menu.Item key="manageStaffs">
-                                <NavLink to='/main/manageStaffs' onClick={() => setPath('/main/manageStaffs')}>
-                                    <Icon type="team" />
-                                    <span style={{ width: '185px', display: 'inline-block' }}>公司员工管理</span>
-                                </NavLink>
-                            </Menu.Item>
-                            <Menu.Item key="manageDepts">
-                                <NavLink to='/main/manageDepts'>
-                                    <Icon type="team" />
-                                    <span>部门管理</span>
-                                </NavLink>
-                            </Menu.Item>
-                            <Menu.Item key="managePos">
-                                <NavLink to='/main/managePos'>
-                                    <Icon type='solution' />
-                                    <span>职位管理</span>
-                                </NavLink>
-                            </Menu.Item>
-                            <Menu.Item key="manageProf">
-                                <NavLink to='/main/manageProf'>
-                                    <Icon type='solution' />
-                                    <span>职业管理</span>
-                                </NavLink>
-                            </Menu.Item>
-                            <Menu.Item key="manageProject">
-                                <NavLink to={`/main/manageProject?projectId=${getProjectId}`}>
-                                    <Icon type='project' />
-                                    <span>项目管理</span>
-                                </NavLink>
-                            </Menu.Item>
-                            <Menu.Item key="deptsStaffManage">
-                                <NavLink to={`/main/deptsStaffManage?projectId=${getProjectId}`} onClick={() => setPath('/main/deptsStaffManage')}>
-                                    <Icon type="team" />
-                                    <span>部门员工管理</span>
-                                </NavLink>
-                            </Menu.Item>
-                            <Menu.Item key="deptProjectsManage">
-                                <NavLink to={`/main/deptProjectsManage?projectId=${getProjectId}`} onClick={() => setPath('/main/deptProjectsManage')}>
-                                    <Icon type="team" />
-                                    <span>部门项目管理</span>
-                                </NavLink>
-                            </Menu.Item>
-                            <Menu.Item key="taskPanel">
-                                <NavLink to={`/main/taskLists?projectId=${getProjectId}`} onClick={() => setPath('/main/taskLists')}>
-                                    <Icon type="ordered-list" />
-                                    <span>工作列表</span>
-                                </NavLink>
-                            </Menu.Item>
-                            <Menu.Item key="scrumboard">
-                                <NavLink to='/main/scrumboard'>
-                                    <Icon type='snippets' />
-                                    <span>迭代计划</span>
-                                </NavLink>
-                            </Menu.Item>
-                            <Menu.Item key='notice'>
-                                <NavLink to='/main/notice'>
-                                    <Icon type='solution' />
-                                    <span>公告</span>
-                                </NavLink>
-                            </Menu.Item>
-                            <Menu.Item key='fileManage'><NavLink to='/main/fileManage'><Icon type='solution' /><span>文件管理</span></NavLink></Menu.Item>
-                        </Menu>
+                        {renderMenu()}
                     </div>
 
                     <div className="gradu-container">
-                        <Route path='/main' component={Home} exact/>
+                        <Route path='/main' component={Home} exact />
                         <Route path='/main/userInfo' component={UserInfoContent} />
                         <Route path='/main/manageStaffs' component={ManageStaffForm} />
                         <Route path='/main/manageDepts' component={ManangeDeptsForm} />

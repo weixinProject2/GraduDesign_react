@@ -5,18 +5,10 @@ import { Table, Tag, Progress, Popover, Button, Modal, message, Form } from 'ant
 import { useProjectStore } from './stores';
 import { deleteProject, distributeProject } from '../../api';
 import DepartSelect from '../../tool-components/AllDeptSelect';
+import StatusTag from '../../tool-components/StatusTag';
 
 const FormItem = Form.Item;
-// const formItemLayout = {
-//     labelCol: {
-//         xs: { span: 12 },
-//         sm: { span: 5 },
-//     },
-//     wrapperCol: {
-//         xs: { span: 24 },
-//         sm: { span: 18 },
-//     },
-// };
+
 const { confirm } = Modal;
 
 const DistributeForm = observer(({ form }) => {
@@ -126,9 +118,6 @@ export default observer(() => {
         />
     )
 
-    function openModifyDrawer() {
-
-    }
 
     function deleteOneProject(projectId) {
         const params = {
@@ -170,9 +159,8 @@ export default observer(() => {
         const schedultion = record.schedultion;
         return (
             <ul className='gradu-form-opts'>
-                <li onClick={openModifyDrawer.bind(this, record)}>修改信息</li>
                 {!hasDept && <li onClick={showDistribeModal.bind(this, record)}>分配项目</li>}
-                {(!hasDept || schedultion === 100) && <li onClick={showDeleteConfirm.bind(this, record)}>删除</li>}
+                {(!hasDept && schedultion === 100) && <li onClick={showDeleteConfirm.bind(this, record)}>删除</li>}
             </ul>
         )
     }
@@ -183,9 +171,17 @@ export default observer(() => {
             placement="bottom"
             trigger='click'
         >
-            <Button type="dashed" shape="circle" icon='more' size='small' />
+            {!record.bToDepartmentID && <Button type="dashed" shape="circle" icon='more' size='small' />}
         </Popover>
     )
+
+    const renderProjectStatus = (text, record) => {
+        return (
+            <StatusTag status={text ? "default" : "create"}
+                text={text ? "已开启" : '未开启'}
+                size={10} />
+        )
+    }
 
 
     const columns = [
@@ -211,6 +207,11 @@ export default observer(() => {
             title: '项目进度',
             dataIndex: 'schedultion',
             render: renderSchedultion,
+        },
+        {
+            title: '项目状态',
+            dataIndex: 'isOpen',
+            render: renderProjectStatus
         },
         {
             title: '操作',

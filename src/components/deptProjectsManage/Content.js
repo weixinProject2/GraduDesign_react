@@ -7,7 +7,7 @@ import EmptyPage from '../../tool-components/EmptyPage';
 import Details from './components/details';
 import TeamForm from './components/team';
 import SearchForm from './components/searchForm';
-import { runProjects, getUnsetLists, addProjectMember } from '../../api';
+import { runProjects, getUnsetLists, addProjectMember, closeDeptProject, removeProjectMember } from '../../api';
 
 
 const { TabPane } = Tabs;
@@ -86,6 +86,31 @@ export default observer(() => {
     })
   }
 
+  function closeProject() {
+    closeDeptProject({ projectId: projectId }).then((res) => {
+      if (!res.error) {
+        message.success(res.message);
+        loadProjectInfo(projectId);
+      } else {
+        message.error(res.message);
+      }
+    })
+  }
+
+  function deleteProjectMembers() {
+    const obj = {
+      workNumberlist: getSelectRows.join(','),
+      projectId,
+    }
+    removeProjectMember(obj).then((res) => {
+      if (!res.error) {
+        message.success(res.message);
+        loadInfo(projectId);
+      } else {
+        message.error(res.message);
+      }
+    })
+  }
 
   const btnGroup = (
     <Fragment>
@@ -105,7 +130,7 @@ export default observer(() => {
           ghost
           type='danger'
           disabled={contentBtnDisbled}
-        // onClick={openProject}
+          onClick={closeProject}
         >关闭项目</Button>
       }
 
@@ -124,7 +149,7 @@ export default observer(() => {
         icon="delete"
         ghost
         disabled={!getSelectRows.length > 0 || getBtnDisabled}
-      // onClick={refresh}
+        onClick={deleteProjectMembers}
       >删除项目成员</Button>}
 
       <Button

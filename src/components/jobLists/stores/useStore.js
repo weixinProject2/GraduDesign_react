@@ -23,20 +23,20 @@ export default function useStore() {
     setSprintData(value) {
       this.sprintData = value;
     },
-    get getSprintData(){
+    get getSprintData() {
       return this.sprintData.slice();
     },
     loadSprintData(projectId) {
       this.sprintBtnDisabled = true;
       this.sprintLoading = true;
       getSprintList({ projectId }).then((res) => {
-        if(!res.error){
+        if (!res.error) {
           this.setSprintData(res.list);
           this.sprintLoading = false;
           this.sprintBtnDisabled = false;
-        }else{
+        } else {
           this.setSprintData([]);
-          this.sprintLoading= false;
+          this.sprintLoading = false;
         }
       })
     },
@@ -63,7 +63,7 @@ export default function useStore() {
 
     setQueryFileds(value) {
       this.params.sprintId = value && value.sprintId ? value.sprintId : null;
-      this.params.kinds = value && value.status ? value.status : null;
+      this.params.kinds = value && value.kinds ? value.kinds : null;
       this.params.problemName = value && value.problemName ? value.problemName : null;
       this.params.status = value && value.status ? value.status : null
     },

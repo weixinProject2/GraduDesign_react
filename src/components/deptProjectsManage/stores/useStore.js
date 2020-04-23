@@ -8,9 +8,9 @@ export default function useStore() {
         params: {
             page: 1,
             size: 10,
-            userName: '',
-            workNumber: '',
-            professionalId: '',
+            userName: null,
+            workNumber: null,
+            professionalId: null,
         },
         // tabs
         activeKey: 'details',

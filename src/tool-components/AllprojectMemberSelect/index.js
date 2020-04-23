@@ -52,7 +52,7 @@ export default observer((props) => {
   return (
     <Fragment>
       {
-        allMember.length > 0 ? <Select
+        <Select
           placeholder="选择成员"
           // style={{ width: 180 }}
           allowClear
@@ -64,7 +64,7 @@ export default observer((props) => {
           {...props}
         >
           {renderAllMember()}
-        </Select> : <Spin size="small" />
+        </Select>
       }
     </Fragment>
   )

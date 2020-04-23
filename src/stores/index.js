@@ -1,7 +1,8 @@
 import React, { createContext } from 'react'
 import { useLocalStore, observer } from 'mobx-react-lite'
-import { getUserInfoDetail } from '../api';
+import { getUserInfoDetail, getMenu } from '../api';
 import history from '../utils/history';
+import { message } from 'antd';
 
 export const MyContext = createContext(null);
 
@@ -17,6 +18,24 @@ export const AppStore = observer((props) => {
                 return this.userInfo;
             },
 
+
+            // 菜单数据
+            menuData: [],
+            setMenuData(value) {
+                this.menuData = value
+            },
+            get getMenuData() {
+                return this.menuData.slice();
+            },
+            loadMenu() {
+                getMenu().then((res) => {
+                    if (!res.error) {
+                        this.setMenuData(res.menuList);
+                    } else {
+                        message.error(res.message);
+                    }
+                })
+            },
             // 路由
             path: history.location.pathname,
             setPath(value) {

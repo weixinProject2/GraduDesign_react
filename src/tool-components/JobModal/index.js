@@ -30,6 +30,7 @@ const JobModal = observer((props) => {
   function handleProblemSubmit(params) {
     return listprops ? changeProblemDetail(params) : newProblem(params);
   }
+
   const {
     problemName,
     agentRoleId,
@@ -88,6 +89,13 @@ const JobModal = observer((props) => {
       cancelText: '取消',
       onOk: handleDeleteProblem,
     })
+  }
+
+  function checkStatusType() {
+    if (typeof status === 'string') {
+      return parseStatusCode(status);
+    }
+    return status;
   }
 
   return (
@@ -174,7 +182,7 @@ const JobModal = observer((props) => {
             >
               {getFieldDecorator('status', {
                 rules: [{ required: true, message: '请选择状态' }],
-                initialValue: status || 1 || statusNum
+                initialValue: checkStatusType() || 1
               })(
                 <AllJobStatusSelect allowClear={false} />
               )}

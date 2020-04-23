@@ -22,7 +22,7 @@ export default observer((props) => {
       return <Option value={sprintId} key={key}>
         <div style={{ display: 'flex', alignItems: 'center' }}>
           <StatusTag status={sprintStatus} dotted text={statusText} />
-          <span style={{ marginLeft: '10px' }}>{sprintName}</span>
+          <span >{sprintName}</span>
         </div>
       </Option>
     })

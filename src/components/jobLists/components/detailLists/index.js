@@ -55,11 +55,11 @@ const SprintItem = (props) => {
   } = props;
 
   const {
-    projectId, mainStore,
+    projectId, mainStore, permissions,
   } = useJobStore();
 
   const {
-    loadSprintData,
+    loadSprintData, loadTableData,
   } = mainStore;
 
   const [expand, setEpand] = useState(index === 0);
@@ -68,6 +68,7 @@ const SprintItem = (props) => {
   function jobModalCallBack() {
     setCreateModal(false);
     loadSprintData(projectId);
+    loadTableData(projectId);
   }
 
   const renderSprintStatus = () => {
@@ -94,7 +95,7 @@ const SprintItem = (props) => {
   const renderSrintBtn = () => {
     const show = status !== 2;
     const title = !status ? '开启冲刺' : '结束冲刺';
-    return show && <Tooltip title={title}>
+    return show && permissions !== 2 && <Tooltip title={title}>
       <Switch
         size="small"
         checked={status}

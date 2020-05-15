@@ -18,7 +18,7 @@ export default function useStore() {
       this.addSprintModal = value;
     },
 
-    // 冲刺列表
+    // 冲刺列表数据
     sprintData: [],
     setSprintData(value) {
       this.sprintData = value;

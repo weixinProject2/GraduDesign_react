@@ -20,14 +20,6 @@ const TeamForm = observer(() => {
     loadInfo,
   } = mainStore
 
-  // 渲染性别
-  function renderSex(text, record) {
-    return (
-      <Icon
-        type={text === '男' ? 'man' : 'woman'}
-      />
-    )
-  }
 
   function changePage(page) {
     setCurrentPage(page);
@@ -42,11 +34,6 @@ const TeamForm = observer(() => {
   }
 
   const columns = [
-    {
-      dataIndex: 'sex',
-      width: 40,
-      render: renderSex
-    },
     {
       title: '姓名',
       dataIndex: 'userName',

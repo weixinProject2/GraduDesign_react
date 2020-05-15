@@ -63,7 +63,6 @@ export default observer(() => {
         {
             title: '创建日期',
             dataIndex: 'createTime',
-            // render: renderDate,
         },
     ];
 
@@ -77,9 +76,6 @@ export default observer(() => {
                 setDeleteMoreBtn(false);
             }
         },
-        // getCheckboxProps: record => ({
-        //     name: record.title,
-        // }),
     }
 
     return (

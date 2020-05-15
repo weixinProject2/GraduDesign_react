@@ -73,12 +73,14 @@ export default observer(() => {
               <Descriptions.Item label="项目进度">
                 <div>
                   {`${dataSource.schedultion}%`}
-                  <span
-                    className="gradu-project-detail-schedultion"
-                    onClick={() => { setDrawerVisible(true); setPercent(dataSource && dataSource.schedultion) }}
-                  >
-                    设置项目进度
-                </span>
+                  {
+                    dataSource.isOpen ? <span
+                      className="gradu-project-detail-schedultion"
+                      onClick={() => { setDrawerVisible(true); setPercent(dataSource && dataSource.schedultion) }}
+                    >
+                      设置项目进度
+                    </span> : null
+                  }
                 </div>
               </Descriptions.Item>
             </Descriptions>
@@ -86,8 +88,8 @@ export default observer(() => {
             <Divider />
 
             <Descriptions layout='horizontal' column={2} title="迭代详情">
-              <Descriptions.Item label="当前项目迭代数目">12</Descriptions.Item>
-              <Descriptions.Item label="当前迭代阶段">Sprint1.1</Descriptions.Item>
+              <Descriptions.Item label="当前项目迭代数目">{dataSource.sprintCount}</Descriptions.Item>
+              <Descriptions.Item label="当前迭代阶段">{dataSource.sprintOngoingName ? dataSource.sprintOngoingName : '暂无迭代'}</Descriptions.Item>
             </Descriptions>
           </Spin>
         }

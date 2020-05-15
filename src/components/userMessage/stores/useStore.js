@@ -2,7 +2,6 @@ import React from 'react';
 import { message } from 'antd'
 import { useLocalStore } from 'mobx-react-lite';
 import { getSysNotice } from '../../../api';
-
 export default function useStore() {
   return useLocalStore(() => ({
     params: {
@@ -82,6 +81,17 @@ export default function useStore() {
     },
     get getDeleteMoreDisabled() {
       return this.deleteMoreDisabled;
+    },
+
+    announceId: null,
+    setAnnounceId(value) {
+      this.announceId = value;
+    },
+
+    detailModal: false,
+    setDetailModal(value) {
+      this.detailModal = value;
     }
+
   }))
 }

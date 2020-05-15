@@ -1,4 +1,4 @@
-import React, { useState, useEffect, useContext, Suspense } from 'react';
+import React, { useState, useEffect, useContext, Suspense, Fragment } from 'react';
 import { Button, Avatar, Drawer, Form, Input, Spin, Icon } from 'antd'
 import { observer } from 'mobx-react-lite';
 
@@ -7,7 +7,7 @@ import { MyInfoContext } from './store/index';
 
 import ModifyUserInfo from './ModifyUserInfo';
 import ModifyPassword from './ModifyPassword'
-
+import TableContainer from '../../tool-components/TableContainerStyle';
 
 
 const UserInfoForm = observer((props) => {
@@ -15,16 +15,16 @@ const UserInfoForm = observer((props) => {
     const myInfoStores = useContext(MyInfoContext);
 
     const { getUserinfo: {
-        userName, 
-        Id_Card, 
-        headerImg, 
-        address, 
-        departmentName, 
-        position, 
-        professional, 
-        sex, 
-        telNumber, 
-        email, 
+        userName,
+        Id_Card,
+        headerImg,
+        address,
+        departmentName,
+        position,
+        professional,
+        sex,
+        telNumber,
+        email,
         workNumber,
     } } = stores; //从全局层拿个人信息
 
@@ -68,15 +68,19 @@ const UserInfoForm = observer((props) => {
         setInfoVisible(false);
     }
 
+    const btnGroup = (
+        <Fragment>
+            <Button type='primary' ghost icon='edit' onClick={openPsModal}>修改密码</Button>
+            <Button type='primary' ghost icon='unlock' onClick={openInfoModal}>修改个人信息</Button>
+        </Fragment>
+    );
+
     return (
-        <Suspense fallback={<Spin size='large' />}>
+        <TableContainer
+            headerButtons={btnGroup} title={'个人信息'}
+        >
             <div className="gradu-userInfo">
-                <header className="gradu-content-header">
-                    <Button type='primary' ghost icon='edit' onClick={openPsModal}>修改密码</Button>
-                    <Button type='primary' ghost icon='unlock' onClick={openInfoModal}>修改个人信息</Button>
-                </header>
                 <div className="gradu-userInfo-content">
-                    <h2>个人信息</h2>
                     <div className='gradu-userInfo-top'>
                         <div className='gradu-userInfo-avatar'>
                             <div className="gradu-userInfo-avatar-content">
@@ -162,7 +166,7 @@ const UserInfoForm = observer((props) => {
                     <ModifyUserInfo />
                 </Drawer>
             </div>
-        </Suspense>
+        </TableContainer>
     )
 })
 const WrappedNormalLoginForm = Form.create()(UserInfoForm);

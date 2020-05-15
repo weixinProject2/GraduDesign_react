@@ -81,6 +81,7 @@ const SprintItem = (props) => {
     const obj = {
       sprintId,
       status: num,
+      projectId,
     }
     switchSprint(obj).then((res) => {
       if (!res.error) {

@@ -1,10 +1,11 @@
 import React, { Fragment, useEffect, useState } from 'react'
-import { Button, Drawer } from 'antd'
+import { Button, Drawer, Table } from 'antd'
+import AnnounceTable from './AnnounceTable';
+import { observer } from 'mobx-react-lite';
 
-
-
-export default (({ userInfo }) => {
+export default observer(({ userInfo }) => {
     const [visible, changeVisible] = useState(false);
+
     useEffect(() => {
 
 
@@ -27,17 +28,15 @@ export default (({ userInfo }) => {
             />
 
             <Drawer
-                title="消息列表"
+                title="公告列表"
                 placement="right"
                 closable={true}
                 mask={false}
-                width={500}
+                width={800}
                 onClose={onClose}
                 visible={visible}
             >
-                <p>Some contents...</p>
-                <p>Some contents...</p>
-                <p>Some contents...</p>
+                <AnnounceTable />
             </Drawer>
         </Fragment>
 

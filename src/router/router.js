@@ -6,7 +6,7 @@ import { MyContext } from '../stores/index'
 
 import history from '../utils/history';
 import Avater from '../components/avater/index';
-import Bell from '../components/userMessage/Bell';
+import Bell from '../components/userMessage';
 import Home from './Home';
 import UserInfoContent from '../components/userInfo';
 import ManageStaffForm from '../components/manageStaff';

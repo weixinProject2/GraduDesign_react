@@ -1,17 +1,26 @@
-import React, { createContext } from 'react';
-import { useLocalStore, observer } from 'mobx-react-lite';
+import React, { createContext, useContext } from 'react';
+import { observer } from 'mobx-react-lite';
 
-export const MyContext = createContext(null);
+import useStore from './useStore';
+
+const Store = createContext(null);
+
+export function useMessageStore() {
+  return useContext(Store);
+}
 
 export const MessageStore = observer((props) => {
-  const store = useLocalStore(() => (
-    {
-      
-    }
-  ));
+  
+  const mainStore = useStore();
+
+  const value = {
+    ...props,
+    mainStore,
+  }
+
   return (
-    <MyContext.Provider value={store}>
+    <Store.Provider value={value}>
       {props.children}
-    </MyContext.Provider>
+    </Store.Provider>
   );
 });

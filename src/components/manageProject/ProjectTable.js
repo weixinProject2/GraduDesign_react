@@ -157,10 +157,11 @@ export default observer(() => {
     const Lists = ({ record }) => {
         const hasDept = record.bToDepartmentID;
         const schedultion = record.schedultion;
+        const isOpen = record.isOpen;
         return (
             <ul className='gradu-form-opts'>
-                {!hasDept && <li onClick={showDistribeModal.bind(this, record)}>分配项目</li>}
-                {(!hasDept && schedultion === 100) && <li onClick={showDeleteConfirm.bind(this, record)}>删除</li>}
+                {(schedultion !== 100 && !isOpen) && <li onClick={showDistribeModal.bind(this, record)}>分配项目</li>}
+                {(schedultion === 100 || !hasDept) && <li onClick={showDeleteConfirm.bind(this, record)}>删除</li>}
             </ul>
         )
     }
@@ -171,7 +172,7 @@ export default observer(() => {
             placement="bottom"
             trigger='click'
         >
-            {!record.bToDepartmentID && <Button type="dashed" shape="circle" icon='more' size='small' />}
+            {!record.isOpen && <Button type="dashed" shape="circle" icon='more' size='small' />}
         </Popover>
     )
 

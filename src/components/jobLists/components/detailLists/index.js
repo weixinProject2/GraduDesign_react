@@ -173,7 +173,7 @@ const SprintItem = (props) => {
               创建问题
             </span>
             {renderSrintBtn()}
-            {status !== 1 && <Tooltip title="删除冲刺">
+            {status !== 1 && permissions === 1 && < Tooltip title="删除冲刺">
               <Icon type="close"
                 style={{ color: '#ccc' }}
                 onClick={openDeleteSprintModal}
@@ -232,11 +232,12 @@ const SprintItem = (props) => {
         </section>
       </div>
 
-      {problemList && problemList.length > 0 && <div className="gradu-sprint-lists" style={{ display: expand ? 'block' : 'none' }}>
-        {renderListItem()}
-      </div>
+      {
+        problemList && problemList.length > 0 && <div className="gradu-sprint-lists" style={{ display: expand ? 'block' : 'none' }}>
+          {renderListItem()}
+        </div>
       }
-    </Fragment>
+    </Fragment >
   )
 }
 

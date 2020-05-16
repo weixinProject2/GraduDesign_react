@@ -42,7 +42,7 @@ export default function useStore() {
           this.setTotalPage(res.total);
           this.setBtnDisabled(false);
         } else {
-          message.error(res.mess);
+          message.error(res.message);
         }
       })
     },

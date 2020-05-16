@@ -64,7 +64,6 @@ export default withRouter(observer(() => {
                 onClose={closeAddDrawer}
                 visible={getAddModalVisble}
                 destroyOnClose
-                mask={false}
             >
                 <AddForm />
             </Drawer>

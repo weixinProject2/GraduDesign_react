@@ -103,7 +103,6 @@ const JobModal = observer((props) => {
       {...props}
       destroyOnClose
       width={600}
-      mask={false}
       closable={false}
       title={listprops ? `编辑问题详情(最后更新时间:${updateTime})` : '创建新问题'}
     >

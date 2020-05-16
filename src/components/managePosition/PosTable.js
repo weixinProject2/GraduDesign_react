@@ -67,16 +67,9 @@ export default observer(() => {
     const Lists = ({ record }) => {
         return (
             <ul className='gradu-form-opts'>
-                <li onClick={showModifyModal.bind(this, record)}>修改信息</li>
-                {
-                    record.totalNumbers === 0 ? <li onClick={showDeleteConfirm.bind(this, record)}>删除</li> : null
-                }
+                <li onClick={showDeleteConfirm.bind(this, record)}>删除</li>
             </ul>
         )
-    }
-
-    function showModifyModal() {
-
     }
 
     // 打开珊删除弹框
@@ -131,7 +124,9 @@ export default observer(() => {
                 placement="bottom"
                 trigger='click'
             >
-                <Button type="dashed" shape="circle" icon='more' size='small' />
+                {
+                    record.totalNumbers === 0 ? <Button type="dashed" shape="circle" icon='more' size='small' /> : null
+                }
             </Popover>
         )
     }
